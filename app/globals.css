@@ -1,5 +1,36 @@
-@import url("https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=UnifrakturCook:wght@700&display=swap");
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Libre Caslon Text";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/libre-caslon-text-regular-400.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Libre Caslon Text";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/libre-caslon-text-italic-400.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Libre Caslon Text";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/libre-caslon-text-bold-700.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "UnifrakturCook";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/unifrakturcook-bold-700.ttf") format("truetype");
+}
 
 :root {
   --paper: #f2eadb;
@@ -93,7 +124,6 @@ main {
 .weather-condition {
   color: var(--muted);
 }
-
 .weather-strip {
   display: flex;
   justify-content: flex-end;
