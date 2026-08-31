@@ -397,7 +397,7 @@ export default function Home() {
             <ProGroup title="Core Pros" pros={corePros} />
             <ProGroup title="Other Pros" pros={otherPros} />
             <p className="gallery-source">
-              Portraits from WBS, public player profiles, the European Bridge League, and Ljudmila Kamenova’s academic homepage.
+              Portraits from WBS, public player profiles, Bridge Winners and ACBL tournament coverage, the European Bridge League, and Ljudmila Kamenova’s academic homepage.
             </p>
           </section>
 
