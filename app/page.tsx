@@ -49,7 +49,7 @@ const insideStories = [
     kicker: "",
     title: "Brian",
     summary:
-      "Meet the former teen prodigy, five-time national champion, writer, filmmaker, and president of WBS.",
+      "Meet Brian Glubok: former teen prodigy, five-time national champion, writer, filmmaker, painter, and bridge player above all.",
     href: "https://bridgewinners.com/article/author/brian-glubok/",
   },
   {
@@ -81,7 +81,7 @@ const corePros: Pro[] = [
   {
     name: "Brian Glubok",
     src: "/images/inside-gallery/brian-glubok.png",
-    bio: "A five-time North American champion, writer, filmmaker, and the president of World Bridge Services.",
+    bio: "A five-time national champion, former teen prodigy, super-elite rubber bridge player, writer, filmmaker, painter, and the bridge player behind WBS.",
   },
   {
     name: "Joe Grue",
@@ -392,7 +392,7 @@ export default function Home() {
           <section className="page-fold gallery-page" aria-labelledby="gallery-heading">
             <div className="gallery-heading">
               <h2 id="gallery-heading">The WBS Circle</h2>
-              <span>Professional partners, teachers &amp; champions</span>
+              <span>Five core pros with national championships and world-class team strength</span>
             </div>
             <ProGroup title="Core Pros" pros={corePros} />
             <ProGroup title="Other Pros" pros={otherPros} />
