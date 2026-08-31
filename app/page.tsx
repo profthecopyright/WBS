@@ -72,7 +72,7 @@ const insideStories = [
 
 type Pro = {
   name: string;
-  src: string;
+  src?: string;
   bio: string;
   badge?: string;
   photoPending?: boolean;
@@ -130,7 +130,6 @@ const otherPros: Pro[] = [
   },
   {
     name: "Ljudmila Kamenova",
-    src: "/images/inside-gallery/ljudmila-kamenova.jpg",
     bio: "A Stony Brook mathematics professor, two-time Women’s Board-a-Match champion, and Fast Pairs winner.",
     photoPending: true,
   },
