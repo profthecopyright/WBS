@@ -75,6 +75,7 @@ type Pro = {
   src: string;
   bio: string;
   badge?: string;
+  photoPending?: boolean;
 };
 
 const corePros: Pro[] = [
@@ -131,6 +132,7 @@ const otherPros: Pro[] = [
     name: "Ljudmila Kamenova",
     src: "/images/inside-gallery/ljudmila-kamenova.jpg",
     bio: "A Stony Brook mathematics professor, two-time Women’s Board-a-Match champion, and Fast Pairs winner.",
+    photoPending: true,
   },
 ];
 
@@ -397,7 +399,7 @@ export default function Home() {
             <ProGroup title="Core Pros" pros={corePros} />
             <ProGroup title="Other Pros" pros={otherPros} />
             <p className="gallery-source">
-              Portraits from WBS, public player profiles, Bridge Winners and ACBL tournament coverage, the European Bridge League, and Ljudmila Kamenova’s academic homepage.
+              Portraits from WBS, public player profiles, Bridge Winners and ACBL tournament coverage, and the European Bridge League.
             </p>
           </section>
 
@@ -465,7 +467,14 @@ function ProGroup({ title, pros }: { title: string; pros: Pro[] }) {
       <div className="pro-grid">
         {pros.map((pro) => (
           <article className="pro-card" key={pro.name}>
-            <img src={pro.src} alt={pro.name} loading="lazy" />
+            {pro.photoPending ? (
+              <div className="pro-photo-placeholder" aria-label={`${pro.name} photo pending approval`}>
+                <span>LK</span>
+                <small>Photo pending approval</small>
+              </div>
+            ) : (
+              <img src={pro.src} alt={pro.name} loading="lazy" />
+            )}
             <div className="pro-card-copy">
               <h4>{pro.name}</h4>
               {pro.badge && <p className="pro-badge"><strong>{pro.badge}</strong></p>}

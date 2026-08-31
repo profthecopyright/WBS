@@ -1129,6 +1129,37 @@ main {
   object-position: center top;
 }
 
+.pro-photo-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  border: 1px solid var(--rule);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--paper-warm) 74%, white), color-mix(in srgb, var(--gold) 13%, var(--paper))),
+    repeating-linear-gradient(0deg, transparent 0 18px, color-mix(in srgb, var(--rule) 42%, transparent) 18px 19px);
+  color: var(--ink);
+  text-align: center;
+}
+
+.pro-photo-placeholder span {
+  font-family: "Libre Caslon Text", "Times New Roman", Times, serif;
+  font-size: clamp(2.7rem, 5vw, 4.4rem);
+  line-height: 1;
+}
+
+.pro-photo-placeholder small {
+  max-width: 9rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
 .pro-card-copy {
   padding-top: 14px;
 }
