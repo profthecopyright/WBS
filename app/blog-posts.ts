@@ -13,6 +13,80 @@ export type ArchivedBlogPost = {
 
 export const archivedBlogPosts: ArchivedBlogPost[] = [
   {
+    title: "Who Needs Poland? We've Got Warwick!",
+    date: "2026-09-02",
+    sourceUrl: "",
+    slug: "who-needs-poland-weve-got-warwick",
+    author: "Brian Glubok",
+    series: "Diary of a Bridge Pro",
+    excerpt: "From the Labor Day regional in Warwick: a lesson in finding Plan B, gratitude for New England bridge, and thoughts of returning to New York.",
+    body: `PROVIDENCE, SEPTEMBER 2
+
+Hi, All.
+
+I write to you today from the bridge regional in Warwick, Rhode Island, a municipality which neighbors Providence. This is the site of the annual Labor Day tournament here, at the end of summer each year. Across the ocean in Europe there is a far more major tournament going on in Poland, the quadrennial World Series of Bridge - but for those of us playing here, this is the game - and, let's acknowledge, for American players, especially those from the U.S. Northeast, this tournament is far more accessible than the international event being conducted today in the Silesian capital.
+
+"You can only win the event you're playing in...." - this is what I like to say to people who belittle the event they win or do well in - this happens often in bridge, of course - and "winning the event you're in" is far from trivial, no matter how weak it is.
+
+The same pathology (not exactly the right word, but we're short on time this morning, gotta be over at the site for the Wednesday pair game with Wall Street Walter soon) often manifests with players who say things like, "I don't play regionals," or "We don't play club games, they're too easy...."
+
+My own view holds that that's fine if you're winning so often that, yes, they're too easy - but few people win as many as 10% of the regional pair games they play in, and fewer still (Mark Itabashi, maybe?) win as many as 40% of those they enter.
+
+And if you're not winning as often as 40% of the time - or at least 10% - then maybe the events aren't so weak as to not even justify entering.
+
+Certainly Walter and I didn't win our Tuesday Kick-off Pair Game yesterday. But there were some interesting deals that I'd like to share with you here.
+
+Here's a link to the first session; we can start there:
+
+https://live.acbl.org/event/2609120/01A/1/summary
+
+Let's start with Board 10 from the morning session - I call this one "Plan B" (I use the term to allude to an alternative approach, not the "Morning After" BC pill).
+
+I held A8xxxx, AQxx, void, xxx - the bidding began with Two Diamonds on my right, passed around to me - I think it was both vul - I reopened with Two Spades. Double is a possible call with my hand, but not really a good idea.
+
+My Two Spade bid was passed around to my RHO, who competed to 3D - I chimed in with 3 Hearts - my hand is not even marginal in terms of HCP, but the playing strength is substantial - considering the void in diamonds and the 6-4 distribution, passing would be a clear error.
+
+Walter put me back in 3 Spades, which was passed out - the lead was the club king, and Walter tabled Kxx, xxx, ATx, Txxx - he showed good judgment in not raising my Two Spade balance directly - 7 HCP, no doubleton, and the ace in their suit rather than elsewhere - I like his pass (and his next-round preference was auto, with 3-3 in the majors).
+
+The defense began with three rounds of clubs, then a shift to a heart through my ace-queen.
+
+Having seen the KQJ of clubs with the weak two opener, along with some likely diamond points - the heart hook seemed like a sure thing.
+
+And so it proved.
+
+I played the queen of hearts, winning the trick, and as I cashed the two high trumps, ending in dummy, I remarked casually:
+
+"Plan A was to throw a club on dummy's ace of diamonds...but you guys took three clubs to start. So we go with Plan B - throw a heart on the ace of diamonds, and a second heart on the thirteenth club...."
+
+*****
+
+I took the train to this tournament, which allowed me stops in Chicago and NYC on my journey from the Midwest.
+
+I have a sense of new resolve in the nation - the big cities (Chicago, NYC, Providence even) are different from the Midwestern backwater where I've been recovering.
+
+"Podunk," people like to call places like Springfield - or, with still more derision, "Bumf***" - Springfield isn't quite as isolated as that, but the attitude is horrible - no one does much - don't get me started, let's not go there.
+
+Rather, let's give thanks to the hardworking leadership of the New England district, who put on a great tournament at the beginning of September every year.
+
+I'll close with a personal thought - it feels great to be returning to the Northeast - I plan to "graduate" from Springfield soon, and I am excited by the prospect of returning to NYC (which I deem to be my "natural habitat").
+
+Back in the '90s, when we had a high-stakes rubber bridge game in New York City daily, with bridge stars like Zia Mahmood, Bob Hamman, Sam Lev, and Michael Rosenberg among the participants - the late Jimmy Rosenbloom, a gifted player in his own right, liked to say, "Who needs tournaments? We have our own world championship here every day...."
+
+Considering that even the best-paid players in the tournaments were earning less money than the most successful rubber bridge players - he had a point.
+
+So, while I do have some regret about not being in Katowice today - what bridge player wouldn't like to be playing for a gold medal, and renown which will outlive the individual in question - of course I'd like to be there, but being here is pretty good too.
+
+Closing Thought: Who needs Poland? We've got Warwick!
+
+- BG
+
+Providence is only an hour south of Boston. Here's a song set in Boston that is always a crowd-pleaser, especially with any little kids in the audience:
+
+The Man Who Never Returned, The Kingston Trio:
+
+https://www.youtube.com/watch?v=_oaVU0I_oCA&list=RD_oaVU0I_oCA&start_radio=1`,
+  },
+  {
     "title": "Diary of a Bridge Pro #40",
     "date": "2024-10-23",
     "sourceUrl": "https://www.wilsonovichbridge.com/diary-of-a-bridge-pro/diary-of-a-bridge-pro-40",
