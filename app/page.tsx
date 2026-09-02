@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import WorldWeather from "./weather";
+import { archivedBlogPosts, type ArchivedBlogPost } from "./blog-posts";
 
-type PageId = "front" | "inside" | "a3";
+type PageId = "front" | "inside" | "blogs" | "a3";
 
 const pages: { id: PageId; label: string }[] = [
   { id: "front", label: "Front" },
   { id: "inside", label: "Inside" },
-  { id: "a3", label: "Community · A3" },
+  { id: "blogs", label: "Blogs" },
+  { id: "a3", label: "Community" },
 ];
 
 const stories = [
@@ -57,8 +59,8 @@ const insideStories = [
     kicker: "",
     title: "Blogs",
     summary:
-      "Articles, analysis, and stories from WBS professionals are being planned. Coming soon.",
-    href: "",
+      "Browse the WBS journal by tournament diary, bridge ideas, player essays, and agency news.",
+    href: "#blogs",
   },
   {
     number: "",
@@ -135,6 +137,184 @@ const otherPros: Pro[] = [
   },
 ];
 
+const BLOGS_PER_PAGE = 9;
+const editorialBlogTitles: Record<string, string> = {
+  "diary-of-a-bridge-pro-40": "Staying in My Lanes",
+  "diary-of-a-bridge-pro-39": "Seven Tips for Aspiring Bridge Pros",
+  "diary-of-a-bridge-pro-38": "Modern Bidding and Partnership Mishaps",
+  "diary-of-a-bridge-pro-37": "Zen Mind, Beginner’s Mind",
+  "september-04th-2024": "Change, Community, and a Bridge Deal",
+  "diary-of-a-bridge-pro-35": "A Baby Grand Slam",
+  "diary-of-a-bridge-pro-32": "Thoughts on Gatlinburg",
+  "diary-of-a-bridge-pro-30": "Goethe, Bobby Knight, and the Potluck",
+  "diary-of-a-bridge-pro-31": "On Being Tethered",
+  "diary-of-a-bridge-pro-29": "Prepared Rebids and Other Problems",
+  "diary-of-a-bridge-pro-28": "Bridge, Fellowship, and Staying Connected",
+  "diary-of-a-bridge-pro-27": "Putting the Band Back Together",
+  "diary-of-a-bridge-pro-26": "Goldwater’s Law",
+  "diary-of-a-bridge-pro-25": "Opening Leads and a Harry Goldwater Story",
+  "diary-of-a-bridge-pro-24": "Beginnings Have Magic",
+  "diary-of-a-bridge-pro-22": "Take the Game, Discuss the Slam",
+  "diary-of-a-bridge-pro-21": "Five Ways Bridge Can Change You",
+  "diary-of-a-bridge-pro-20": "Wilsonovich Responses to Two Clubs",
+  "diary-of-a-bridge-pro-182821150": "King of the Road",
+  "diary-of-a-bridge-pro-18": "A Strong Start in Fairfield",
+  "diary-of-a-bridge-pro-17": "The Hal Files",
+  "diary-of-a-bridge-pro-16": "A Conversation with Edgar Kaplan",
+  "diary-of-a-bridge-pro-15": "WBS Signs Bob Hamman",
+  "diary-of-a-bridge-pro-14": "Still We Play On",
+  "diary-of-a-bridge-pro-13": "Recruiting the WBS Team",
+  "diary-of-a-bridge-pro-12": "Ranges, Judgment, and Four Hearts",
+  "diary-of-a-bridge-pro-11": "Glubok 3.0",
+  "diary-of-a-bridge-pro-10": "A Life-Changing Nationals",
+  "not-a-good-day-for-weak-twos": "Not a Good Day for Weak Twos",
+  "diary-of-a-bridge-pro-9": "Tap Your Inner Pepsi",
+  "quick-notes-from-the-joust": "Quick Notes from the Joust",
+  "diary-of-a-bridge-pro-8": "A Good Day for New York Bridge",
+  "louisville-tales": "Louisville Tales",
+  "diary-of-a-bridge-pro-6": "Too Much Light",
+  "diary-of-a-bridge-pro-5": "Bid Your Points",
+  "diary-of-a-bridge-pro-4": "Play These Louisville Hands with Me",
+  "diary-of-a-bridge-pro-3": "The Experts Have Spoken",
+  "diary-of-a-bridge-pro-2": "Indiana Drury and the Road to Bridge",
+  "diary-of-a-bridge-pro-1": "And So We Begin",
+};
+
+const editorialBlogStandfirsts: Record<string, string> = {
+  "diary-of-a-bridge-pro-40": "A California-bound meditation on bridge, memory, and the voices that stay with us.",
+  "diary-of-a-bridge-pro-39": "Collected wisdom on professionalism, partnership, and making a life in the game.",
+  "diary-of-a-bridge-pro-38": "Three bidding problems, a difficult defense, and the cost of undefined ranges.",
+  "diary-of-a-bridge-pro-37": "Suzuki, Steve Jobs, Jim Mahaffey, and the concentration bridge demands.",
+  "september-04th-2024": "On finding community, accepting change, and choosing the safer line.",
+  "diary-of-a-bridge-pro-35": "A grand slam, a shorter column, and advice gathered straight out of Compton.",
+  "diary-of-a-bridge-pro-32": "Spring in Springfield, memories of Gatlinburg, and the pull of the tournament road.",
+  "diary-of-a-bridge-pro-30": "Intensity, group life, and what a Midwestern potluck can teach.",
+  "diary-of-a-bridge-pro-31": "Thirty columns into the project, a reflection on connection and identity.",
+};
+
+function blogDisplayTitle(post: ArchivedBlogPost) {
+  return editorialBlogTitles[post.slug] ?? post.title;
+}
+
+function blogStandfirst(post: ArchivedBlogPost) {
+  if (editorialBlogStandfirsts[post.slug]) return editorialBlogStandfirsts[post.slug];
+
+  const firstParagraph = blogBodyBlocks(post).find((block) => block.type === "paragraph");
+  const text = firstParagraph?.type === "paragraph" ? firstParagraph.text : post.excerpt;
+  if (text.length <= 180) return text;
+
+  const clipped = text.slice(0, 180);
+  return `${clipped.slice(0, clipped.lastIndexOf(" "))}…`;
+}
+
+type BlogBodyBlock =
+  | { type: "paragraph" | "dateline"; text: string }
+  | { type: "divider" };
+
+function comparableText(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function removeRepeatedTitle(value: string, title: string) {
+  const comparableValue = comparableText(value);
+  const comparableTitle = comparableText(title);
+  const isShortHeading = comparableValue.length <= 80
+    && (comparableValue.includes(comparableTitle) || comparableTitle.includes(comparableValue));
+
+  if (isShortHeading) return "";
+
+  const titleWords = title.match(/[a-z0-9]+/gi) ?? [];
+  if (titleWords.length < 2) return value;
+
+  const titlePrefix = new RegExp(`^\\s*${titleWords.join("[^a-z0-9]+")}[\\s.,:;!?—–-]*`, "i");
+  return value.replace(titlePrefix, "").trim();
+}
+
+function splitLongParagraph(value: string) {
+  if (value.length <= 900) return [value];
+
+  const sentences = value.match(/[^.!?]+(?:[.!?]+["'’”)]*|$)/g)?.map((sentence) => sentence.trim()).filter(Boolean) ?? [value];
+  if (sentences.length < 3) return [value];
+
+  const paragraphs: string[] = [];
+  let paragraph = "";
+  sentences.forEach((sentence) => {
+    if (paragraph.length >= 360 && paragraph.length + sentence.length > 680) {
+      paragraphs.push(paragraph);
+      paragraph = sentence;
+    } else {
+      paragraph = `${paragraph} ${sentence}`.trim();
+    }
+  });
+  if (paragraph) paragraphs.push(paragraph);
+  return paragraphs;
+}
+
+function looksLikeDateline(value: string) {
+  return value.length < 90
+    && /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b/i.test(value)
+    && /\d/.test(value);
+}
+
+function blogBodyBlocks(post: ArchivedBlogPost): BlogBodyBlock[] {
+  const blocks: BlogBodyBlock[] = [];
+  let openingParagraphCount = 0;
+
+  post.body.replace(/\r/g, "").split(/(\*{4,})/).forEach((section) => {
+    if (/^\*{4,}$/.test(section.trim())) {
+      if (blocks.length && blocks.at(-1)?.type !== "divider") blocks.push({ type: "divider" });
+      return;
+    }
+
+    section.split(/\n{2,}/).forEach((rawParagraph) => {
+      let text = rawParagraph.replace(/\s*\n\s*/g, " ").replace(/[ \t]{2,}/g, " ").trim();
+      if (!text) return;
+
+      if (openingParagraphCount < 5) text = removeRepeatedTitle(text, blogDisplayTitle(post));
+      openingParagraphCount += 1;
+      if (!text) return;
+
+      splitLongParagraph(text).forEach((paragraph) => {
+        blocks.push({ type: looksLikeDateline(paragraph) ? "dateline" : "paragraph", text: paragraph });
+      });
+    });
+  });
+
+  while (blocks.at(-1)?.type === "divider") blocks.pop();
+  return blocks;
+}
+
+function renderLinkedText(value: string) {
+  return value.split(/((?:https?:\/\/|www\.)[^\s]+)/g).map((part, index) => {
+    if (!/^(?:https?:\/\/|www\.)/i.test(part)) return part;
+
+    const cleanedPart = part.replace(/\\(?=\?)/g, "");
+    const trailingPunctuation = cleanedPart.match(/[.,;:!?]+$/)?.[0] ?? "";
+    const url = cleanedPart.slice(0, cleanedPart.length - trailingPunctuation.length);
+    const href = url.startsWith("www.") ? `https://${url}` : url;
+
+    return (
+      <Fragment key={`${url}-${index}`}>
+        <a href={href} rel="noreferrer" target="_blank">{url}</a>
+        {trailingPunctuation}
+      </Fragment>
+    );
+  });
+}
+
+function blogHref(post: ArchivedBlogPost) {
+  return `#blogs/${post.slug}`;
+}
+
+function blogPageHref(page: number) {
+  return page === 1 ? "#blogs" : `#blogs/page/${page}`;
+}
+
+function formatBlogDate(value: string) {
+  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" })
+    .format(new Date(`${value}T12:00:00`));
+}
+
 const testimonials = [
   "Brian has a way of making a tough hand feel manageable. I always leave with something useful.",
   "I played with one of the WBS pros last month and honestly felt calmer at the table right away.",
@@ -200,18 +380,48 @@ export default function Home() {
   const [activePage, setActivePage] = useState<PageId>("front");
   const [showAllTestimonials, setShowAllTestimonials] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [blogPage, setBlogPage] = useState(1);
+  const [selectedBlogPost, setSelectedBlogPost] = useState<ArchivedBlogPost | null>(null);
   const [activeForm, setActiveForm] = useState<{ title: string; url: string } | null>(null);
   const [entranceState, setEntranceState] = useState<"closed" | "opening" | "open">("closed");
 
+  const blogPageCount = Math.ceil(archivedBlogPosts.length / BLOGS_PER_PAGE);
+  const blogPagePosts = archivedBlogPosts.slice((blogPage - 1) * BLOGS_PER_PAGE, blogPage * BLOGS_PER_PAGE);
+  const selectedBlogIndex = selectedBlogPost ? archivedBlogPosts.findIndex((post) => post.slug === selectedBlogPost.slug) : -1;
+  const previousBlogPost = selectedBlogIndex > 0 ? archivedBlogPosts[selectedBlogIndex - 1] : null;
+  const nextBlogPost = selectedBlogIndex >= 0 && selectedBlogIndex < archivedBlogPosts.length - 1
+    ? archivedBlogPosts[selectedBlogIndex + 1]
+    : null;
+
   useEffect(() => {
-    const requested = window.location.hash.slice(1) as PageId;
+    const [requestedHash, blogTarget, pageTarget] = window.location.hash.slice(1).split("/");
+    const requested = requestedHash === "blog" ? "blogs" : requestedHash;
     if (pages.some((page) => page.id === requested)) {
-      queueMicrotask(() => setActivePage(requested));
+      queueMicrotask(() => setActivePage(requested as PageId));
     }
-  }, []);
+    if (requested === "blogs" && blogTarget) {
+      if (blogTarget === "page") {
+        const requestedPage = Number(pageTarget);
+        if (Number.isInteger(requestedPage) && requestedPage >= 1 && requestedPage <= blogPageCount) {
+          queueMicrotask(() => setBlogPage(requestedPage));
+        }
+      } else if (blogTarget === "archive") {
+        window.history.replaceState(null, "", "#blogs");
+      } else {
+        queueMicrotask(() => setSelectedBlogPost(archivedBlogPosts.find((post) => post.slug === blogTarget) ?? null));
+      }
+    }
+    if (requestedHash === "blog") {
+      window.history.replaceState(null, "", blogTarget && blogTarget !== "archive" ? `#blogs/${blogTarget}${pageTarget ? `/${pageTarget}` : ""}` : "#blogs");
+    }
+  }, [blogPageCount]);
 
   function choosePage(page: PageId) {
     setActivePage(page);
+    if (page === "blogs") {
+      setSelectedBlogPost(null);
+      setBlogPage(1);
+    }
     window.history.replaceState(null, "", `#${page}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -230,6 +440,19 @@ export default function Home() {
       title: story.title,
       url: story.href.replace("/r/", "/embed/") + "?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
     });
+  }
+
+  function openBlogPost(post: ArchivedBlogPost) {
+    setSelectedBlogPost(post);
+    window.history.replaceState(null, "", blogHref(post));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function showBlogPage(page: number) {
+    setSelectedBlogPost(null);
+    setBlogPage(page);
+    window.history.replaceState(null, "", blogPageHref(page));
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
@@ -385,7 +608,13 @@ export default function Home() {
             <h2 className="inside-title" id="inside-heading">Stories &amp; Resources</h2>
             <div className="secondary-grid">
               {insideStories.map((story) => (
-                <Story story={story} secondary minimal key={story.title} />
+                <Story
+                  story={story}
+                  secondary
+                  minimal
+                  key={story.title}
+                  onNavigate={story.href === "#blogs" ? () => choosePage("blogs") : undefined}
+                />
               ))}
             </div>
           </section>
@@ -402,6 +631,69 @@ export default function Home() {
             </p>
           </section>
 
+        </article>
+      )}
+
+      {activePage === "blogs" && (
+        <article className="page-panel blog-panel" id="blogs">
+          <section className="page-fold blog-page" aria-label="Blogs">
+            <nav className="blogs-toolbar" aria-label={selectedBlogPost ? "Article navigation" : "Blog pages"}>
+              {selectedBlogPost ? (
+                <div className="blogs-toolbar-group">
+                  <a className="blogs-all-posts" href="#blogs" onClick={(event) => { event.preventDefault(); showBlogPage(1); }}>All blogs</a>
+                  <div className="blogs-chevron-nav">
+                    {previousBlogPost
+                      ? <a href={blogHref(previousBlogPost)} aria-label={`Previous article: ${blogDisplayTitle(previousBlogPost)}`} title="Previous article" onClick={(event) => { event.preventDefault(); openBlogPost(previousBlogPost); }}><span aria-hidden="true">{"<"}</span></a>
+                      : <span aria-disabled="true"><span aria-hidden="true">{"<"}</span></span>}
+                    {nextBlogPost
+                      ? <a href={blogHref(nextBlogPost)} aria-label={`Next article: ${blogDisplayTitle(nextBlogPost)}`} title="Next article" onClick={(event) => { event.preventDefault(); openBlogPost(nextBlogPost); }}><span aria-hidden="true">{">"}</span></a>
+                      : <span aria-disabled="true"><span aria-hidden="true">{">"}</span></span>}
+                  </div>
+                </div>
+              ) : (
+                <div className="blogs-toolbar-group">
+                  <span className="blogs-all-posts">All blogs</span>
+                  <div className="blogs-chevron-nav">
+                    {blogPage > 1
+                      ? <a href={blogPageHref(blogPage - 1)} aria-label="Previous page" title="Previous page" onClick={(event) => { event.preventDefault(); showBlogPage(blogPage - 1); }}><span aria-hidden="true">{"<"}</span></a>
+                      : <span aria-disabled="true"><span aria-hidden="true">{"<"}</span></span>}
+                    <span className="blogs-page-status">Page {blogPage} of {blogPageCount}</span>
+                    {blogPage < blogPageCount
+                      ? <a href={blogPageHref(blogPage + 1)} aria-label="Next page" title="Next page" onClick={(event) => { event.preventDefault(); showBlogPage(blogPage + 1); }}><span aria-hidden="true">{">"}</span></a>
+                      : <span aria-disabled="true"><span aria-hidden="true">{">"}</span></span>}
+                  </div>
+                </div>
+              )}
+            </nav>
+
+            {selectedBlogPost ? (
+              <article className="blog-article-reader">
+                <header>
+                  <h2>{blogDisplayTitle(selectedBlogPost)}</h2>
+                  <p className="blog-article-byline">By {selectedBlogPost.author} · {formatBlogDate(selectedBlogPost.date)}</p>
+                </header>
+                <div className="blog-article-body">
+                  {blogBodyBlocks(selectedBlogPost).map((block, index) => (
+                    block.type === "divider"
+                      ? <hr aria-hidden="true" key={`${selectedBlogPost.slug}-${index}`} />
+                      : <p className={block.type === "dateline" ? "blog-article-dateline" : undefined} key={`${selectedBlogPost.slug}-${index}`}>{renderLinkedText(block.text)}</p>
+                  ))}
+                </div>
+              </article>
+            ) : (
+              <section className="blogs-front" aria-label={`Blog articles, page ${blogPage}`}>
+                <div className="blogs-post-grid">
+                  {blogPagePosts.map((post) => (
+                    <a className="blogs-post-card" href={blogHref(post)} onClick={(event) => { event.preventDefault(); openBlogPost(post); }} key={post.slug}>
+                      <h3>{blogDisplayTitle(post)}</h3>
+                      <p>{blogStandfirst(post)}</p>
+                      <span className="blogs-entry-author">{post.author}</span>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            )}
+          </section>
         </article>
       )}
 
@@ -440,12 +732,12 @@ export default function Home() {
   );
 }
 
-function Story({ story, secondary = false, minimal = false, onOpenForm }: { story: (typeof stories)[number] | (typeof insideStories)[number]; secondary?: boolean; minimal?: boolean; onOpenForm?: () => void }) {
+function Story({ story, secondary = false, minimal = false, onOpenForm, onNavigate }: { story: (typeof stories)[number] | (typeof insideStories)[number]; secondary?: boolean; minimal?: boolean; onOpenForm?: () => void; onNavigate?: () => void }) {
   return (
     <article className={`story${secondary ? " secondary-story" : ""}${minimal ? " minimal-story" : ""}`}>
       {!minimal && <div className="story-meta"><span>{story.number}</span><span>{story.kicker}</span></div>}
-      <h3>{onOpenForm ? (
-        <button className="story-title-link story-title-button" type="button" onClick={onOpenForm}>{story.title}</button>
+      <h3>{onOpenForm || onNavigate ? (
+        <button className="story-title-link story-title-button" type="button" onClick={onOpenForm ?? onNavigate}>{story.title}</button>
       ) : story.href ? (
         <a className="story-title-link" href={story.href}>{story.title}</a>
       ) : (
