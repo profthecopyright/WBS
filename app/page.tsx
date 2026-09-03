@@ -607,14 +607,7 @@ const testimonials = [
   "When I play with a WBS pro it feels as though I am partnered with someone who really knows the game.",
 ];
 
-const testimonialAuthors = [
-  { name: "John Doe", initials: "JD" },
-  { name: "Jane Smith", initials: "JS" },
-  { name: "Michael Lee", initials: "ML" },
-  { name: "Sarah Davis", initials: "SD" },
-  { name: "Robert Brown", initials: "RB" },
-  { name: "Emily Wilson", initials: "EW" },
-];
+const testimonialAuthor = { name: "Anonymous Client", initials: "AC" };
 
 const a3News = [
   {
@@ -862,12 +855,12 @@ export default function Home() {
             <div className="front-proof" aria-label="Selected client testimonials">
               <h2 className="front-section-heading">What Players Say</h2>
               <div className="front-proof-grid">
-                {testimonials.slice(0, showAllTestimonials ? 6 : 3).map((testimonial, index) => (
+                {testimonials.slice(0, showAllTestimonials ? 6 : 3).map((testimonial) => (
                   <figure className="front-quote" key={testimonial}>
                     <blockquote>“{testimonial}”</blockquote>
                     <figcaption>
-                      <span className="placeholder-avatar" aria-hidden="true">{testimonialAuthors[index].initials}</span>
-                      <span>{testimonialAuthors[index].name}<small>Placeholder client</small></span>
+                      <span className="placeholder-avatar" aria-hidden="true">{testimonialAuthor.initials}</span>
+                      <span>{testimonialAuthor.name}</span>
                     </figcaption>
                   </figure>
                 ))}
