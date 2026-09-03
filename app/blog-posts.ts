@@ -13,6 +13,78 @@ export type ArchivedBlogPost = {
 
 export const archivedBlogPosts: ArchivedBlogPost[] = [
   {
+    title: "Five and a Beer",
+    date: "2026-09-03",
+    sourceUrl: "",
+    slug: "five-and-a-beer",
+    author: "Brian Glubok",
+    series: "Diary of a Bridge Pro",
+    excerpt: "At the Warwick Labor Day regional, Brian navigates a competitive club auction, finds an extra trick, and finishes with the beer card.",
+    body: `WARWICK, SEPTEMBER 3
+
+Yesterday was the second day of the Labor Day regional here in Rhode Island. The mood among the players seems upbeat - as the bumper sticker says (and I regularly recite), "Even a bad day playing bridge beats a good day doing anything else!"
+
+The field in the tournament, pairs and teams, consists of both lifelong bridge players and recent retirees. The League made an executive determination around twenty years ago that this cohort - the not-too-far-past-50 crowd - represented the best target audience for its product.
+
+Personally, I always found it odd that the ACBL, technically a "not-for-profit" organization, seemed more single-minded in its pursuit of profit than even the most ruthless profit-seeking corporations do.
+
+Of course, it is almost a universal truth that individuals, and corporations as well, will pursue their own interests as they perceive them. Since we are living in an era when the spirit of volunteerism and public service are in decline, it should come as no surprise that League management pursues its own interests - ditto, of course, for the various boards that guide us: our national Board of Directors, and our dozens, actually hundreds, of unit and district boards scattered around the continent.
+
+It is one more law of nature that large organizations rarely innovate. Thirty years ago, individuals among our leadership were often heard openly remarking, "Hey, I'm 70 already - if we can keep this game going for another 20 years (and then it expires) - well, I'm fine with that."
+
+So now, here we are.
+
+*****
+
+I'll have more to say on that in future blogs, and I invite and welcome reader comments on these subjects. In the meantime, here's a cool hand from Tuesday's pair event.
+
+Third position, both vulnerable, playing the Tuesday pair game with Wall Street Walter, I hold: 97, void, A97xx, KQJTxx. Two passes to me and I'm first to speak.
+
+This looks like an automatic One Club opening to me, so I open One Club. LHO overcalls One Heart, and my partner doubles.
+
+Walter and I play a treatment whereby this double shows four or five spades. I predict that this will be standard practice within another ten years. It is a way superior method to "Standard," where a double of a One Heart overcall shows four spades (usually, sometimes fewer).
+
+I expect a heart raise from RHO, so I'm surprised that there is no raise. The bidding to me, then:
+
+P - (P) - 1C - (1H) - Double - (P) - ?
+
+Two Diamonds is possible now, but this looks like an automatic 2C bid to me. After all, as I like to say:
+
+How many trump suits do you need?
+
+LHO repeats his hearts, and Walter doubles - no surprise, he may have a huge stack. Still, there is no chance I'll sit this double. If he doesn't have a penalty pass of One Heart (and maybe even if he did), there is no way I want to defend Two Hearts doubled with a trump void and not much outside defense.
+
+Here is a diagram of the hand, Board 26:
+
+https://live.acbl.org/event/2609120/01A/2/board-detail/H?board_num=26
+
+I remove the double to 3C. LHO leads the king of diamonds, and Walter tables:
+
+KQT8, AJ7xx, Tx, 8x
+
+I duck the diamond king. LHO shifts to the ace of trump but doesn't play a second round (stiff ace, he couldn't). He continues with the diamond queen. I win the ace and ruff my lowest diamond in dummy; they're 3-3. I ruff a heart back to hand and draw trump.
+
+It would be easy enough now to claim, conceding the ace of spades, but I see a better chance.
+
+I lead a spade toward dummy's king-queen. LHO ducks - perhaps he reasons that since I'm void in hearts, I must have several spades. Regardless of his "reasoning," if LHO ducks his spade ace, I'll be able to make a second overtrick by discarding my second small spade on dummy's ace of hearts.
+
+As declarer, opportunities for tricks on hands like this are frequent if you simply play out the hand rather than concede. Better still, I'm also able to assure myself of taking the last trick with the seven of diamonds (the beer card).
+
+LHO does duck, so I'm able to announce as I face my hand:
+
+"Throwing my last spade on the ace of hearts...."
+
+The opponents look over my hand and I add, anticipating winning the last trick with the seven of diamonds:
+
+"Five with a beer."
+
+*****
+
+And that's all I've got for right now.
+
+- BG`,
+  },
+  {
     title: "Who Needs Poland? We've Got Warwick!",
     date: "2026-09-02",
     sourceUrl: "",
