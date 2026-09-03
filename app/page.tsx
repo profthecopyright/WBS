@@ -211,7 +211,216 @@ function blogStandfirst(post: ArchivedBlogPost) {
 
 type BlogBodyBlock =
   | { type: "paragraph" | "dateline"; text: string }
-  | { type: "divider" };
+  | { type: "heading"; text: string; level: "major" | "minor" }
+  | { type: "seed-list"; teams: string[] }
+  | { type: "divider" }
+  | { type: "deal"; dealer: BridgeSeat; vulnerability: string; hands: BridgeHand[] }
+  | { type: "auction"; dealer: BridgeSeat; players: string[]; rows: Array<Array<string | null>> };
+
+type BridgeSeat = "West" | "North" | "East" | "South";
+
+type BridgeSuit = {
+  symbol: string;
+  cards: string;
+};
+
+type BridgeHand = {
+  seat: BridgeSeat;
+  suits: BridgeSuit[];
+};
+
+const bridgeSeats: BridgeSeat[] = ["West", "North", "East", "South"];
+const bridgeTeamHeadings = new Set([
+  "wolfson",
+  "fleisher",
+  "zimmermann",
+  "nickell",
+]);
+const bridgeMajorHeadings = new Set([
+  "round of 16",
+  "the quarter finals",
+  "the semifinals",
+  "the finals",
+  "a convincing victory",
+]);
+const bridgeMinorHeadings = new Set([
+  ...bridgeTeamHeadings,
+  "first quarter",
+  "second quarter",
+  "third quarter",
+  "fourth quarter",
+]);
+
+function bridgeSeatFromInitial(initial: string): BridgeSeat {
+  return ({ W: "West", N: "North", E: "East", S: "South" } as Record<string, BridgeSeat>)[initial.toUpperCase()] ?? "West";
+}
+
+function bridgeVulnerabilityLabel(value: string) {
+  const normalized = value.toUpperCase();
+  if (normalized === "NONE") return "Neither vulnerable";
+  if (normalized === "ALL") return "Both vulnerable";
+  return `${normalized.replace("NS", "N-S").replace("EW", "E-W")} vulnerable`;
+}
+
+function parseBridgeSuit(line: string): BridgeSuit | null {
+  const match = line.trim().match(/^([♠♥♦♣])\uFE0E?\s*(.+)$/u);
+  return match ? { symbol: match[1], cards: match[2].replace(/^–$/, "—") } : null;
+}
+
+function isAuctionCall(line: string) {
+  return /^(?:pass\*?|all pass|dbl|rdbl|[1-7](?:NT|[♠♥♦♣]\uFE0E?)[!*]?)$/iu.test(line.trim());
+}
+
+function displayBridgeCall(call: string) {
+  const normalized = call.trim();
+  if (/^pass\*$/i.test(normalized)) return "Pass*";
+  if (/^pass$/i.test(normalized)) return "Pass";
+  if (/^all pass$/i.test(normalized)) return "All Pass";
+  if (/^dbl$/i.test(normalized)) return "Dbl";
+  if (/^rdbl$/i.test(normalized)) return "Rdbl";
+  return normalized.replace(/nt/i, "NT");
+}
+
+function nextNonEmptyLine(lines: string[], from: number) {
+  let index = from;
+  while (index < lines.length && !lines[index].trim()) index += 1;
+  return index;
+}
+
+function bridgeReportBodyBlocks(body: string): BlogBodyBlock[] {
+  const lines = body.replace(/\r/g, "").split("\n");
+  const blocks: BlogBodyBlock[] = [];
+  let currentDealer: BridgeSeat = "West";
+  let index = 0;
+
+  while (index < lines.length) {
+    const line = lines[index].trim();
+    if (!line) {
+      index += 1;
+      continue;
+    }
+
+    if (/^\*{4,}$/.test(line)) {
+      if (blocks.length && blocks.at(-1)?.type !== "divider") blocks.push({ type: "divider" });
+      index += 1;
+      continue;
+    }
+
+    if (/this year's favorites, listed by seed:$/i.test(line)) {
+      splitLongParagraph(line).forEach((paragraph) => {
+        blocks.push({ type: looksLikeDateline(paragraph) ? "dateline" : "paragraph", text: paragraph });
+      });
+
+      const teams: string[] = [];
+      let cursor = index + 1;
+      while (cursor < lines.length && teams.length < 4) {
+        cursor = nextNonEmptyLine(lines, cursor);
+        const team = lines[cursor]?.trim();
+        if (!team || !bridgeTeamHeadings.has(team.toLowerCase())) break;
+        teams.push(team);
+        cursor += 1;
+      }
+
+      if (teams.length === 4) blocks.push({ type: "seed-list", teams });
+      index = teams.length === 4 ? cursor : index + 1;
+      continue;
+    }
+
+    const dealMeta = line.match(/^([NESW])\/(NS|EW|All|None)$/i);
+    if (dealMeta) {
+      const suits: BridgeSuit[] = [];
+      let cursor = index + 1;
+      while (cursor < lines.length && suits.length < 16) {
+        const parsedSuit = parseBridgeSuit(lines[cursor]);
+        if (parsedSuit) suits.push(parsedSuit);
+        else if (lines[cursor].trim()) break;
+        cursor += 1;
+      }
+
+      if (suits.length === 16) {
+        currentDealer = bridgeSeatFromInitial(dealMeta[1]);
+        const handOrder: BridgeSeat[] = ["North", "West", "East", "South"];
+        blocks.push({
+          type: "deal",
+          dealer: currentDealer,
+          vulnerability: bridgeVulnerabilityLabel(dealMeta[2]),
+          hands: handOrder.map((seat, handIndex) => ({
+            seat,
+            suits: suits.slice(handIndex * 4, handIndex * 4 + 4),
+          })),
+        });
+        index = cursor;
+        continue;
+      }
+    }
+
+    if (line.toLowerCase() === "west") {
+      const headerIndexes: number[] = [];
+      let cursor = index;
+      for (const seat of bridgeSeats) {
+        cursor = nextNonEmptyLine(lines, cursor);
+        if (lines[cursor]?.trim().toLowerCase() !== seat.toLowerCase()) break;
+        headerIndexes.push(cursor);
+        cursor += 1;
+      }
+
+      if (headerIndexes.length === 4) {
+        const players: string[] = [];
+        for (let playerIndex = 0; playerIndex < 4; playerIndex += 1) {
+          cursor = nextNonEmptyLine(lines, cursor);
+          if (cursor >= lines.length) break;
+          players.push(lines[cursor].trim());
+          cursor += 1;
+        }
+
+        cursor = nextNonEmptyLine(lines, cursor);
+        const calls: string[] = [];
+        while (cursor < lines.length && isAuctionCall(lines[cursor])) {
+          calls.push(lines[cursor].trim());
+          cursor = nextNonEmptyLine(lines, cursor + 1);
+        }
+
+        if (players.length === 4 && calls.length) {
+          const rows: Array<Array<string | null>> = [];
+          let row: Array<string | null> = [null, null, null, null];
+          let seatIndex = bridgeSeats.indexOf(currentDealer);
+          calls.forEach((call) => {
+            row[seatIndex] = call;
+            seatIndex += 1;
+            if (seatIndex === 4) {
+              rows.push(row);
+              row = [null, null, null, null];
+              seatIndex = 0;
+            }
+          });
+          if (row.some(Boolean)) rows.push(row);
+          blocks.push({ type: "auction", dealer: currentDealer, players, rows });
+          index = cursor;
+          continue;
+        }
+      }
+    }
+
+    const normalizedHeading = line.toLowerCase();
+    if (bridgeMajorHeadings.has(normalizedHeading) || bridgeMinorHeadings.has(normalizedHeading)) {
+      blocks.push({
+        type: "heading",
+        text: line,
+        level: bridgeMajorHeadings.has(normalizedHeading) ? "major" : "minor",
+      });
+      index += 1;
+      continue;
+    }
+
+    splitLongParagraph(line).forEach((paragraph) => {
+      blocks.push({ type: looksLikeDateline(paragraph) ? "dateline" : "paragraph", text: paragraph });
+    });
+    index += 1;
+  }
+
+  while (blocks.at(-1)?.type === "divider") blocks.pop();
+  return blocks;
+}
 
 function comparableText(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
@@ -259,6 +468,8 @@ function looksLikeDateline(value: string) {
 }
 
 function blogBodyBlocks(post: ArchivedBlogPost): BlogBodyBlock[] {
+  if (post.slug === "spingold-26-lets-go-dutch") return bridgeReportBodyBlocks(post.body);
+
   const blocks: BlogBodyBlock[] = [];
   let openingParagraphCount = 0;
 
@@ -288,7 +499,7 @@ function blogBodyBlocks(post: ArchivedBlogPost): BlogBodyBlock[] {
 
 function renderLinkedText(value: string) {
   return value.split(/((?:https?:\/\/|www\.)[^\s]+)/g).map((part, index) => {
-    if (!/^(?:https?:\/\/|www\.)/i.test(part)) return part;
+    if (!/^(?:https?:\/\/|www\.)/i.test(part)) return renderBridgeText(part, index);
 
     const cleanedPart = part.replace(/\\(?=\?)/g, "");
     const trailingPunctuation = cleanedPart.match(/[.,;:!?]+$/)?.[0] ?? "";
@@ -302,6 +513,76 @@ function renderLinkedText(value: string) {
       </Fragment>
     );
   });
+}
+
+function renderBridgeText(value: string, keyPrefix: number | string) {
+  return value.split(/([♠♥♦♣]\uFE0E?)/u).map((part, index) => {
+    const suit = part.charAt(0);
+    if (!"♠♥♦♣".includes(suit)) return part;
+    const color = suit === "♥" || suit === "♦" ? "red" : "black";
+    return <span className={`bridge-suit bridge-suit-${color}`} key={`${keyPrefix}-${index}`}>{part}</span>;
+  });
+}
+
+function BridgeHandDiagram({ hand }: { hand: BridgeHand }) {
+  return (
+    <div className={`bridge-hand bridge-hand-${hand.seat.toLowerCase()}`}>
+      <strong>{hand.seat}</strong>
+      <div>
+        {hand.suits.map((suit) => (
+          <p key={`${hand.seat}-${suit.symbol}`}>
+            <span className={`bridge-suit ${suit.symbol === "♥" || suit.symbol === "♦" ? "bridge-suit-red" : "bridge-suit-black"}`}>{suit.symbol}</span>
+            <span>{suit.cards}</span>
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BridgeDealDiagram({ block }: { block: Extract<BlogBodyBlock, { type: "deal" }> }) {
+  return (
+    <figure className="bridge-deal">
+      <figcaption><strong>Deal</strong><span>Dealer {block.dealer} · {block.vulnerability}</span></figcaption>
+      <div className="bridge-compass">
+        {block.hands.map((hand) => <BridgeHandDiagram hand={hand} key={hand.seat} />)}
+      </div>
+    </figure>
+  );
+}
+
+function BridgeAuction({ block }: { block: Extract<BlogBodyBlock, { type: "auction" }> }) {
+  return (
+    <div className="bridge-auction-wrap">
+      <table className="bridge-auction">
+        <caption>Auction · Dealer {block.dealer}</caption>
+        <thead>
+          <tr>
+            {bridgeSeats.map((seat, index) => (
+              <th className={seat === block.dealer ? "bridge-auction-dealer" : undefined} scope="col" key={seat}>
+                <span className="bridge-auction-seat">{seat}</span>
+                <span className="bridge-auction-player">{block.players[index]}</span>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {block.rows.map((row, rowIndex) => (
+            <tr key={`auction-${rowIndex}`}>
+              {row.map((call, columnIndex) => {
+                const displayedCall = call ? displayBridgeCall(call) : null;
+                return (
+                  <td aria-label={displayedCall ? `${bridgeSeats[columnIndex]}: ${displayedCall}` : undefined} key={`call-${rowIndex}-${columnIndex}`}>
+                    {displayedCall ? renderBridgeText(displayedCall, `${rowIndex}-${columnIndex}`) : null}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 function blogHref(post: ArchivedBlogPost) {
@@ -675,11 +956,15 @@ export default function Home() {
                   <p className="blog-article-byline">By {selectedBlogPost.author} · {formatBlogDate(selectedBlogPost.date)}</p>
                 </header>
                 <div className="blog-article-body">
-                  {blogBodyBlocks(selectedBlogPost).map((block, index) => (
-                    block.type === "divider"
-                      ? <hr aria-hidden="true" key={`${selectedBlogPost.slug}-${index}`} />
-                      : <p className={block.type === "dateline" ? "blog-article-dateline" : undefined} key={`${selectedBlogPost.slug}-${index}`}>{renderLinkedText(block.text)}</p>
-                  ))}
+                  {blogBodyBlocks(selectedBlogPost).map((block, index) => {
+                    const key = `${selectedBlogPost.slug}-${index}`;
+                    if (block.type === "divider") return <hr aria-hidden="true" key={key} />;
+                    if (block.type === "heading") return <h3 className={`blog-section-heading blog-section-heading-${block.level}`} key={key}>{block.text}</h3>;
+                    if (block.type === "seed-list") return <ol className="bridge-seeds" key={key}>{block.teams.map((team) => <li key={team}>{team}</li>)}</ol>;
+                    if (block.type === "deal") return <BridgeDealDiagram block={block} key={key} />;
+                    if (block.type === "auction") return <BridgeAuction block={block} key={key} />;
+                    return <p className={block.type === "dateline" ? "blog-article-dateline" : undefined} key={key}>{renderLinkedText(block.text)}</p>;
+                  })}
                 </div>
               </article>
             ) : (

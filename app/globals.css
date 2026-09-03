@@ -1406,6 +1406,237 @@ main {
   text-underline-offset: 0.12em;
 }
 
+.blog-section-heading {
+  color: var(--ink);
+  letter-spacing: 0;
+}
+
+.blog-section-heading-major {
+  margin: 2.7em 0 0.8em;
+  padding-top: 0.68em;
+  border-top: 4px double color-mix(in srgb, var(--rule) 78%, transparent);
+  font-size: 1.46rem;
+  line-height: 1.12;
+}
+
+.blog-section-heading-minor {
+  margin: 2em 0 0.7em;
+  padding-left: 0.7rem;
+  border-left: 3px solid var(--red);
+  font-size: 1.18rem;
+  line-height: 1.18;
+}
+
+.bridge-seeds {
+  margin: -0.25rem 0 2.2rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid color-mix(in srgb, var(--rule) 65%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--rule) 65%, transparent);
+  counter-reset: bridge-seed;
+  list-style: none;
+}
+
+.bridge-seeds li {
+  min-width: 0;
+  padding: 0.62rem 0.45rem;
+  color: var(--ink);
+  font: 700 0.92rem/1.15 "Libre Caslon Text", "Times New Roman", Times, serif;
+  counter-increment: bridge-seed;
+}
+
+.bridge-seeds li + li {
+  border-left: 1px solid color-mix(in srgb, var(--rule) 28%, transparent);
+}
+
+.bridge-seeds li::before {
+  content: counter(bridge-seed) ". ";
+  color: var(--red);
+  font-size: 0.78rem;
+}
+
+.bridge-suit {
+  display: inline-block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.bridge-suit-red {
+  color: var(--red);
+}
+
+.bridge-suit-black {
+  color: var(--ink);
+}
+
+.bridge-deal {
+  margin: 2.2rem 0 2.4rem;
+  padding: 0 0 1.3rem;
+  border-top: 4px double var(--rule);
+  border-bottom: 1px solid color-mix(in srgb, var(--rule) 60%, transparent);
+  break-inside: avoid;
+}
+
+.bridge-deal figcaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 0 1.1rem;
+  padding: 0.55rem 0 0.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--rule) 55%, transparent);
+  color: var(--muted);
+  font-size: 0.76rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.bridge-deal figcaption strong {
+  color: var(--ink);
+  font-size: 0.82rem;
+}
+
+.bridge-compass {
+  max-width: 610px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "north north"
+    "west east"
+    "south south";
+  column-gap: clamp(28px, 10vw, 110px);
+  row-gap: 1.1rem;
+}
+
+.bridge-hand {
+  min-width: 150px;
+}
+
+.bridge-hand > strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  padding-bottom: 0.18rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--rule) 28%, transparent);
+  color: var(--muted);
+  font-size: 0.68rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.bridge-hand p {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1.15em minmax(0, 1fr);
+  gap: 0.25em;
+  font: 700 0.96rem/1.42 Georgia, "Times New Roman", serif;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.bridge-hand-north {
+  grid-area: north;
+  justify-self: center;
+}
+
+.bridge-hand-west {
+  grid-area: west;
+  justify-self: start;
+}
+
+.bridge-hand-east {
+  grid-area: east;
+  justify-self: end;
+}
+
+.bridge-hand-south {
+  grid-area: south;
+  justify-self: center;
+}
+
+.bridge-auction-wrap {
+  margin: 2rem 0 2.4rem;
+  border-top: 4px double var(--rule);
+  border-bottom: 1px solid color-mix(in srgb, var(--rule) 68%, transparent);
+}
+
+.bridge-auction {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-variant-numeric: tabular-nums;
+}
+
+.bridge-auction caption {
+  padding: 0.55rem 0 0.5rem;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.bridge-auction th,
+.bridge-auction td {
+  width: 25%;
+  padding: 0.48rem 0.6rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.bridge-auction thead th {
+  position: relative;
+  padding-top: 0.58rem;
+  padding-bottom: 0.58rem;
+  border-top: 1px solid color-mix(in srgb, var(--rule) 50%, transparent);
+  border-bottom: 2px solid var(--rule);
+}
+
+.bridge-auction th + th,
+.bridge-auction td + td {
+  border-left: 1px solid color-mix(in srgb, var(--rule) 22%, transparent);
+}
+
+.bridge-auction-seat {
+  display: block;
+  color: var(--muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.bridge-auction-player {
+  display: block;
+  margin-top: 0.28rem;
+  color: var(--ink);
+  font-size: 0.84rem;
+  font-style: italic;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.bridge-auction-dealer::before {
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.bridge-auction td {
+  border-bottom: 1px solid color-mix(in srgb, var(--rule) 24%, transparent);
+  font: 700 0.98rem/1.2 Georgia, "Times New Roman", serif;
+}
+
+.bridge-auction tbody tr:last-child td {
+  border-bottom: 0;
+}
+
 .blog-index-masthead {
   display: flex;
   align-items: end;
@@ -2869,6 +3100,57 @@ main {
   .blog-article-reader > header h2 {
     font-size: clamp(1.8rem, 7vw, 2.3rem);
     line-height: 1.1;
+  }
+
+  .bridge-deal figcaption {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .bridge-compass {
+    column-gap: 16px;
+  }
+
+  .bridge-hand {
+    min-width: 0;
+  }
+
+  .bridge-hand p {
+    grid-template-columns: 1em minmax(0, 1fr);
+    gap: 0.18em;
+    font-size: 0.84rem;
+  }
+
+  .bridge-seeds {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bridge-seeds li:nth-child(3) {
+    border-left: 0;
+    border-top: 1px solid color-mix(in srgb, var(--rule) 28%, transparent);
+  }
+
+  .bridge-seeds li:nth-child(4) {
+    border-top: 1px solid color-mix(in srgb, var(--rule) 28%, transparent);
+  }
+
+  .bridge-auction th,
+  .bridge-auction td {
+    padding-right: 0.16rem;
+    padding-left: 0.16rem;
+  }
+
+  .bridge-auction-seat {
+    font-size: 0.62rem;
+  }
+
+  .bridge-auction-player {
+    font-size: 0.68rem;
+  }
+
+  .bridge-auction td {
+    font-size: 0.9rem;
   }
 
   .blog-index-masthead {
