@@ -599,17 +599,6 @@ function formatBlogDate(value: string) {
     .format(new Date(`${value}T12:00:00`));
 }
 
-const testimonials = [
-  "Brian has a way of making a tough hand feel manageable. I always leave with something useful.",
-  "I played with one of the WBS pros last month and honestly felt calmer at the table right away.",
-  "The advice is practical, not fancy. That’s what I like — straight talk and real bridge judgment.",
-  "My bidding has been better since I started working with WBS. They operate with clear communication, not with grandiose dogma.",
-  "They pay attention to the little things, which is usually where matches are won.",
-  "When I play with a WBS pro it feels as though I am partnered with someone who really knows the game.",
-];
-
-const testimonialAuthor = { name: "Anonymous Client", initials: "AC" };
-
 const a3News = [
   {
     kicker: "Brian Glubok · President’s Desk",
@@ -655,7 +644,6 @@ const a3News = [
 
 export default function Home() {
   const [activePage, setActivePage] = useState<PageId>("front");
-  const [showAllTestimonials, setShowAllTestimonials] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [blogPage, setBlogPage] = useState(1);
   const [selectedBlogPost, setSelectedBlogPost] = useState<ArchivedBlogPost | null>(null);
@@ -852,28 +840,6 @@ export default function Home() {
                   onOpenForm={() => openStoryForm(story)}
                 />
               ))}
-            </div>
-            <div className="front-proof" aria-label="Selected client testimonials">
-              <h2 className="front-section-heading">What Players Say</h2>
-              <div className="front-proof-grid">
-                {testimonials.slice(0, showAllTestimonials ? 6 : 3).map((testimonial) => (
-                  <figure className="front-quote" key={testimonial}>
-                    <blockquote>“{testimonial}”</blockquote>
-                    <figcaption>
-                      <span className="placeholder-avatar" aria-hidden="true">{testimonialAuthor.initials}</span>
-                      <span>{testimonialAuthor.name}</span>
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-              <button
-                className="testimonials-toggle"
-                type="button"
-                aria-expanded={showAllTestimonials}
-                onClick={() => setShowAllTestimonials((shown) => !shown)}
-              >
-                {showAllTestimonials ? "See less" : "See more…"}
-              </button>
             </div>
           </section>
         </article>

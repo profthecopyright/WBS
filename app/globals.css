@@ -748,97 +748,6 @@ main {
   font-weight: 400;
 }
 
-.front-proof {
-  padding: 24px 0 28px;
-  border-bottom: 4px double var(--rule);
-}
-
-.front-proof .front-section-heading {
-  margin-bottom: 22px;
-}
-
-.front-proof-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.front-quote {
-  margin: 0;
-  padding: 4px 28px 4px 0;
-}
-
-.front-quote blockquote {
-  margin: 0;
-  font-size: 1.12rem;
-  font-style: italic;
-  line-height: 1.5;
-}
-
-.front-quote + .front-quote {
-  padding-left: 28px;
-  border-left: 1px solid var(--rule);
-}
-
-.front-quote:nth-child(3n + 1) {
-  padding-left: 0;
-  border-left: 0;
-}
-
-.front-quote:nth-child(n + 4) {
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid var(--rule);
-}
-
-.front-quote figcaption {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 20px;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.front-quote figcaption small {
-  display: block;
-  margin-top: 2px;
-  color: var(--muted);
-  font-size: 0.9rem;
-  font-style: italic;
-  font-weight: 400;
-}
-
-.placeholder-avatar {
-  display: grid;
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
-  place-items: center;
-  border: 1px solid var(--rule);
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--gold) 12%, transparent);
-  color: var(--red);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.testimonials-toggle {
-  margin-top: 22px;
-  padding: 8px 0;
-  border: 0;
-  border-bottom: 1px solid var(--red);
-  background: transparent;
-  color: var(--red);
-  cursor: pointer;
-  font: italic 1.05rem/1.2 "Libre Caslon Text", "Times New Roman", Times, serif;
-}
-
-.testimonials-toggle:hover,
-.testimonials-toggle:focus-visible {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -2657,55 +2566,6 @@ main {
   font-style: italic;
 }
 
-.testimonials-page {
-  padding-bottom: 10px;
-}
-
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-bottom: 4px double var(--rule);
-}
-
-.testimonial {
-  min-height: 280px;
-  margin: 0;
-  padding: 30px 28px 24px;
-  border-bottom: 1px solid var(--rule);
-}
-
-.testimonial:not(:nth-child(3n + 1)) {
-  border-left: 1px solid var(--rule);
-}
-
-.testimonial blockquote {
-  margin: 0;
-  font-size: clamp(1.25rem, 2vw, 1.65rem);
-  font-style: italic;
-  line-height: 1.35;
-}
-
-.testimonial figcaption {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  margin-top: 28px;
-  color: var(--red);
-  font-family: "Libre Caslon Text", "Times New Roman", Times, serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.testimonial-source {
-  margin: 16px 0 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-  font-style: italic;
-  text-align: right;
-}
-
 .front-editorial,
 .a3-ledger {
   display: flex;
@@ -3404,10 +3264,8 @@ main {
 
   .lead-grid,
   .secondary-grid,
-  .testimonials-grid,
   .a3-news-grid,
-  .gossip-layout,
-  .front-proof-grid {
+  .gossip-layout {
     grid-template-columns: 1fr;
   }
 
@@ -3441,25 +3299,6 @@ main {
   .minimal-story h3 {
     min-height: auto;
     white-space: normal;
-  }
-
-  .front-proof {
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .front-quote,
-  .front-quote + .front-quote {
-    padding: 18px 0;
-    border-left: 0;
-  }
-
-  .front-quote:nth-child(n + 4) {
-    margin-top: 0;
-  }
-
-  .front-quote + .front-quote {
-    border-top: 1px solid var(--rule);
   }
 
   .gallery-heading {
@@ -3503,15 +3342,6 @@ main {
 
   .pro-card h4 {
     min-height: auto;
-  }
-
-  .testimonial {
-    min-height: auto;
-    padding: 28px 10px;
-  }
-
-  .testimonial:not(:nth-child(3n + 1)) {
-    border-left: 0;
   }
 
   .editorial-columns {
