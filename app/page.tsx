@@ -181,6 +181,7 @@ const editorialBlogTitles: Record<string, string> = {
 };
 
 const editorialBlogStandfirsts: Record<string, string> = {
+  "the-brass-ring-and-staying-tethered": "From Warwick: the carousel of time, an Italian Double system triumph, and the value of staying tethered.",
   "spingold-26-lets-go-dutch": "A board-by-board account of the 2026 Spingold, the Dutch stars scattered through the field, and Fleisher's convincing run to the trophy.",
   "who-needs-poland-weve-got-warwick": "From the Labor Day regional in Warwick: a lesson in finding Plan B, gratitude for New England bridge, and thoughts of returning to New York.",
   "diary-of-a-bridge-pro-40": "A California-bound meditation on bridge, memory, and the voices that stay with us.",

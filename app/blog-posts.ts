@@ -13,6 +13,91 @@ export type ArchivedBlogPost = {
 
 export const archivedBlogPosts: ArchivedBlogPost[] = [
   {
+    title: "The Brass Ring and Staying Tethered",
+    date: "2026-09-04",
+    sourceUrl: "",
+    slug: "the-brass-ring-and-staying-tethered",
+    author: "Brian Glubok",
+    series: "Diary of a Bridge Pro",
+    excerpt: "From Warwick: the carousel of time, an Italian Double system triumph, and the value of staying tethered.",
+    body: `WARWICK, SEPTEMBER 4
+
+Yesterday was the third day of six here at the New England Labor Day regional. Probably my final day; I head south to New York later today. After a couple of years of sabbatical in the Midwest, I'm ready to return to Gotham - my natural habitat.
+
+Over in Europe, the world championships are winding up - the most hard-core members of our traveling circus were all over there, chasing the brass ring.
+
+One function of these blogs is to elaborate on idioms which were once understood universally. "Chasing the brass ring" is recognized by many, but not all - even among those who recognize the phrase, not all are aware of its origin.
+
+Amusement park carousels, with the horses going 'round and 'round - at one time, there was a promotion where children riding the mechanical horses would reach to grab a ring from a ring dispenser as they passed. Most of the rings were silver, but one in fifty, or one in two hundred - the frequency would vary, no doubt - one out of many would be made of brass.
+
+For the kid lucky enough to get the brass one, a prize of some sort would be awarded.
+
+Hence the phrase: "Going for the brass ring."
+
+Here's a pleasing song by Joni Mitchell; Judy Collins recorded it too.
+
+The Circle Game:
+https://www.youtube.com/watch?v=V9VoLCO-d6U&list=RDV9VoLCO-d6U&start_radio=1
+
+"We're captives on the carousel of time...."
+
+What a gifted lyricist she was, that Joni Mitchell!
+
+In writing these blogs I like to pay tribute to Joni, because, like Bob Dylan and a small handful of others, they brought us from an era of "Spoon-moon-June" and "I Wanna Hold Your Hand" lyrics to lyrics where the singers wrote intensely personal material. Prior to Dylan and Mitchell, that almost didn't exist in popular music. So I thank them both.
+
+No Dylan, no Mitchell, then - no Glubok, no Diary of a Bridge Pro.
+
+As I once heard Pete Seeger say in an interview, of the practitioners of folk music: We're all just links in a chain.
+
+*****
+
+The desire to be tethered - that's a big part of the reason I began to write these blogs. I recall an afternoon around thirty years ago, when I went for a walk from my loft in lower Manhattan. For most of these treks - and I took thousands of them, if you count the bike rides too - I headed north, to SoHo and Greenwich Village.
+
+But on this occasion I went south, and I recall getting as far downtown as Trinity Street, near the foot of the island. All the way down by the stock exchange, the AMEX, where hundreds of bridge players of my acquaintance worked daily as floor traders and market-makers in the options industry.
+
+It was a very strange sensation I was experiencing. I was far from religious at the time, or spiritual. Probably I was agnostic, but even if I was a believer, I understood that I was of the atheist tribe - that is, my family, neighbors, friends, classmates. The unspoken, and sometimes spoken, assumption then (and now as well) was that there is no G-d.
+
+G-d or no G-d, soul or no soul, walking downtown that afternoon, I had the distinct impression that my soul was drifting away from my body. I couldn't see it, but I could feel it, and it was quite remarkable, almost pleasant - like I was holding onto a balloon with a very long rope.
+
+I let the balloon rise slowly, farther and farther - twenty feet, then thirty - and then I thought, whoa, if this keeps going, I might just collapse in a heap on the sidewalk, maybe to be brought to an emergency room, maybe to the morgue.
+
+"I'm not even forty yet, I'm far from ready to die," I thought. "I better reel myself back in."
+
+So I brought my soul back into my body, and here I am, thirty years on, writing to you today from Rhode Island.
+
+Executive Summary: It's good to stay tethered.
+
+*****
+
+Walter and I had a big board on this deal in the pair game Wednesday, a real system triumph.
+
+My hand was ♠ A J 9 x x, ♥ x x, ♦ x x, ♣ A K x x. Walter opened 1♦, RHO overcalled 1♥, and I doubled, showing four or five spades.
+
+This artificial double - known sometimes as an "Italian Double" - shows four or five spades and the values to compete, a minimum of 6-8 HCP.
+
+After a pass from LHO, Walter bid 1♠ - showing no more than a minimum opening, along with three or four spades, the way Walter and I play that double.
+
+After a pass by my RHO, I raised his 1♠ bid to 4♠.
+
+Walter held ♠ x x x, ♥ Q x x x, ♦ A K Q x, ♣ Q x. After a normal 1♠ bid by me, we'll play from my side. Then, after the normal king of hearts lead, we'll automatically lose two hearts and two trump tricks, assuming the defense plays a third round of hearts at Trick Three.
+
+Playing from Walter's side, we made eleven tricks, for an overtrick in 4♠, instead of down one.
+
+Great convention!
+
+*****
+
+I want to close with a Joni Mitchell song, kind of a signature song for me - a paean to neurodivergence, a term I picked up from Jeopardy James (James Holzhauer): "Twisted."
+
+Almost all of Joni's hundreds of recorded songs were her own compositions, but this one, which appeared on Joni's album Court and Spark, was by British chanteuse Annie Ross.
+
+My analyst told me.....
+
+https://www.youtube.com/watch?v=rG4bS4pwINA&list=RDrG4bS4pwINA&start_radio=1
+
+Thanks for reading, and helping to keep me tethered.`,
+  },
+  {
     title: "Spingold '26: Let's Go Dutch!",
     date: "2026-09-03",
     sourceUrl: "",
