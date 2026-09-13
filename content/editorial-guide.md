@@ -1,12 +1,12 @@
 # WBS Editorial Guide
 
-This revision retains the original newspaper styling, saloon doors, weather, portrait story, and three enquiry questionnaires. The four main sections are Bridge Services, Our Pros, Lessons & Courses, and Blogs. Community and its sample stories are removed at the user's request.
+This revision retains the original newspaper styling, saloon doors, weather, portrait story, and three enquiry questionnaires. The four main sections are Bridge Services, Our Pros, Courses, and Blogs. Community and its sample stories are removed at the user's request.
 
 ## Site Structure
 
-`#services` explains the agency's business, provides the three enquiry choices, and contains the About WBS background. `#pros` contains the Core Pros / Other Pros roster and full biographies. `#lessons` contains private instruction, group teaching, the developing online program, and Aloha Bridge Center information. `#blogs` retains the complete archive and article navigation.
+`#services` explains the agency's business, provides the three enquiry choices, and contains the About WBS background. `#pros` contains the Core Pros / Other Pros roster and full biographies, without a separate Circle heading, subtitle, or professional counts. `#courses` contains only Ed Zuckerberg's online program and Aloha Bridge Center information, plus the course enquiry action. `#blogs` retains the complete archive and article navigation.
 
-Use these same four navigation links on the entrance and every section. Do not add a second row of Meet Our Pros / Blogs / About WBS links. Legacy `#front`, `#inside`, `#inside/about`, `#inside/resources`, and profile links remain compatible; `#a3` now leads to Services rather than sample news.
+Use these same four navigation links on the entrance and every section. Do not add a second row of Meet Our Pros / Blogs / About WBS links. Legacy `#front`, `#inside`, `#inside/about`, `#inside/resources`, `#lessons`, and profile links remain compatible; `#a3` now leads to Services rather than sample news.
 
 Edit teaching copy in `TeachingProgram` in `app/page.tsx`. Confirm actual course topics, schedules, prices, and registration details before announcing them. Do not present proposed classes as scheduled events.
 
@@ -16,7 +16,7 @@ Edit biographies, short introductions, formats, approved portraits, and links in
 
 `coreOrder` and `otherOrder` retain the existing Core Pros / Other Pros membership and order, with new affiliated professionals appended. Do not promote pending recruits without confirmation.
 
-Profiles use links such as `#pros/ed-zuckerberg`. Old `#inside/pros/ed-zuckerberg` links redirect to the same profile. Instructional System Notes are linked from Lessons & Courses, and Brian's external author page is linked from his biography.
+Profiles use links such as `#pros/ed-zuckerberg`. Old `#inside/pros/ed-zuckerberg` links redirect to the same profile. Brian's external author page is linked from his biography. The previous System Notes resource at `https://www.wilsonovichbridge.com/instructional.html` is kept here for future editorial use, not displayed in Courses.
 
 Portraits are bundled locally under `public/images/inside-gallery`. Missing portraits use initials, not photographs of unverified namesakes. See `profile-drafts.md` for pending recruits and image follow-ups.
 

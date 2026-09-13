@@ -5,12 +5,12 @@ import WorldWeather from "./weather";
 import { archivedBlogPosts, type ArchivedBlogPost } from "./blog-posts";
 import { corePros, otherPros, findPro, profileHref, type ProProfile } from "./profiles";
 
-type PageId = "services" | "pros" | "lessons" | "blogs";
+type PageId = "services" | "pros" | "courses" | "blogs";
 
 const pages: { id: PageId; label: string }[] = [
   { id: "services", label: "Bridge Services" },
   { id: "pros", label: "Our Pros" },
-  { id: "lessons", label: "Lessons & Courses" },
+  { id: "courses", label: "Courses" },
   { id: "blogs", label: "Blogs" },
 ];
 
@@ -522,8 +522,9 @@ export default function Home() {
     function syncLocation() {
       const [requestedHash, target, detail] = window.location.hash.slice(1).split("/");
       const requested = requestedHash === "inside"
-        ? target === "about" ? "services" : target === "resources" ? "lessons" : "pros"
+        ? target === "about" ? "services" : target === "resources" ? "courses" : "pros"
         : requestedHash === "front" || requestedHash === "a3" ? "services"
+        : requestedHash === "lessons" ? "courses"
         : requestedHash === "blog" ? "blogs" : requestedHash;
       const page = pages.find((item) => item.id === requested)?.id ?? "services";
       setActivePage(page);
@@ -535,7 +536,7 @@ export default function Home() {
       const requestedPage = page === "blogs" && target === "page" ? Number(detail) : 1;
       setBlogPage(Number.isInteger(requestedPage) && requestedPage >= 1 && requestedPage <= blogPageCount ? requestedPage : 1);
       if (requested) setEntranceState("open");
-      if (["front", "inside", "a3", "blog"].includes(requestedHash) || (page === "blogs" && target === "archive")) {
+      if (["front", "inside", "a3", "blog", "lessons"].includes(requestedHash) || (page === "blogs" && target === "archive")) {
         const canonical = page === "blogs"
           ? target && target !== "archive" ? `#blogs/${target}${detail ? `/${detail}` : ""}` : "#blogs"
           : pro ? profileHref(pro) : `#${page}`;
@@ -740,11 +741,7 @@ export default function Home() {
 
       {activePage === "pros" && (
         <article className="page-panel" id="pros">
-          {selectedPro ? <ProfessionalProfile pro={selectedPro} onNavigate={navigateTo} onEnquire={() => openStoryForm(stories[2], selectedPro)} /> : <section className="page-fold gallery-page" aria-labelledby="gallery-heading">
-            <div className="gallery-heading">
-              <h2 id="gallery-heading">The WBS Circle</h2>
-              <span>Professional partners and teachers, online and in person</span>
-            </div>
+          {selectedPro ? <ProfessionalProfile pro={selectedPro} onNavigate={navigateTo} onEnquire={() => openStoryForm(stories[2], selectedPro)} /> : <section className="page-fold gallery-page" aria-label="Our Pros">
             <ProGroup title="Core Pros" pros={corePros} onNavigate={navigateTo} />
             <ProGroup title="Other Pros" pros={otherPros} onNavigate={navigateTo} />
             <p className="gallery-source">
@@ -754,7 +751,7 @@ export default function Home() {
         </article>
       )}
 
-      {activePage === "lessons" && <article className="page-panel" id="lessons"><TeachingProgram onContact={() => openStoryForm(stories[2])} onNavigate={navigateTo} /></article>}
+      {activePage === "courses" && <article className="page-panel" id="courses"><TeachingProgram onContact={() => openStoryForm(stories[2])} onNavigate={navigateTo} /></article>}
 
       {activePage === "blogs" && (
         <article className="page-panel blog-panel" id="blogs">
@@ -866,7 +863,6 @@ function ProGroup({ title, pros, onNavigate }: { title: string; pros: ProProfile
     <section className="pro-group" aria-labelledby={`${title.toLowerCase().replace(" ", "-")}-heading`}>
       <header className="pro-group-heading">
         <h3 id={`${title.toLowerCase().replace(" ", "-")}-heading`}>{title}</h3>
-        <span>{pros.length} professionals</span>
       </header>
       <div className="pro-grid">
         {pros.map((pro) => (
@@ -916,33 +912,19 @@ function AgencyGuide({ onReadHistory }: { onReadHistory: () => void }) {
 }
 
 function TeachingProgram({ onContact, onNavigate }: { onContact: () => void; onNavigate: (href: string) => void }) {
-  return <section className="teaching-page" aria-labelledby="teaching-heading">
-    <header className="teaching-heading">
-      <h2 id="teaching-heading">Lessons &amp; Courses</h2>
-      <p>Private coaching and small-group instruction with WBS professionals, online and in person.</p>
-    </header>
-    <div className="teaching-formats">
-      <section>
-        <h3>Private Lessons</h3>
-        <p>Work one-to-one on bidding methods, declarer play, defense, or deals from your recent games. Your teacher can help you and your regular partner develop a more effective partnership.</p>
-        <dl><dt>Format</dt><dd>Individual or partnership coaching</dd><dt>Location</dt><dd>Online or in person, by arrangement</dd></dl>
-      </section>
-      <section>
-        <h3>Group Courses</h3>
-        <p>Learn alongside a small group with an experienced teacher. WBS can arrange online teaching through Zoom, BBO, or RealBridge, with a topic and pace suited to the group.</p>
-        <dl><dt>Format</dt><dd>Small-group classes</dd><dt>Schedule</dt><dd>Contact WBS for current topics and dates</dd></dl>
-      </section>
-    </div>
+  return <section className="teaching-page" aria-label="Courses">
     <div className="teaching-programs">
       <section>
-        <h3>Online Teaching Program</h3>
-        <p><a href="#pros/ed-zuckerberg" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate("#pros/ed-zuckerberg"); } }}>Ed Zuckerberg</a> is helping develop WBS's online classes. Contact the agency for the current schedule and registration arrangements.</p>
+        <h2><a href="#pros/ed-zuckerberg" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate("#pros/ed-zuckerberg"); } }}>Ed Zuckerberg</a></h2>
+        <p className="teaching-location">Online · Zoom</p>
+        <p>Ed is helping develop WBS's online classes. Contact the agency for the current class schedule and registration arrangements.</p>
       </section>
       <section>
-        <h3>Aloha Bridge Center</h3>
-        <p>WBS is also developing in-person bridge activities at the Aloha Bridge Center in Columbus, Ohio. Ask the agency about current teaching and playing opportunities.</p>
+        <h2>Aloha Bridge Center</h2>
+        <p className="teaching-location">Columbus, Ohio</p>
+        <p>WBS is developing in-person bridge activities here. Contact the agency about current teaching and playing opportunities.</p>
       </section>
     </div>
-    <footer className="teaching-enquiries"><button className="professional-enquiry" type="button" onClick={onContact}>Enquire About Lessons</button><a href="https://www.wilsonovichbridge.com/instructional.html" target="_blank" rel="noopener noreferrer">System Notes</a></footer>
+    <footer className="teaching-enquiries"><button className="professional-enquiry" type="button" onClick={onContact}>Enquire About Courses</button></footer>
   </section>;
 }
