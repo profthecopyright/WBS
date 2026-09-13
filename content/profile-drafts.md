@@ -30,7 +30,13 @@ Ljudmila explicitly approved featuring her and using a portrait from her univers
 
 ## Hongbo Li Portrait
 
-Hongbo supplied https://www.nvba.org/emails/2026-03-09_email.pdf and identified himself as the rightmost person in the team photograph. The newsletter caption names Colin Schloss, Alan Munro, Jichong Chai, and Hongbo Li, and credits the photograph to ACBL. The original embedded JPEG is 2048 x 1504 pixels. The first portrait is retained at `public/images/inside-gallery/hongbo-li.png`. The current portrait is `public/images/inside-gallery/hongbo-li-v2.png`, used in the roster and full profile.
+Hongbo supplied https://www.nvba.org/emails/2026-03-09_email.pdf and identified himself as the rightmost person in the team photograph. The newsletter caption names Colin Schloss, Alan Munro, Jichong Chai, and Hongbo Li, and credits the photograph to ACBL. The original embedded JPEG is 2048 x 1504 pixels. The first portrait is retained at `public/images/inside-gallery/hongbo-li.png`, and the intermediate refinement at `public/images/inside-gallery/hongbo-li-v2.png`. The current portrait is `public/images/inside-gallery/hongbo-li-v3.png`, used in the roster and full profile.
+
+### Hair Refinement
+
+Meow requested neater hair and a better-looking hairline. The third version adds a restrained grooming adjustment to the second portrait. Prepared with the built-in image editing tool. Final hair-edit prompt:
+
+Use case: identity-preserve. Edit target: the attached current WBS portrait of Hongbo Li, who goes by Meow. The subject explicitly requests neater hair and a better-looking hairline. Change ONLY his hair: gently tidy the stray upright and flyaway strands, give the existing short dark hairstyle a clean, softly combed shape, and subtly make the frontal and temple hairline more even and naturally fuller. Keep it believable, with individual hair texture, a natural slightly irregular edge, and a hairstyle consistent with the existing photo; no painted-on hairline, exaggerated density, drastic hairline lowering, wig-like effect, new parting, or elaborate new haircut. Preserve his current face completely: exact head angle, level forward gaze, facial width, eyes, eyebrows, black rectangular glasses, nose, lips, expression, skin texture, facial hair, age, and recognizable identity. Do not further slim or beautify the face. Keep the 4:5 portrait framing, blue ACBL backdrop and white logos, neighboring grey sleeve and arm, black bridge T-shirt lettering and symbols, ribbon, medal, hands and bidding cards, photographic lighting and colors unchanged. Make a restrained, professional grooming adjustment only.
 
 ### Approved Refinement
 
