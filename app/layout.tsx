@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./site.css";
 
 export const metadata: Metadata = {
   title: "World Bridge Services | Professional Bridge Partnerships",
-  description: "Boutique professional bridge partnerships, coaching, and tournament support founded by champion Brian Glubok.",
+  description: "Professional bridge partners and teachers, online and at clubs and tournaments worldwide. Find your next partnership with World Bridge Services.",
   other: {
     "codex-preview": "development",
   },
