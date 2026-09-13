@@ -74,21 +74,24 @@
 .services-introduction { padding: 30px 12px 28px; }
 .services-introduction h2 { color: var(--red); font-size: 2.25rem; line-height: 1.25; margin: 0 0 16px; }
 .services-introduction > p { max-width: 940px; font-size: 1.375rem; line-height: 1.6; margin: 0; }
-.services-credentials { padding: 20px 12px 24px; border-top: 4px double var(--rule); }
-.services-credentials > p { font-size: 1.0625rem; line-height: 1.6; margin: 0 0 20px; }
-.services-champions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.services-champions > a { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: center; padding: 0 24px; color: var(--ink); text-decoration: none; cursor: pointer; }
-.services-champions > a:first-child { padding-left: 0; }
-.services-champions > a:last-child { padding-right: 0; }
-.services-champions > a + a { border-left: 1px solid var(--rule); }
-.services-champions img { width: 64px; height: 80px; object-fit: cover; filter: grayscale(1) sepia(0.14) contrast(1.08); border: 1px solid var(--rule); }
-.services-champions h3 { font-size: 1.125rem; line-height: 1.4; text-decoration: underline; text-underline-offset: 4px; margin: 0 0 7px; }
-.services-champions p { color: var(--muted); font-size: 1rem; line-height: 1.5; margin: 0; }
-.services-champions > a:hover h3, .services-champions > a:focus-visible h3 { color: var(--red); }
-.services-champions > a:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
-.services-arrangements { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 32px; padding: 24px 12px; border-top: 1px solid var(--rule); }
-.services-arrangements h2 { font-size: 1.25rem; line-height: 1.5; margin: 0; }
-.services-arrangements p { font-size: 1.125rem; line-height: 1.75; margin: 0; }
+.services-guide { border-top: 4px double var(--rule); }
+.services-guide-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-bottom: 1px solid var(--rule); }
+.services-guide-tabs button { display: flex; align-items: center; justify-content: center; gap: 14px; min-height: 60px; padding: 12px 8px; border: 0; background: transparent; color: var(--ink); font: 700 1rem/1.3 "Libre Caslon Text", Georgia, serif; text-transform: uppercase; cursor: pointer; }
+.services-guide-tabs button + button { border-left: 1px solid var(--rule); }
+.services-guide-tabs button:hover { color: var(--red); }
+.services-guide-tabs button[aria-expanded="true"] { background: var(--ink); color: var(--paper); }
+.services-guide-tabs button:focus-visible { outline: 3px solid var(--red); outline-offset: -5px; }
+.services-guide-indicator { display: inline-block; width: 16px; font-size: 1.25rem; font-weight: 400; text-align: center; line-height: 1; }
+.services-guide-panel { min-height: 220px; padding: 24px 12px; }
+.services-guide-panel[hidden] { display: none; }
+.services-guide-panel h3 { max-width: 880px; color: var(--red); font-size: 1.375rem; line-height: 1.4; margin: 0 0 14px; }
+.services-guide-panel p { max-width: 880px; font-size: 1.125rem; line-height: 1.7; margin: 0 0 12px; }
+.services-guide-panel p:last-child { margin-bottom: 0; }
+.services-guide-offerings { max-width: 880px; margin: 16px 0 0; font-size: 1.0625rem; line-height: 1.65; }
+.services-guide-offerings > div { display: grid; grid-template-columns: 165px minmax(0, 1fr); gap: 20px; }
+.services-guide-offerings > div + div { margin-top: 7px; }
+.services-guide-offerings dt { font-weight: 700; }
+.services-guide-offerings dd { margin: 0; }
 .services-contact { padding: 24px 12px 32px; border-top: 4px double var(--rule); }
 .services-contact > h2 { font-size: 1.375rem; line-height: 1.4; margin: 0 0 22px; }
 .services-contact-choices { display: grid; grid-template-columns: 1.2fr 1fr 1fr; }
@@ -106,8 +109,7 @@
 .services-background h2 { font-size: 1.75rem; line-height: 1.4; margin: 0 0 16px; }
 .services-background-copy > p { font-size: 1.125rem; line-height: 1.75; margin: 0 0 18px; }
 .services-background-copy > .services-founder { color: var(--red); font-size: 1.25rem; font-weight: 700; }
-.services-perspective-heading { font-size: 1.25rem; line-height: 1.4; margin: 30px 0 14px; }
-.services-background .hero-explainer { margin: 0; }
+.services-background .hero-explainer { margin: 22px 0 0; }
 .services-background .hero-explainer div { background: transparent; }
 .services-background .hero-explainer p { font-size: 1.0625rem; line-height: 1.75; margin: 0 0 18px; }
 .services-background .brian-portrait { border: 1px solid var(--rule); min-height: 520px; }
@@ -145,20 +147,12 @@
   .teaching-programs { grid-template-columns: 1fr; }
   .teaching-programs section { padding: 16px 0 24px; }
   .teaching-programs section + section { border-left: 0; border-top: 1px solid var(--rule); padding: 24px 0; }
-  .services-champions > a { padding: 0 14px; gap: 12px; grid-template-columns: 56px minmax(0, 1fr); }
-  .services-champions img { width: 56px; height: 70px; }
-  .services-champions h3 { font-size: 1rem; }
-  .services-arrangements { grid-template-columns: 1fr; gap: 12px; }
   .services-background { grid-template-columns: 1fr; gap: 30px; }
   .services-background .brian-portrait { width: min(100%, 440px); }
 }
 @media (max-width: 640px) {
-  .services-champions { grid-template-columns: 1fr; gap: 12px; }
-  .services-champions > a { grid-template-columns: 44px minmax(0, 1fr); gap: 14px; padding: 0; }
-  .services-champions > a + a { border-left: 0; }
-  .services-champions img { width: 44px; height: 56px; }
-  .services-champions h3 { margin-bottom: 3px; }
-  .services-champions p { font-size: 0.875rem; line-height: 1.6; }
+  .services-guide-tabs button { flex-direction: column; gap: 7px; padding: 10px 2px; font-size: 0.875rem; min-height: 66px; text-transform: none; }
+  .services-guide-panel { min-height: 0; padding-top: 22px; padding-bottom: 22px; }
   .services-contact-choices { grid-template-columns: 1fr; gap: 20px; }
   .services-contact-choices > article { padding: 20px 0 0; }
   .services-contact-choices > article:first-child { padding-top: 0; }
@@ -179,7 +173,14 @@
   .professional-biography > p { font-size: 1.0625rem; }
   .services-introduction h2 { font-size: 1.75rem; }
   .services-introduction > p { font-size: 1.125rem; }
-  .services-introduction, .services-credentials, .services-arrangements, .services-contact, .services-background { padding-right: 10px; padding-left: 10px; }
+  .services-introduction, .services-guide-panel, .services-contact, .services-background { padding-right: 10px; padding-left: 10px; }
+  .services-guide { margin-right: -14px; margin-left: -14px; }
+  .services-guide-tabs button { padding-right: 4px; padding-left: 4px; }
+  .services-guide-panel { padding-right: 24px; padding-left: 24px; }
+  .services-guide-panel h3 { font-size: 1.25rem; }
+  .services-guide-panel p, .services-guide-offerings { font-size: 1rem; }
+  .services-guide-offerings > div { grid-template-columns: 1fr; gap: 2px; }
+  .services-guide-offerings > div + div { margin-top: 14px; }
   .services-background h2 { font-size: 1.5rem; }
   .teaching-page { padding-right: 10px; padding-left: 10px; }
   .teaching-page h2 { font-size: 1.25rem; }

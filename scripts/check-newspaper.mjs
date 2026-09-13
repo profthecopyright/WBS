@@ -53,8 +53,14 @@ assert.ok(!/What Players Say|Jane Doe|testimonials|Hatch, Match and Dispatch|a3N
 for (const label of ['Bridge Services', 'Our Pros', 'Courses', 'Blogs']) assert.ok(currentPage.includes(`label: "${label}"`));
 for (const section of ['services', 'pros', 'courses', 'blogs']) assert.ok(currentPage.includes(`id="${section}"`));
 assert.ok(currentPage.includes('professional bridge partners'));
-const serviceSections = ['services-introduction', 'services-credentials', 'services-arrangements', 'services-contact', 'services-background'];
-for (let index = 1; index < serviceSections.length; index++) assert.ok(currentPage.indexOf(`className="${serviceSections[index - 1]}"`) < currentPage.indexOf(`className="${serviceSections[index]}"`));
+const serviceSections = ['className="services-introduction"', '<ServicesGuide />', 'className="services-contact"', 'className="services-background"'];
+for (const section of serviceSections) assert.ok(currentPage.includes(section));
+for (let index = 1; index < serviceSections.length; index++) assert.ok(currentPage.indexOf(serviceSections[index - 1]) < currentPage.indexOf(serviceSections[index]));
+for (const topic of ['Who', 'What', 'Where', 'When', 'Why']) assert.ok(currentPage.includes(`label: "${topic}"`));
+const serviceGuide = functions.get('ServicesGuide')?.getText() ?? '';
+assert.ok(serviceGuide.includes('aria-expanded={expandedTopic === topic.id}') && serviceGuide.includes('aria-controls='));
+assert.ok(serviceGuide.includes('hidden={expandedTopic !== topic.id}') && serviceGuide.includes('current === topic.id ? null : topic.id'));
+assert.ok(!/services-credentials|services-arrangements|serviceChampions/.test(currentPage));
 assert.ok(currentPage.includes('index === 0 ? "services-contact-primary"'));
 assert.ok(currentPage.indexOf('title: "Talk with Brian"') < currentPage.indexOf('title: "Get a Free Play"'));
 assert.ok(currentPage.indexOf('className="hero-explainer"') > currentPage.indexOf('className="services-contact"'));

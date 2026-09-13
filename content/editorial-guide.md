@@ -6,7 +6,9 @@ This revision retains the original newspaper styling, saloon doors, weather, por
 
 `#services` explains the agency's business, provides the three enquiry choices, and contains the About WBS background. `#pros` contains the Core Pros / Other Pros roster and full biographies, without a separate Circle heading, subtitle, or professional counts. `#courses` contains only Ed Zuckerberg's online program and Aloha Bridge Center information, plus the course enquiry action. `#blogs` retains the complete archive and article navigation.
 
-Services follows offer, championship credentials, booking process, three contact choices, then optional agency background. Talk with Brian remains the first and visually primary choice. His full championship record lives in his profile; the original portrait flip-story and expandable essay are preserved in the lower background section. Do not restore the duplicated Who / What / Where / Why blocks above them.
+Services follows the hero offer, expandable Who / What / Where / When / Why topics, then the three contact choices. Who is open initially; selecting another topic replaces it, and selecting the open topic closes it. Keep all five labels visible and keep the actions directly below the guide. Edit the topic copy in `serviceGuideTopics` in `app/page.tsx`.
+
+Talk with Brian remains the first and visually primary choice. His full championship record lives in his profile; the original portrait flip-story and expandable essay are preserved below the actions. Do not add separate credentials, booking, or repeated agency-description bands between the hero, guide, and actions.
 
 Use these same four navigation links on the entrance and every section. Do not add a second row of Meet Our Pros / Blogs / About WBS links. Legacy `#front`, `#inside`, `#inside/about`, `#inside/resources`, `#lessons`, and profile links remain compatible; `#a3` now leads to Services rather than sample news.
 
