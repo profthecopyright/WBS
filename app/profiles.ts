@@ -25,6 +25,7 @@ export const proProfiles: ProProfile[] = [
     paragraphs: [
       "WBS is the brainchild of veteran bridge champion Brian Glubok, a former teenage prodigy and one of the leading high-stakes rubber bridge players of the last half-century. When demand for his own playing services exceeded his capacity, Brian asked trusted colleagues to cover sessions under his supervision. He continues to coach the clients and guide the operation.",
       "A former teenage prodigy, Brian became a Life Master at 15 in 1975. His career spans elite high-stakes rubber bridge, five North American national championships, thirteen national runner-up finishes, and more than 200 regional event wins. He also won the Australian National Open Teams in 1987 and a gold medal at the 1983 Pan-American Maccabi Games in Brazil.",
+      "His five NABC+ titles are the 1987 Spingold, the 1990 Reisinger, and the 1996, 1997 and 1999 Jacoby Open Swiss Teams.",
       "Glubok self-identifies as a writer, thinker, filmmaker, and painter, but the rest of us all know, even if he doesn't, that he is mostly a bridge player. His Diary of a Bridge Pro follows tournament life, the people around the game, and a few things beyond the table."
     ],
     highlights: ["Five NABC+ championships", "Thirteen NABC+ runner-up finishes", "More than 200 regional event wins", "1987 Australian National Open Teams champion"],

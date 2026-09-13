@@ -14,6 +14,12 @@ const pages: { id: PageId; label: string }[] = [
   { id: "blogs", label: "Blogs" },
 ];
 
+const serviceChampions = [
+  { pro: findPro("bob-hamman")!, credential: "Multiple world titles" },
+  { pro: findPro("joe-grue")!, credential: "2017 Bermuda Bowl champion" },
+  { pro: findPro("finn-kolesnik")!, credential: "2025 Bermuda Bowl champion" },
+];
+
 const stories = [
   {
     number: "01",
@@ -666,11 +672,45 @@ export default function Home() {
       </nav>
 
       {activePage === "services" && (
-        <article className="page-panel" id="services">
-          <section className="page-fold front-hero" aria-labelledby="front-page-heading">
-            <div className="hero-copy">
-              <h2 className="hero-kicker" id="front-page-heading">Boutique Bridge Services</h2>
-              <p className="hero-deck">WBS arranges <strong>professional bridge partners</strong>, <strong>private lessons</strong>, and <strong>group courses</strong>, online and at clubs and tournaments worldwide.</p>
+        <article className="page-panel services-page" id="services">
+          <header className="services-introduction">
+            <h2 id="front-page-heading">Boutique Bridge Services</h2>
+            <p>WBS matches you with <strong>professional bridge partners</strong> for online games, club play, and tournaments. We also arrange coaching and instruction.</p>
+          </header>
+
+          <section className="services-credentials" aria-label="Championship experience">
+            <p>Founded by <strong>Brian Glubok</strong>, five-time national champion.</p>
+            <div className="services-champions">
+              {serviceChampions.map(({pro, credential}) => <a href={profileHref(pro)} key={pro.slug} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); navigateTo(profileHref(pro)); } }}>
+                <img src={pro.image} alt="" style={{objectPosition: pro.imagePosition ?? "center 30%"}} />
+                <div><h3>{pro.name}</h3><p>{credential}</p></div>
+              </a>)}
+            </div>
+          </section>
+
+          <section className="services-arrangements" aria-labelledby="arrangements-heading">
+            <h2 id="arrangements-heading">How Bookings Work</h2>
+            <p>Tell Brian your plans and preferences. WBS recommends a suitable professional and confirms availability, fees, and arrangements before you book.</p>
+          </section>
+
+          <section className="services-contact" aria-labelledby="actions-heading">
+            <h2 id="actions-heading">What Would You Like to Do Next?</h2>
+            <div className="services-contact-choices">
+              {stories.map((story, index) => <article className={index === 0 ? "services-contact-primary" : undefined} key={story.number}>
+                <h3><button type="button" onClick={() => openStoryForm(story)}>{story.title}</button></h3>
+                <p>{story.summary}</p>
+              </article>)}
+            </div>
+          </section>
+
+          <section className="services-background" aria-labelledby="agency-guide-heading">
+            <div className="services-background-copy">
+              <h2 id="agency-guide-heading">About WBS</h2>
+              <p className="services-founder">Brian Glubok · President</p>
+              <p>Brian remains closely involved with WBS clients and professionals. Paulo Brum coordinates professional scheduling, and Hongbo Li serves as Executive Vice-President.</p>
+              <p>WBS is a commercial venture with a boutique approach: serve clients well, support our professionals, and contribute to the future of bridge.</p>
+              <a className="services-profile-link" href="#pros/brian-glubok" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); navigateTo("#pros/brian-glubok"); } }}>Brian's Profile</a>
+              <h3 className="services-perspective-heading">Brian on Playing with a Pro</h3>
               <details className="hero-explainer">
                 <summary>
                   <span className="read-more-label">Read more…</span>
@@ -687,11 +727,6 @@ export default function Home() {
                   <small>Request a personal consultation.</small>
                 </div>
               </details>
-              <div className="hero-founder">
-                <strong>Brian Glubok · President</strong>
-                <span>Winner of the 1987 Spingold, 1990 Reisinger, and 1996, 1997 &amp; 1999 Jacoby Open Swiss Teams</span>
-                <span>Five-time NABC+ champion · Thirteen-time NABC+ runner-up</span>
-              </div>
             </div>
             <div className={`brian-portrait ${showHistory ? "show-history" : ""}`}>
               <div className="portrait-card-inner">
@@ -719,23 +754,6 @@ export default function Home() {
               </div>
             </div>
           </section>
-
-          <section className="page-fold front-page" aria-labelledby="actions-heading">
-            <div className="actions-heading">
-              <h2 className="front-section-heading" id="actions-heading">What Would You Like to Do Next?</h2>
-            </div>
-            <div className="lead-grid">
-              {stories.map((story) => (
-                <Story
-                  story={story}
-                  minimal
-                  key={story.number}
-                  onOpenForm={() => openStoryForm(story)}
-                />
-              ))}
-            </div>
-          </section>
-          <AgencyGuide onReadHistory={() => { setShowHistory(true); choosePage("services"); }} />
         </article>
       )}
 
@@ -838,22 +856,6 @@ export default function Home() {
   );
 }
 
-function Story({ story, minimal = false, onOpenForm }: { story: (typeof stories)[number]; minimal?: boolean; onOpenForm?: () => void }) {
-  return (
-    <article className={`story${minimal ? " minimal-story" : ""}`}>
-      {!minimal && <div className="story-meta"><span>{story.number}</span><span>{story.kicker}</span></div>}
-      <h3>{onOpenForm ? (
-        <button className="story-title-link story-title-button" type="button" onClick={onOpenForm}>{story.title}</button>
-      ) : story.href ? (
-        <a className="story-title-link" href={story.href}>{story.title}</a>
-      ) : (
-        <span className="story-title-placeholder">{story.title}</span>
-      )}</h3>
-      <p>{story.summary}</p>
-    </article>
-  );
-}
-
 function isPlainClick(event: MouseEvent<HTMLAnchorElement>) {
   return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 }
@@ -895,19 +897,6 @@ function ProfessionalProfile({ pro, onNavigate, onEnquire }: { pro: ProProfile; 
     </header>
     <div className="professional-columns"><div className="professional-biography">{pro.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}{pro.links && <nav className="professional-links" aria-label={`More from ${pro.name}`}>{pro.links.map((link) => <a href={link.href} key={link.href} {...(link.href.startsWith("https:") ? {target: "_blank", rel: "noopener noreferrer"} : {})} onClick={(event) => { if (link.href.startsWith("#") && isPlainClick(event)) { event.preventDefault(); onNavigate(link.href); } }}>{link.label}</a>)}</nav>}</div>
     <aside className="professional-facts"><h3>Highlights</h3><ul>{pro.highlights.map((item) => <li key={item}>{item}</li>)}</ul><h3>Playing &amp; Teaching</h3><p>{pro.formats.join(" · ")}</p><p className="professional-availability">{pro.availability ?? "Availability and fees are agreed with WBS before a booking is confirmed."}</p><button className="professional-enquiry" type="button" onClick={onEnquire}>Talk with an Agent</button></aside></div>
-  </section>;
-}
-
-function AgencyGuide({ onReadHistory }: { onReadHistory: () => void }) {
-  return <section className="agency-guide" aria-labelledby="agency-guide-heading">
-    <header><h2 id="agency-guide-heading">About WBS</h2><p>Founded by Brian Glubok, WBS is a boutique agency matching bridge players with trusted professionals and teachers.</p></header>
-    <div className="agency-guide-grid">
-      <section><h3>Who We Are</h3><p>World champions, international players, experienced teachers, and trusted playing partners. Brian Glubok is President, Paulo Brum coordinates professional scheduling, and Hongbo Li serves as Executive Vice-President.</p></section>
-      <section><h3>What We Offer</h3><p>Our core business is pairing clients and pros: online games on BBO or your preferred platform, club duplicates, and regional or national tournaments. Private instruction, partnership coaching, and small-group teaching are also available.</p></section>
-      <section><h3>Our Story</h3><p>Brian began the operation during the 2020 lockdown. Paulo joined in 2023, and the WBS booth at the July 2026 Minneapolis Nationals marked another step in the agency's deliberate boutique growth.</p><a href="#services" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onReadHistory(); } }}>Read our founding story</a></section>
-      <section><h3>Where We Play</h3><p>Online across time zones, and wherever bridge is played. Our professionals work in New York, Ohio, Florida, California, Europe, and on the international tournament circuit. In-person partnerships depend on the event and the professional's availability.</p></section>
-      <section><h3>Our Purpose</h3><p>To better serve our clients, support our professionals, and help build institutions that contribute to the future of bridge. WBS is a commercial venture, but we also do it because bridge is so much fun.</p></section>
-    </div>
   </section>;
 }
 

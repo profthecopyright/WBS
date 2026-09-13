@@ -53,6 +53,14 @@ assert.ok(!/What Players Say|Jane Doe|testimonials|Hatch, Match and Dispatch|a3N
 for (const label of ['Bridge Services', 'Our Pros', 'Courses', 'Blogs']) assert.ok(currentPage.includes(`label: "${label}"`));
 for (const section of ['services', 'pros', 'courses', 'blogs']) assert.ok(currentPage.includes(`id="${section}"`));
 assert.ok(currentPage.includes('professional bridge partners'));
+const serviceSections = ['services-introduction', 'services-credentials', 'services-arrangements', 'services-contact', 'services-background'];
+for (let index = 1; index < serviceSections.length; index++) assert.ok(currentPage.indexOf(`className="${serviceSections[index - 1]}"`) < currentPage.indexOf(`className="${serviceSections[index]}"`));
+assert.ok(currentPage.includes('index === 0 ? "services-contact-primary"'));
+assert.ok(currentPage.indexOf('title: "Talk with Brian"') < currentPage.indexOf('title: "Get a Free Play"'));
+assert.ok(currentPage.indexOf('className="hero-explainer"') > currentPage.indexOf('className="services-contact"'));
+assert.ok(currentPage.includes('How WBS Began') && currentPage.includes('Read less'));
+assert.ok(!/AgencyGuide|Who We Are|What We Offer|Where We Play|Read our founding story/.test(currentPage));
+assert.ok(proProfiles.find((pro) => pro.slug === 'brian-glubok').paragraphs.some((text) => text.includes('1987 Spingold') && text.includes('1999 Jacoby')));
 assert.ok(!/The WBS Circle|professionals<\/span>|teaching-formats|Private Lessons|Work one-to-one/.test(currentPage));
 assert.ok(currentPage.includes('Enquire About Courses'));
 assert.ok(currentPage.includes('requestedHash === "lessons" ? "courses"'));
