@@ -1,14 +1,15 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState, type MouseEvent } from "react";
 import WorldWeather from "./weather";
 import { archivedBlogPosts, type ArchivedBlogPost } from "./blog-posts";
+import { corePros, otherPros, findPro, profileHref, type ProProfile } from "./profiles";
 
 type PageId = "front" | "inside" | "blogs" | "a3";
 
-const pages: { id: PageId; label: string }[] = [
+const pages: { id: PageId; label: string; description?: string }[] = [
   { id: "front", label: "Front" },
-  { id: "inside", label: "Inside" },
+  { id: "inside", label: "Inside", description: "Pros & Resources" },
   { id: "blogs", label: "Blogs" },
   { id: "a3", label: "Community" },
 ];
@@ -69,71 +70,6 @@ const insideStories = [
     summary:
       "Explore WBS instructional material, partnership methods, and ideas for improving your game.",
     href: "https://www.wilsonovichbridge.com/instructional.html",
-  },
-];
-
-type Pro = {
-  name: string;
-  src?: string;
-  bio: string;
-  badge?: string;
-  photoPending?: boolean;
-};
-
-const corePros: Pro[] = [
-  {
-    name: "Brian Glubok",
-    src: "/images/inside-gallery/brian-glubok.png",
-    bio: "A five-time national champion, former teen prodigy, super-elite rubber bridge player, writer, filmmaker, painter, and the bridge player behind WBS.",
-  },
-  {
-    name: "Joe Grue",
-    src: "/images/inside-gallery/joe-grue.jpg",
-    bio: "An American world champion and multiple North American champion, known for imaginative, fearless play.",
-  },
-  {
-    name: "Paulo Brum",
-    src: "/images/inside-gallery/paulo-brum.jpg",
-    bio: "A leading Brazilian international player, trusted partner, and experienced bridge teacher.",
-  },
-  {
-    name: "Gregor Rus",
-    src: "/images/inside-gallery/gregor-rus.png",
-    bio: "A Slovenian champion who has represented his country in junior and open international competition.",
-  },
-  {
-    name: "Bob Hamman",
-    src: "/images/inside-gallery/bob-hamman.png",
-    bio: "One of the most celebrated players in bridge history and a trusted senior presence in the WBS circle.",
-    badge: "Available exclusively through WBS",
-  },
-];
-
-const otherPros: Pro[] = [
-  {
-    name: "Ioannis “Giannis” Oikonomopoulos",
-    src: "/images/inside-gallery/ioannis-oikonomopoulos.png",
-    bio: "A Greek-born professional and Grand Life Master with world youth titles and major North American results.",
-  },
-  {
-    name: "Finn Kolesnik",
-    src: "/images/inside-gallery/finn-kolesnik.png",
-    bio: "Born in 2004, Finn is one of America’s outstanding young players and an established international competitor.",
-  },
-  {
-    name: "Danuta Kazmucha",
-    src: "/images/inside-gallery/danuta-kazmucha.jpg",
-    bio: "A Polish international player and winner of the 2026 Wagar Women’s Pairs in Minneapolis.",
-  },
-  {
-    name: "Disa Eythorsdottir",
-    src: "/images/inside-gallery/disa-eythorsdottir.png",
-    bio: "An Icelandic world champion, established professional, and longtime friend of the agency.",
-  },
-  {
-    name: "Ljudmila Kamenova",
-    bio: "A Stony Brook mathematics professor, two-time Women’s Board-a-Match champion, and Fast Pairs winner.",
-    photoPending: true,
   },
 ];
 
@@ -647,8 +583,11 @@ export default function Home() {
   const [showHistory, setShowHistory] = useState(false);
   const [blogPage, setBlogPage] = useState(1);
   const [selectedBlogPost, setSelectedBlogPost] = useState<ArchivedBlogPost | null>(null);
-  const [activeForm, setActiveForm] = useState<{ title: string; url: string } | null>(null);
+  const [selectedPro, setSelectedPro] = useState<ProProfile | null>(null);
+  const [insideView, setInsideView] = useState<"circle" | "about" | "resources">("circle");
+  const [activeForm, setActiveForm] = useState<{ title: string; url: string; preferredPro?: string } | null>(null);
   const [entranceState, setEntranceState] = useState<"closed" | "opening" | "open">("closed");
+  const formTrigger = useRef<HTMLElement | null>(null);
 
   const blogPageCount = Math.ceil(archivedBlogPosts.length / BLOGS_PER_PAGE);
   const blogPagePosts = archivedBlogPosts.slice((blogPage - 1) * BLOGS_PER_PAGE, blogPage * BLOGS_PER_PAGE);
@@ -659,36 +598,60 @@ export default function Home() {
     : null;
 
   useEffect(() => {
-    const [requestedHash, blogTarget, pageTarget] = window.location.hash.slice(1).split("/");
-    const requested = requestedHash === "blog" ? "blogs" : requestedHash;
-    if (pages.some((page) => page.id === requested)) {
-      queueMicrotask(() => setActivePage(requested as PageId));
-    }
-    if (requested === "blogs" && blogTarget) {
-      if (blogTarget === "page") {
-        const requestedPage = Number(pageTarget);
-        if (Number.isInteger(requestedPage) && requestedPage >= 1 && requestedPage <= blogPageCount) {
-          queueMicrotask(() => setBlogPage(requestedPage));
-        }
-      } else if (blogTarget === "archive") {
-        window.history.replaceState(null, "", "#blogs");
-      } else {
-        queueMicrotask(() => setSelectedBlogPost(archivedBlogPosts.find((post) => post.slug === blogTarget) ?? null));
+    function syncLocation() {
+      const [requestedHash, target, detail] = window.location.hash.slice(1).split("/");
+      const requested = requestedHash === "blog" ? "blogs" : requestedHash;
+      const page = pages.find((item) => item.id === requested)?.id ?? "front";
+      setActivePage(page);
+      setSelectedPro(page === "inside" && target === "pros" ? findPro(detail) ?? null : null);
+      setInsideView(page === "inside" && (target === "about" || target === "resources") ? target : "circle");
+      const post = page === "blogs" && target && target !== "page" && target !== "archive"
+        ? archivedBlogPosts.find((item) => item.slug === target) ?? null : null;
+      setSelectedBlogPost(post);
+      const requestedPage = page === "blogs" && target === "page" ? Number(detail) : 1;
+      setBlogPage(Number.isInteger(requestedPage) && requestedPage >= 1 && requestedPage <= blogPageCount ? requestedPage : 1);
+      if (requested) setEntranceState("open");
+      if (requestedHash === "blog" || (page === "blogs" && target === "archive")) {
+        window.history.replaceState(null, "", target && target !== "archive" ? `#blogs/${target}${detail ? `/${detail}` : ""}` : "#blogs");
       }
+      window.scrollTo({ top: 0, behavior: "instant" });
     }
-    if (requestedHash === "blog") {
-      window.history.replaceState(null, "", blogTarget && blogTarget !== "archive" ? `#blogs/${blogTarget}${pageTarget ? `/${pageTarget}` : ""}` : "#blogs");
-    }
+    queueMicrotask(syncLocation);
+    window.addEventListener("hashchange", syncLocation);
+    window.addEventListener("popstate", syncLocation);
+    return () => {
+      window.removeEventListener("hashchange", syncLocation);
+      window.removeEventListener("popstate", syncLocation);
+    };
   }, [blogPageCount]);
 
-  function choosePage(page: PageId) {
-    setActivePage(page);
-    if (page === "blogs") {
-      setSelectedBlogPost(null);
-      setBlogPage(1);
+  useEffect(() => {
+    if (entranceState === "open" && !activeForm) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, [entranceState, activeForm]);
+
+  useEffect(() => {
+    if (!activeForm) return;
+    document.querySelector<HTMLButtonElement>('.form-sheet button[aria-label="Close form"]')?.focus();
+    function handleKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setActiveForm(null);
     }
-    window.history.replaceState(null, "", `#${page}`);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      formTrigger.current?.focus();
+    };
+  }, [activeForm]);
+
+  function navigateTo(href: string) {
+    if (window.location.hash !== href) window.history.pushState(null, "", href);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  }
+
+  function choosePage(page: PageId) {
+    navigateTo(`#${page}`);
   }
 
   function enterSite() {
@@ -700,31 +663,28 @@ export default function Home() {
     window.setTimeout(() => setEntranceState("open"), 1050);
   }
 
-  function openStoryForm(story: (typeof stories)[number]) {
+  function openStoryForm(story: (typeof stories)[number], pro?: ProProfile) {
+    formTrigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setActiveForm({
       title: story.title,
       url: story.href.replace("/r/", "/embed/") + "?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
+      preferredPro: pro?.name,
     });
   }
 
   function openBlogPost(post: ArchivedBlogPost) {
-    setSelectedBlogPost(post);
-    window.history.replaceState(null, "", blogHref(post));
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigateTo(blogHref(post));
   }
 
   function showBlogPage(page: number) {
-    setSelectedBlogPost(null);
-    setBlogPage(page);
-    window.history.replaceState(null, "", blogPageHref(page));
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigateTo(blogPageHref(page));
   }
 
   return (
-    <main>
+    <main className="wbs-newspaper">
       {entranceState !== "open" && (
         <section className={`saloon-entry ${entranceState === "opening" ? "opening" : ""}`} aria-label="Welcome to World Bridge Services">
-          <div className="saloon-sign" aria-hidden="true">
+          <div className="saloon-sign">
             <span>World Bridge Services</span>
             <strong>The WBS Club</strong>
             <small>Elite Professional Bridge Services</small>
@@ -741,12 +701,17 @@ export default function Home() {
             <span className="door-scrollwork">◆</span>
             <span className="door-hardware door-hardware-right" />
           </div>
+          <button className="saloon-door-hit-area" type="button" aria-label="Open the saloon doors" onClick={enterSite} disabled={entranceState === "opening"} />
           <button className="enter-button" type="button" onClick={enterSite} disabled={entranceState === "opening"}>
             <span>{entranceState === "opening" ? "Welcome In" : "Enter the Club"}</span>
             <small>{entranceState === "opening" ? "Opening the Gazette…" : "Push through the saloon doors"}</small>
           </button>
+          <nav className="saloon-entry-nav" aria-label="Go directly to a newspaper section">
+            {pages.map((page) => <a key={page.id} href={`#${page.id}`} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage(page.id); } }}><span>{page.label}</span>{page.description && <small>{page.description}</small>}</a>)}
+          </nav>
         </section>
       )}
+      <div className="newspaper-content" inert={entranceState !== "open" || !!activeForm}>
       <header className="masthead">
         <div className="weather-strip">
           <WorldWeather />
@@ -760,15 +725,16 @@ export default function Home() {
 
       <nav className="section-nav" aria-label="Newspaper pages">
         {pages.map((page) => (
-          <button
+          <a
             className={activePage === page.id ? "active" : undefined}
-            type="button"
+            href={`#${page.id}`}
             aria-current={activePage === page.id ? "page" : undefined}
-            onClick={() => choosePage(page.id)}
+            onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage(page.id); } }}
             key={page.id}
           >
-            {page.label}
-          </button>
+            <span>{page.label}</span>
+            {page.description && <small>{page.description}</small>}
+          </a>
         ))}
       </nav>
 
@@ -778,6 +744,12 @@ export default function Home() {
             <div className="hero-copy">
               <h2 className="hero-kicker" id="front-page-heading">Boutique Bridge Services</h2>
               <p className="hero-deck">Book a professional player for an upcoming tournament or club game, or work with one as your personal coach or teacher.</p>
+              <p className="hero-agency-line">WBS matches clients with bridge professionals, online and at clubs and tournaments around the world.</p>
+              <nav className="hero-section-links" aria-label="Explore WBS">
+                <a href="#inside" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage("inside"); } }}>Meet Our Pros</a>
+                <a href="#blogs" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage("blogs"); } }}>Blogs</a>
+                <a href="#inside/about" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); navigateTo("#inside/about"); } }}>About WBS</a>
+              </nav>
               <details className="hero-explainer">
                 <summary>
                   <span className="read-more-label">Read more…</span>
@@ -847,6 +819,23 @@ export default function Home() {
 
       {activePage === "inside" && (
         <article className="page-panel" id="inside">
+          <nav className="inside-navigation" aria-label="Inside sections">
+            <a href="#inside" aria-current={insideView === "circle" ? "page" : undefined} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage("inside"); } }}>Our Pros</a>
+            <a href="#inside/about" aria-current={insideView === "about" ? "page" : undefined} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); navigateTo("#inside/about"); } }}>About WBS</a>
+            <a href="#inside/resources" aria-current={insideView === "resources" ? "page" : undefined} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); navigateTo("#inside/resources"); } }}>Stories &amp; Resources</a>
+          </nav>
+          {selectedPro ? <ProfessionalProfile pro={selectedPro} onNavigate={navigateTo} onEnquire={() => openStoryForm(stories[2], selectedPro)} /> : insideView === "about" ? <AgencyGuide onNavigate={navigateTo} onReadHistory={() => { setShowHistory(true); choosePage("front"); }} onContact={() => openStoryForm(stories[2])} /> : <>
+          {insideView === "circle" && <section className="page-fold gallery-page" aria-labelledby="gallery-heading">
+            <div className="gallery-heading">
+              <h2 id="gallery-heading">The WBS Circle</h2>
+              <span>Professional partners and teachers, online and in person</span>
+            </div>
+            <ProGroup title="Core Pros" pros={corePros} onNavigate={navigateTo} />
+            <ProGroup title="Other Pros" pros={otherPros} onNavigate={navigateTo} />
+            <p className="gallery-source">
+              Portraits from WBS, public player profiles, Bridge Winners and ACBL tournament coverage, and the European Bridge League. Ed's portrait is from <a href="https://www.painlessdrz.com/" target="_blank" rel="noopener noreferrer">his professional website</a>. Ljudmila's authorized portrait is from <a href="https://www.math.stonybrook.edu/~kamenova/" target="_blank" rel="noopener noreferrer">her university page</a>, courtesy of the Oberwolfach archives.
+            </p>
+          </section>}
           <section className="page-fold inside-page" aria-labelledby="inside-heading">
             <h2 className="inside-title" id="inside-heading">Stories &amp; Resources</h2>
             <div className="secondary-grid">
@@ -862,18 +851,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="page-fold gallery-page" aria-labelledby="gallery-heading">
-            <div className="gallery-heading">
-              <h2 id="gallery-heading">The WBS Circle</h2>
-              <span>Five core pros with national championships and world-class team strength</span>
-            </div>
-            <ProGroup title="Core Pros" pros={corePros} />
-            <ProGroup title="Other Pros" pros={otherPros} />
-            <p className="gallery-source">
-              Portraits from WBS, public player profiles, Bridge Winners and ACBL tournament coverage, and the European Bridge League.
-            </p>
-          </section>
-
+          </>}
         </article>
       )}
 
@@ -883,13 +861,13 @@ export default function Home() {
             <nav className="blogs-toolbar" aria-label={selectedBlogPost ? "Article navigation" : "Blog pages"}>
               {selectedBlogPost ? (
                 <div className="blogs-toolbar-group">
-                  <a className="blogs-all-posts" href="#blogs" onClick={(event) => { event.preventDefault(); showBlogPage(1); }}>All blogs</a>
+                  <a className="blogs-all-posts" href="#blogs" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); showBlogPage(1); } }}>All blogs</a>
                   <div className="blogs-chevron-nav">
                     {previousBlogPost
-                      ? <a href={blogHref(previousBlogPost)} aria-label={`Previous article: ${blogDisplayTitle(previousBlogPost)}`} title="Previous article" onClick={(event) => { event.preventDefault(); openBlogPost(previousBlogPost); }}><span aria-hidden="true">{"<"}</span></a>
+                      ? <a href={blogHref(previousBlogPost)} aria-label={`Previous article: ${blogDisplayTitle(previousBlogPost)}`} title="Previous article" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); openBlogPost(previousBlogPost); } }}><span aria-hidden="true">{"<"}</span></a>
                       : <span aria-disabled="true"><span aria-hidden="true">{"<"}</span></span>}
                     {nextBlogPost
-                      ? <a href={blogHref(nextBlogPost)} aria-label={`Next article: ${blogDisplayTitle(nextBlogPost)}`} title="Next article" onClick={(event) => { event.preventDefault(); openBlogPost(nextBlogPost); }}><span aria-hidden="true">{">"}</span></a>
+                      ? <a href={blogHref(nextBlogPost)} aria-label={`Next article: ${blogDisplayTitle(nextBlogPost)}`} title="Next article" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); openBlogPost(nextBlogPost); } }}><span aria-hidden="true">{">"}</span></a>
                       : <span aria-disabled="true"><span aria-hidden="true">{">"}</span></span>}
                   </div>
                 </div>
@@ -898,11 +876,11 @@ export default function Home() {
                   <span className="blogs-all-posts">All blogs</span>
                   <div className="blogs-chevron-nav">
                     {blogPage > 1
-                      ? <a href={blogPageHref(blogPage - 1)} aria-label="Previous page" title="Previous page" onClick={(event) => { event.preventDefault(); showBlogPage(blogPage - 1); }}><span aria-hidden="true">{"<"}</span></a>
+                      ? <a href={blogPageHref(blogPage - 1)} aria-label="Previous page" title="Previous page" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); showBlogPage(blogPage - 1); } }}><span aria-hidden="true">{"<"}</span></a>
                       : <span aria-disabled="true"><span aria-hidden="true">{"<"}</span></span>}
                     <span className="blogs-page-status">Page {blogPage} of {blogPageCount}</span>
                     {blogPage < blogPageCount
-                      ? <a href={blogPageHref(blogPage + 1)} aria-label="Next page" title="Next page" onClick={(event) => { event.preventDefault(); showBlogPage(blogPage + 1); }}><span aria-hidden="true">{">"}</span></a>
+                      ? <a href={blogPageHref(blogPage + 1)} aria-label="Next page" title="Next page" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); showBlogPage(blogPage + 1); } }}><span aria-hidden="true">{">"}</span></a>
                       : <span aria-disabled="true"><span aria-hidden="true">{">"}</span></span>}
                   </div>
                 </div>
@@ -931,7 +909,7 @@ export default function Home() {
               <section className="blogs-front" aria-label={`Blog articles, page ${blogPage}`}>
                 <div className="blogs-post-grid">
                   {blogPagePosts.map((post) => (
-                    <a className="blogs-post-card" href={blogHref(post)} onClick={(event) => { event.preventDefault(); openBlogPost(post); }} key={post.slug}>
+                    <a className="blogs-post-card" href={blogHref(post)} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); openBlogPost(post); } }} key={post.slug}>
                       <h3>{blogDisplayTitle(post)}</h3>
                       <p>{blogStandfirst(post)}</p>
                       <span className="blogs-entry-author">{post.author}</span>
@@ -963,6 +941,7 @@ export default function Home() {
         </article>
       )}
 
+      </div>
       {activeForm && (
         <div className="form-modal" role="dialog" aria-modal="true" aria-label={activeForm.title}>
           <button className="form-backdrop" type="button" aria-label="Close form" onClick={() => setActiveForm(null)} />
@@ -971,6 +950,7 @@ export default function Home() {
               <h2>{activeForm.title}</h2>
               <button type="button" onClick={() => setActiveForm(null)} aria-label="Close form">×</button>
             </header>
+            {activeForm.preferredPro && <p className="form-preference"><strong>Preferred professional: {activeForm.preferredPro}.</strong> Please include this name in the questionnaire's additional details.</p>}
             <iframe src={activeForm.url} title={activeForm.title} loading="lazy" />
           </div>
         </div>
@@ -983,10 +963,10 @@ function Story({ story, secondary = false, minimal = false, onOpenForm, onNaviga
   return (
     <article className={`story${secondary ? " secondary-story" : ""}${minimal ? " minimal-story" : ""}`}>
       {!minimal && <div className="story-meta"><span>{story.number}</span><span>{story.kicker}</span></div>}
-      <h3>{onOpenForm || onNavigate ? (
-        <button className="story-title-link story-title-button" type="button" onClick={onOpenForm ?? onNavigate}>{story.title}</button>
+      <h3>{onOpenForm ? (
+        <button className="story-title-link story-title-button" type="button" onClick={onOpenForm}>{story.title}</button>
       ) : story.href ? (
-        <a className="story-title-link" href={story.href}>{story.title}</a>
+        <a className="story-title-link" href={story.href} onClick={(event) => { if (onNavigate && isPlainClick(event)) { event.preventDefault(); onNavigate(); } }}>{story.title}</a>
       ) : (
         <span className="story-title-placeholder">{story.title}</span>
       )}</h3>
@@ -995,7 +975,11 @@ function Story({ story, secondary = false, minimal = false, onOpenForm, onNaviga
   );
 }
 
-function ProGroup({ title, pros }: { title: string; pros: Pro[] }) {
+function isPlainClick(event: MouseEvent<HTMLAnchorElement>) {
+  return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+}
+
+function ProGroup({ title, pros, onNavigate }: { title: string; pros: ProProfile[]; onNavigate: (href: string) => void }) {
   return (
     <section className="pro-group" aria-labelledby={`${title.toLowerCase().replace(" ", "-")}-heading`}>
       <header className="pro-group-heading">
@@ -1005,22 +989,47 @@ function ProGroup({ title, pros }: { title: string; pros: Pro[] }) {
       <div className="pro-grid">
         {pros.map((pro) => (
           <article className="pro-card" key={pro.name}>
-            {pro.photoPending ? (
-              <div className="pro-photo-placeholder" aria-label={`${pro.name} photo pending approval`}>
-                <span>LK</span>
-                <small>Photo pending approval</small>
-              </div>
-            ) : (
-              <img src={pro.src} alt={pro.name} loading="lazy" />
-            )}
+            <a className="pro-portrait-link" href={profileHref(pro)} aria-label={`Read ${pro.name}'s profile`} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate(profileHref(pro)); } }}>
+              <ProfessionalPortrait pro={pro} />
+            </a>
             <div className="pro-card-copy">
-              <h4>{pro.name}</h4>
+              <h4><a href={profileHref(pro)} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate(profileHref(pro)); } }}>{pro.name}</a></h4>
               {pro.badge && <p className="pro-badge"><strong>{pro.badge}</strong></p>}
-              <p className="pro-bio">{pro.bio}</p>
+              <p className="pro-bio">{pro.introduction}</p>
             </div>
           </article>
         ))}
       </div>
     </section>
   );
+}
+
+function ProfessionalPortrait({ pro }: { pro: ProProfile }) {
+  return pro.image ? <img src={pro.image} alt={pro.name} loading="lazy" style={{objectPosition: pro.imagePosition ?? "center 30%"}} /> : <div className="professional-monogram" aria-label={pro.name}><span aria-hidden="true">{pro.initials}</span></div>;
+}
+
+function ProfessionalProfile({ pro, onNavigate, onEnquire }: { pro: ProProfile; onNavigate: (href: string) => void; onEnquire: () => void }) {
+  return <section className="professional-reader" aria-labelledby="professional-name">
+    <a className="professional-back" href="#inside" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate("#inside"); } }}>&lt; The WBS Circle</a>
+    <header className="professional-heading">
+      <div className="professional-portrait"><ProfessionalPortrait pro={pro} />{pro.slug === "ljudmila-kamenova" && <small>Portrait: Oberwolfach archives</small>}</div>
+      <div><p className="professional-specialty">{pro.specialty}</p><h2 id="professional-name">{pro.name}</h2>{pro.badge && <p className="pro-badge"><strong>{pro.badge}</strong></p>}<p className="professional-introduction">{pro.introduction}</p><p className="professional-location">{pro.location}{pro.agencyRole && <> · {pro.agencyRole}</>}</p></div>
+    </header>
+    <div className="professional-columns"><div className="professional-biography">{pro.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}{pro.links && <nav className="professional-links" aria-label={`More from ${pro.name}`}>{pro.links.map((link) => <a href={link.href} key={link.href} {...(link.href.startsWith("https:") ? {target: "_blank", rel: "noopener noreferrer"} : {})} onClick={(event) => { if (link.href.startsWith("#") && isPlainClick(event)) { event.preventDefault(); onNavigate(link.href); } }}>{link.label}</a>)}</nav>}</div>
+    <aside className="professional-facts"><h3>Highlights</h3><ul>{pro.highlights.map((item) => <li key={item}>{item}</li>)}</ul><h3>Playing &amp; Teaching</h3><p>{pro.formats.join(" · ")}</p><p className="professional-availability">{pro.availability ?? "Availability and fees are agreed with WBS before a booking is confirmed."}</p><button className="professional-enquiry" type="button" onClick={onEnquire}>Talk with an Agent</button></aside></div>
+  </section>;
+}
+
+function AgencyGuide({ onNavigate, onReadHistory, onContact }: { onNavigate: (href: string) => void; onReadHistory: () => void; onContact: () => void }) {
+  return <section className="agency-guide" aria-labelledby="agency-guide-heading">
+    <header><h2 id="agency-guide-heading">Who, What, When, Where &amp; Why</h2><p>WBS was created by Brian Glubok to better serve his clients and offer bridge services to players around the world.</p></header>
+    <div className="agency-guide-grid">
+      <section><h3>Who</h3><p>World champions, international players, experienced teachers, and trusted playing partners. Brian Glubok is President, Paulo Brum coordinates professional scheduling, and Hongbo Li serves as Executive Vice-President.</p><a href="#inside" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate("#inside"); } }}>Meet the WBS Circle</a></section>
+      <section><h3>What</h3><p>Our core business is pairing clients and pros. Play online on BBO or your preferred platform, at a club duplicate, or in a regional or national tournament. Arrange private instruction, partnership coaching, or a small-group lesson through Zoom, BBO, or RealBridge.</p><p>WBS is also developing its online teaching program and bridge activities at the Aloha Bridge Center in Columbus, Ohio. Contact an agent for current classes and arrangements.</p></section>
+      <section><h3>When</h3><p>Brian began the operation during the 2020 lockdown. Paulo joined in 2023, and the WBS booth at the July 2026 Minneapolis Nationals marked another step in the agency's deliberate boutique growth.</p><a href="#front" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onReadHistory(); } }}>Read our founding story</a></section>
+      <section><h3>Where</h3><p>Online across time zones, and wherever bridge is played. Our professionals work in New York, Ohio, Florida, California, Europe, and on the international tournament circuit. In-person partnerships depend on the event and the professional's availability.</p></section>
+      <section><h3>Why</h3><p>To better serve our clients, support our professionals, and help build institutions that contribute to the future of bridge. WBS is a commercial venture, but we also do it because bridge is so much fun.</p></section>
+    </div>
+    <button className="professional-enquiry" type="button" onClick={onContact}>Talk with an Agent</button>
+  </section>;
 }
