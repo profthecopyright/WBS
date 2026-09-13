@@ -8,7 +8,7 @@ import { corePros, otherPros, findPro, profileHref, type ProProfile } from "./pr
 type PageId = "services" | "pros" | "courses" | "blogs";
 
 const pages: { id: PageId; label: string }[] = [
-  { id: "services", label: "Bridge Services" },
+  { id: "services", label: "Home" },
   { id: "pros", label: "Our Pros" },
   { id: "courses", label: "Courses" },
   { id: "blogs", label: "Blogs" },
@@ -17,52 +17,54 @@ const pages: { id: PageId; label: string }[] = [
 const serviceGuideTopics = [
   {
     id: "who",
-    label: "Who",
-    title: "The people behind WBS",
-    content: <>
-      <p><strong>Brian Glubok</strong>, President and five-time national champion, leads a network of professional partners and teachers that includes world champions <strong>Bob Hamman, Joe Grue, and Finn Kolesnik</strong>.</p>
-      <p>Brian stays personally involved with clients and professionals. <strong>Paulo Brum</strong> coordinates professional scheduling; <strong>Hongbo Li</strong> serves as Executive Vice-President.</p>
-    </>,
+    label: "Who are we?",
+    paragraphs: [
+      "World Bridge Services is a boutique bridge agency led by Brian Glubok, President and five-time national champion. Our network includes world champions Bob Hamman, Joe Grue, and Finn Kolesnik, alongside accomplished playing professionals and teachers.",
+      "Brian stays personally involved with our clients and professionals. Paulo Brum coordinates professional scheduling, and Hongbo Li serves as Executive Vice-President.",
+    ],
   },
   {
     id: "what",
-    label: "What",
-    title: "Pairing clients and pros",
-    content: <>
-      <p>Our core business is finding the right professional bridge partner for you.</p>
-      <dl className="services-guide-offerings">
-        <div><dt>Online play</dt><dd>BBO games or your preferred bridge platform.</dd></div>
-        <div><dt>Face-to-face play</dt><dd>Local club duplicates, regionals, and national tournaments.</dd></div>
-        <div><dt>Instruction</dt><dd>Private coaching, partnership work, and small-group teaching.</dd></div>
-      </dl>
-    </>,
+    label: "What do we offer?",
+    paragraphs: [
+      "Our core business is pairing clients with professional bridge partners for online games, local club duplicates, regionals, and national tournaments. Our professionals also teach privately or in small groups, provide partnership coaching, and help clients review and understand their games.",
+      "We are also developing online classes with Ed Zuckerberg and in-person activities at Aloha Bridge Center in Columbus, Ohio. Playing, teaching, and writing about bridge are all part of Brian's vision for WBS.",
+    ],
   },
   {
     id: "where",
-    label: "Where",
-    title: "Online and around the bridge table",
-    content: <>
-      <p>Online across time zones, and in person in <strong>New York, Florida, California, Ohio</strong>, and on the international tournament circuit.</p>
-      <p>In-person partnerships depend on the event and the professional's availability. Tell Brian where you would like to play, and WBS will explore a suitable match.</p>
-    </>,
+    label: "Where can you play?",
+    paragraphs: [
+      "You can play online on BBO or your preferred bridge platform, across time zones. Our professionals also play in person in New York, Florida, California, Ohio, and at tournaments around the world.",
+      "In-person partnerships depend on the event and the professional's availability. Tell Brian where you would like to play, and WBS will explore a suitable match.",
+    ],
   },
   {
     id: "when",
-    label: "When",
-    title: "For your next game or tournament",
-    content: <>
-      <p><strong>WBS is taking enquiries now.</strong> Share your dates with Brian. Before you book, we confirm your professional's availability, fees, and arrangements.</p>
-      <p>The agency grew from Brian's supervised online sessions in <strong>2020</strong>. Paulo joined in <strong>2023</strong>, and WBS introduced its tournament booth at the Minneapolis Nationals in <strong>July 2026</strong>.</p>
-    </>,
+    label: "When did WBS begin?",
+    paragraphs: [
+      "WBS began during the 2020 lockdown, when demand for Brian's online playing services exceeded what he could handle alone. He asked Alex Kolesnik, Joe Grue, and Ron Smith to cover some sessions under his supervision. Brian continued to coach and counsel the clients and took responsibility for every aspect of the operation.",
+      "In 2023, Paulo Brum, a Brazilian international player who had recently moved to Ohio with his young family, joined the organization and helped Brian develop it into a more fully realized business. The WBS booth at the Minneapolis Nationals in July 2026 marked another milestone.",
+      "Brian resisted rapid growth during the agency's first three years to preserve its boutique approach. WBS is now expanding deliberately and welcomes enquiries for upcoming games and tournaments.",
+    ],
   },
   {
     id: "why",
-    label: "Why",
-    title: "Better service. A lasting place in bridge.",
-    content: <>
-      <p>Brian created WBS to serve his existing clients better and offer professional bridge services to players around the world.</p>
-      <p>WBS is a <strong>commercial venture with a boutique approach</strong>: serve clients well, support our professionals, and build something that contributes to the future of bridge. And, as Brian puts it, because bridge is so much fun.</p>
-    </>,
+    label: "Why choose WBS?",
+    paragraphs: [
+      "Many players enjoy bridge with friends who use the same system and play at a similar level. Playing with a professional offers another way to learn, improve, and compete. At national championships and many regionals, professionals playing alongside sponsors are among the leading partnerships.",
+      "Hiring a professional was once viewed with suspicion in some clubs, where players complained that pros were 'stealing our masterpoints.' Brian sees that attitude far less often today: professional-and-sponsor partnerships are a familiar part of tournament bridge.",
+      "Brian created WBS to serve his existing clients better and make professional bridge services available to more players. Rather than simply cover his own sessions, the agency offers a wider network of partners, teachers, and people who can help you develop your game.",
+      "WBS is a commercial venture intended to support its professionals and associates while serving clients well. Brian also wants to build an organization that outlives its founders and leaves bridge better than he found it. And, as he says, because bridge is so much fun.",
+    ],
+  },
+  {
+    id: "how",
+    label: "How do you book?",
+    paragraphs: [
+      "Start by talking with Brian about your goals, preferred games, dates, and location. Whether you want to improve your play or contend for championships, he can explain how professional partnerships work and help you find a suitable partner or teacher.",
+      "WBS confirms your professional's availability, fees, and arrangements before you book. Brian remains involved with coaching, advice, and oversight of the agency's work.",
+    ],
   },
 ] as const;
 
@@ -554,7 +556,6 @@ function formatBlogDate(value: string) {
 
 export default function Home() {
   const [activePage, setActivePage] = useState<PageId>("services");
-  const [showHistory, setShowHistory] = useState(false);
   const [blogPage, setBlogPage] = useState(1);
   const [selectedBlogPost, setSelectedBlogPost] = useState<ArchivedBlogPost | null>(null);
   const [selectedPro, setSelectedPro] = useState<ProProfile | null>(null);
@@ -736,54 +737,6 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="services-background" aria-labelledby="brian-perspective-heading">
-            <div className="services-background-copy">
-              <h2 id="brian-perspective-heading">Brian on Playing with a Pro</h2>
-              <p className="services-founder">Brian Glubok · President</p>
-              <a className="services-profile-link" href="#pros/brian-glubok" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); navigateTo("#pros/brian-glubok"); } }}>Brian's Profile</a>
-              <details className="hero-explainer">
-                <summary>
-                  <span className="read-more-label">Read more…</span>
-                  <span className="read-less-label">Read less</span>
-                </summary>
-                <div>
-                  <p>These days, many players enjoy playing with their peers—bridge friends who use the same system they do and perhaps play at about the same level.</p>
-                  <p>But at the higher levels—national championships and most regional tournaments—as often as not, the winners will be professional players, usually partnered by comfortable sponsors.</p>
-                  <p>In some circles and duplicate clubs, there might be, or might once have been, a certain stigma attached to “hiring pros”: “They’re stealing our masterpoints!” players from the rank and file were heard to complain.</p>
-                  <p>Today, that is a rare view. At regionals on both coasts, and at every national tournament, the contending partnerships mostly consist of one professional and one sponsor.</p>
-                  <p>But how do you find the right professional? What are the protocols? If you want to improve your play at bridge and contend for championships, how do you go about it?</p>
-                  <p>What, if you’ll pardon the expression, is the runway?</p>
-                  <button type="button" onClick={() => openStoryForm(stories[0])}>Talk with Brian</button>
-                  <small>Request a personal consultation.</small>
-                </div>
-              </details>
-            </div>
-            <div className={`brian-portrait ${showHistory ? "show-history" : ""}`}>
-              <div className="portrait-card-inner">
-                <button
-                  className="portrait-face portrait-front"
-                  type="button"
-                  aria-label="Read the history of World Bridge Services"
-                  aria-expanded={showHistory}
-                  aria-hidden={showHistory}
-                  tabIndex={showHistory ? -1 : 0}
-                  onClick={() => setShowHistory(true)}
-                >
-                  <img src="/images/brian-glubok.jpg" alt="Brian Glubok, president of World Bridge Services" />
-                  <span>Click to read our story</span>
-                </button>
-                <article className="portrait-face portrait-history" aria-hidden={!showHistory}>
-                  <button type="button" tabIndex={showHistory ? 0 : -1} onClick={() => setShowHistory(false)}>Return to portrait</button>
-                  <p className="history-kicker">Our Story</p>
-                  <h3>How WBS Began</h3>
-                  <p>WBS was created by Brian Glubok in 2020, when he realized that demand for his professional bridge services—playing online with clients during lockdown—had exceeded his own capacity. In response to those unique circumstances, Glubok asked some of his closest friends in bridge—Alex Kolesnik, Joe Grue, and Ron Smith—to cover some of his online sessions under his supervision.</p>
-                  <p>Brian continued to coach and counsel the clients, and to maintain ultimate responsibility for every aspect of the operation.</p>
-                  <p>In 2023, Paulo Brum, a Brazilian international player who had recently emigrated to Ohio with his young family, joined the organization. He helped Glubok turn WBS into a more fully realized business.</p>
-                  <p>During WBS’s first three years, Glubok resisted rapid growth, insisting on maintaining the boutique nature of the operation. Now, finally, he feels ready to expand—which is why you are reading this today.</p>
-                </article>
-              </div>
-            </div>
-          </section>
         </article>
       )}
 
@@ -887,32 +840,16 @@ export default function Home() {
 }
 
 function ServicesGuide() {
-  const [expandedTopic, setExpandedTopic] = useState<(typeof serviceGuideTopics)[number]["id"] | null>("who");
-
   return <section className="services-guide" aria-label="About WBS">
-    <div className="services-guide-tabs">
-      {serviceGuideTopics.map((topic) => <button
-        type="button"
-        id={`services-guide-toggle-${topic.id}`}
-        key={topic.id}
-        aria-expanded={expandedTopic === topic.id}
-        aria-controls={`services-guide-panel-${topic.id}`}
-        onClick={() => setExpandedTopic((current) => current === topic.id ? null : topic.id)}
-      >
+    {serviceGuideTopics.map((topic) => <details className="services-faq-item" key={topic.id}>
+      <summary>
         <span>{topic.label}</span>
-        <span className="services-guide-indicator" aria-hidden="true">{expandedTopic === topic.id ? "−" : "+"}</span>
-      </button>)}
-    </div>
-    {serviceGuideTopics.map((topic) => <section
-      className="services-guide-panel"
-      id={`services-guide-panel-${topic.id}`}
-      key={topic.id}
-      aria-labelledby={`services-guide-toggle-${topic.id}`}
-      hidden={expandedTopic !== topic.id}
-    >
-      <h3>{topic.title}</h3>
-      {topic.content}
-    </section>)}
+        <span className="services-faq-indicator" aria-hidden="true" />
+      </summary>
+      <div className="services-faq-answer">
+        {topic.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+      </div>
+    </details>)}
   </section>;
 }
 
