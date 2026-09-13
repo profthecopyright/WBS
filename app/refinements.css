@@ -35,8 +35,8 @@
 .saloon-entry-nav a + a { border-left: 1px solid #a77842; }
 .saloon-entry-nav a:hover, .saloon-entry-nav a:focus-visible { background: #ead8b4; color: #21150f; }
 .saloon-entry.opening .saloon-entry-nav { opacity: 0; transition: opacity 220ms ease; }
-.professional-back, .professional-links a, .teaching-page a { color: var(--red); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
-.professional-back:hover, .professional-links a:hover, .teaching-page a:hover { color: var(--ink); }
+.professional-back, .professional-links a, .teaching-page a, .services-faq-answer a { color: var(--red); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.professional-back:hover, .professional-links a:hover, .teaching-page a:hover, .services-faq-answer a:hover { color: var(--ink); }
 .wbs-newspaper .page-panel, .wbs-newspaper .inside-page, .wbs-newspaper .gallery-page, .wbs-newspaper .front-page { min-height: 0; }
 .wbs-newspaper .front-hero { min-height: 0; }
 .wbs-newspaper .gallery-page { padding-top: 24px; }

@@ -19,6 +19,8 @@ const {proProfiles, corePros, otherPros, profileHref} = sandbox.exports;
 assert.equal(proProfiles.length, 15);
 assert.equal(corePros.length, 5);
 assert.equal(otherPros.length, 10);
+assert.deepEqual(Array.from(corePros, (pro) => pro.slug), ['brian-glubok', 'bob-hamman', 'gregor-rus', 'joe-grue', 'paulo-brum']);
+assert.deepEqual(Array.from(otherPros, (pro) => pro.slug), ['alex-kolesnik', 'danuta-kazmucha', 'ed-zuckerberg', 'finn-kolesnik', 'disa-eythorsdottir', 'hongbo-li', 'ioannis-oikonomopoulos', 'jackie-thomas', 'ljudmila-kamenova', 'sam-hwang']);
 assert.equal(new Set([...corePros, ...otherPros].map((pro) => pro.slug)).size, 15);
 assert.equal(new Set(proProfiles.map((pro) => pro.slug)).size, 15);
 for (const pro of proProfiles) {
@@ -47,6 +49,25 @@ const currentPage = readFileSync('app/page.tsx', 'utf8');
 const parse = (text) => ts.createSourceFile('page.tsx', text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
 const currentTree = parse(currentPage);
 const functions = new Map(currentTree.statements.filter(ts.isFunctionDeclaration).map((node) => [node.name?.text, node]));
+const serviceTopics = currentTree.statements.filter(ts.isVariableStatement).flatMap((statement) => statement.declarationList.declarations).find((declaration) => declaration.name.getText() === 'serviceGuideTopics')?.initializer;
+assert.ok(serviceTopics);
+const faqLinks = new Set();
+function checkFaqLinks(node) {
+  if (ts.isJsxElement(node) && node.openingElement.tagName.getText() === 'a') {
+    const href = node.openingElement.attributes.properties.find((attribute) => ts.isJsxAttribute(attribute) && attribute.name.getText() === 'href')?.initializer;
+    assert.ok(href && ts.isStringLiteral(href));
+    const slug = href.text.replace(/^#pros\//, '');
+    assert.ok(proProfiles.some((pro) => pro.slug === slug), `FAQ link has no profile: ${href.text}`);
+    faqLinks.add(slug);
+    return;
+  }
+  if (ts.isJsxText(node) || ts.isStringLiteral(node)) assert.ok(!/\b(?:Brian(?: Glubok)?|Paulo Brum|Hongbo(?: Li)?|Bob Hamman|Joe Grue|Finn Kolesnik|Alex Kolesnik)\b/.test(node.text), `Unlinked FAQ name: ${node.text}`);
+  ts.forEachChild(node, checkFaqLinks);
+}
+checkFaqLinks(serviceTopics);
+for (const slug of ['brian-glubok', 'paulo-brum', 'hongbo-li', 'bob-hamman', 'joe-grue', 'finn-kolesnik', 'alex-kolesnik']) assert.ok(faqLinks.has(slug));
+assert.ok(currentPage.includes('<ProGroup title="Featured Pros"') && currentPage.includes('<ProGroup title="Professional Network"'));
+assert.ok(!/title="(?:Core Pros|Other Pros|Economic Pros)"/.test(currentPage));
 const profileRenderer = functions.get('ProfessionalProfile')?.getText() ?? '';
 assert.ok(!/pro\.(specialty|highlights|formats|availability)|onEnquire|<aside|Talk with an Agent/.test(profileRenderer));
 for (const retained of ['ProfessionalPortrait', 'pro.paragraphs.map', 'pro.introduction', 'pro.location', 'pro.links.map', 'pro.badge']) assert.ok(profileRenderer.includes(retained), `Missing profile content: ${retained}`);
@@ -73,7 +94,7 @@ const serviceGuide = functions.get('ServicesGuide')?.getText() ?? '';
 assert.ok(serviceGuide.includes('<details className="services-faq-item"') && serviceGuide.includes('<summary>'));
 assert.ok(!/\bopen=|<h3|<table|<dl/.test(serviceGuide));
 assert.ok(serviceGuide.includes('topic.paragraphs.map'));
-for (const meaning of ['2020 lockdown', 'Alex Kolesnik, Joe Grue, and Ron Smith', 'continued coaching clients', "agency's first three years", 'stealing our masterpoints', 'professionals playing alongside sponsors', 'outlives its founders', 'software and biomedical engineer', '0-10K Swiss Teams', 'formed a business partnership', 'bidding-system guides and bridge blogs']) assert.ok(currentPage.includes(meaning));
+for (const meaning of ['2020 lockdown', 'Alex Kolesnik', 'Joe Grue', 'Ron Smith', 'continued coaching clients', "agency's first three years", 'stealing our masterpoints', 'professionals playing alongside sponsors', 'outlives its founders', 'an ardent bridge player and rising talent', '2026 Minneapolis National,', 'at the St. Louis National.', '0-10K Swiss Teams', 'formed a business partnership', 'bidding-system guides and bridge blogs']) assert.ok(currentPage.includes(meaning));
 assert.ok(!currentPage.includes('Hongbo Li serves as Executive Vice-President'));
 assert.ok(!readFileSync('app/refinements.css', 'utf8').includes('.services-contact-primary button'));
 assert.ok(!/services-credentials|services-arrangements|serviceChampions/.test(currentPage));

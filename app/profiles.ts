@@ -225,5 +225,9 @@ export function profileHref(pro: ProProfile) {
 
 const coreOrder = ["brian-glubok", "joe-grue", "paulo-brum", "gregor-rus", "bob-hamman"];
 const otherOrder = ["ioannis-oikonomopoulos", "finn-kolesnik", "danuta-kazmucha", "disa-eythorsdottir", "ljudmila-kamenova", "alex-kolesnik", "ed-zuckerberg", "sam-hwang", "hongbo-li", "jackie-thomas"];
-export const corePros = coreOrder.map((slug) => findPro(slug)!);
-export const otherPros = otherOrder.map((slug) => findPro(slug)!);
+export const corePros = coreOrder.map((slug) => findPro(slug)!).sort((left, right) => {
+  if (left.slug === "brian-glubok") return -1;
+  if (right.slug === "brian-glubok") return 1;
+  return left.name.localeCompare(right.name, "en");
+});
+export const otherPros = otherOrder.map((slug) => findPro(slug)!).sort((left, right) => left.name.localeCompare(right.name, "en"));

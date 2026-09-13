@@ -4,13 +4,13 @@ This revision retains the original newspaper styling, saloon doors, weather, and
 
 ## Site Structure
 
-Home retains `#services` for compatibility. It explains the agency's business and provides the three enquiry choices. `#pros` contains the Core Pros / Other Pros roster and full biographies, without a separate Circle heading, subtitle, or professional counts. `#courses` contains only Ed Zuckerberg's online program and Aloha Bridge Center information, plus the course enquiry action. `#blogs` retains the complete archive and article navigation.
+Home retains `#services` for compatibility. It explains the agency's business and provides the three enquiry choices. `#pros` contains the Featured Pros / Professional Network roster and full biographies, without a separate Circle heading, subtitle, or professional counts. `#courses` contains only Ed Zuckerberg's online program and Aloha Bridge Center information, plus the course enquiry action. `#blogs` retains the complete archive and article navigation.
 
 Home follows the hero offer, six compact FAQ rows, then the three contact choices. The five WH questions and the How question start closed. Each question opens or closes independently on click or keyboard activation. Answers are complete prose paragraphs, without subtitles or tables. Edit the questions and answers in `serviceGuideTopics` in `app/page.tsx`.
 
 Talk with Brian remains the first choice, using the same understated styling as the other two actions, without a filled red button. Brian's full championship record and portrait remain in his profile. The founding story and his explanation of playing with a professional are integrated into the FAQ; there is no separate Home portrait or essay. Do not add separate credentials, booking, or repeated agency-description bands between the hero, FAQ, and actions.
 
-Keep the introduction focused on the agency and its leadership, not internal job descriptions. The founding history includes Brian and Hongbo forming a business partnership after meeting on the final day of the 2026 Minneapolis Nationals. Hongbo's background is software and biomedical engineering, startup leadership, and the St. Louis 0-10K Swiss Teams result; do not replace it with a university-focused introduction.
+Keep the introduction focused on the agency and its leadership, not internal job descriptions. The founding history includes Brian and Hongbo forming a business partnership after meeting on the final day of the 2026 Minneapolis National. This Home passage introduces Hongbo as an ardent bridge player and rising talent, with the St. Louis National 0-10K Swiss Teams result. Engineering credentials remain in his professional profile. Names in FAQ answers link to their existing profiles; Ron Smith currently has no profile and remains unlinked pending clarification.
 
 Use these same four navigation links on the entrance and every section. Do not add a second row of Meet Our Pros / Blogs / About WBS links. Legacy `#front`, `#inside`, `#inside/about`, `#inside/resources`, `#lessons`, and profile links remain compatible; `#a3` now leads to Services rather than sample news.
 
@@ -20,7 +20,7 @@ Edit teaching copy in `TeachingProgram` in `app/page.tsx`. Confirm actual course
 
 Edit biographies, short introductions, formats, approved portraits, and links in `app/profiles.ts`. Keep slugs stable so shared profile links continue to work.
 
-`coreOrder` and `otherOrder` retain the existing Core Pros / Other Pros membership and order, with new affiliated professionals appended. Do not promote pending recruits without confirmation.
+`coreOrder` and `otherOrder` retain the existing roster membership. The exported groups sort alphabetically by name (first name first), with Brian pinned first among Featured Pros. The second group is labeled Professional Network; these labels do not imply pricing tiers. Do not promote pending recruits without confirmation.
 
 Profiles use links such as `#pros/ed-zuckerberg`. Old `#inside/pros/ed-zuckerberg` links redirect to the same profile. Brian's external author page is linked from his biography. The previous System Notes resource at `https://www.wilsonovichbridge.com/instructional.html` is kept here for future editorial use, not displayed in Courses.
 

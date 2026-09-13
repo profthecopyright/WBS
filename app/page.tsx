@@ -19,8 +19,8 @@ const serviceGuideTopics = [
     id: "who",
     label: "Who are we?",
     paragraphs: [
-      "World Bridge Services is a boutique bridge agency led by five-time national champion Brian Glubok, together with Paulo Brum and Hongbo Li.",
-      "Our network includes world champions Bob Hamman, Joe Grue, and Finn Kolesnik, alongside accomplished players and experienced teachers.",
+      <>World Bridge Services is a boutique bridge agency led by five-time national champion <a href="#pros/brian-glubok">Brian Glubok</a>, together with <a href="#pros/paulo-brum">Paulo Brum</a> and <a href="#pros/hongbo-li">Hongbo Li</a>.</>,
+      <>Our network includes world champions <a href="#pros/bob-hamman">Bob Hamman</a>, <a href="#pros/joe-grue">Joe Grue</a>, and <a href="#pros/finn-kolesnik">Finn Kolesnik</a>, alongside accomplished players and experienced teachers.</>,
     ],
   },
   {
@@ -35,17 +35,17 @@ const serviceGuideTopics = [
     label: "Where can you play?",
     paragraphs: [
       "Our professionals play in person in New York, Florida, California, Ohio, and at tournaments around the world. You can also play online on BBO or your preferred bridge platform.",
-      "In-person partnerships depend on the event and the professional's availability. Tell Brian where you'd like to play, and WBS will explore a suitable match.",
+      <>In-person partnerships depend on the event and the professional's availability. Tell <a href="#pros/brian-glubok">Brian</a> where you'd like to play, and WBS will explore a suitable match.</>,
     ],
   },
   {
     id: "when",
     label: "When did WBS begin?",
     paragraphs: [
-      "WBS began during the 2020 lockdown, when demand for Brian Glubok's online playing services exceeded his capacity. Alex Kolesnik, Joe Grue, and Ron Smith began covering sessions under his supervision, while Brian continued coaching clients and taking responsibility for the operation.",
-      "In 2023, Paulo Brum, a Brazilian international player who had recently moved to Ohio with his family, joined and helped develop WBS into a more established business.",
-      "On the final day of the 2026 Minneapolis Nationals, Brian met Hongbo Li, a software and biomedical engineer whose team had won the 0-10K Swiss Teams at the St. Louis Nationals. They found common ground and formed a business partnership to broaden WBS's scope, combining Brian's professional network with Hongbo's experience in technology, startup leadership, and bridge.",
-      "Brian resisted rapid growth during the agency's first three years to preserve its boutique approach. WBS is now expanding deliberately and welcomes enquiries for upcoming games and tournaments.",
+      <>WBS began during the 2020 lockdown, when demand for <a href="#pros/brian-glubok">Brian Glubok</a>'s online playing services exceeded his capacity. <a href="#pros/alex-kolesnik">Alex Kolesnik</a>, <a href="#pros/joe-grue">Joe Grue</a>, and Ron Smith began covering sessions under his supervision, while <a href="#pros/brian-glubok">Brian</a> continued coaching clients and taking responsibility for the operation.</>,
+      <>In 2023, <a href="#pros/paulo-brum">Paulo Brum</a>, a Brazilian international player who had recently moved to Ohio with his family, joined and helped develop WBS into a more established business.</>,
+      <>On the final day of the 2026 Minneapolis National, <a href="#pros/brian-glubok">Brian</a> met <a href="#pros/hongbo-li">Hongbo Li</a>, an ardent bridge player and rising talent whose team had won the 0-10K Swiss Teams at the St. Louis National. They found common ground and formed a business partnership to broaden WBS's scope, combining <a href="#pros/brian-glubok">Brian</a>'s professional network with <a href="#pros/hongbo-li">Hongbo</a>'s experience in technology, startup leadership, and bridge.</>,
+      <><a href="#pros/brian-glubok">Brian</a> resisted rapid growth during the agency's first three years to preserve its boutique approach. WBS is now expanding deliberately and welcomes enquiries for upcoming games and tournaments.</>,
     ],
   },
   {
@@ -53,17 +53,17 @@ const serviceGuideTopics = [
     label: "Why choose WBS?",
     paragraphs: [
       "Many players enjoy bridge with friends who use the same system and play at a similar level. Playing with a professional offers another way to learn, improve, and compete. At national championships and many regionals, professionals playing alongside sponsors are among the leading partnerships.",
-      "Hiring a professional was once viewed with suspicion in some clubs, where players complained that pros were 'stealing our masterpoints.' Brian sees that attitude far less often today: professional-and-sponsor partnerships are a familiar part of tournament bridge.",
-      "Brian created WBS to serve his existing clients better and make professional bridge services available to more players. Rather than simply cover his own sessions, the agency offers a wider network of partners, teachers, and people who can help you develop your game.",
-      "WBS is a commercial venture intended to support its professionals and associates while serving clients well. Brian also wants to build an organization that outlives its founders and leaves bridge better than he found it. And, as he says, because bridge is so much fun.",
+      <>Hiring a professional was once viewed with suspicion in some clubs, where players complained that pros were 'stealing our masterpoints.' <a href="#pros/brian-glubok">Brian</a> sees that attitude far less often today: professional-and-sponsor partnerships are a familiar part of tournament bridge.</>,
+      <><a href="#pros/brian-glubok">Brian</a> created WBS to serve his existing clients better and make professional bridge services available to more players. Rather than simply cover his own sessions, the agency offers a wider network of partners, teachers, and people who can help you develop your game.</>,
+      <>WBS is a commercial venture intended to support its professionals and associates while serving clients well. <a href="#pros/brian-glubok">Brian</a> also wants to build an organization that outlives its founders and leaves bridge better than he found it. And, as he says, because bridge is so much fun.</>,
     ],
   },
   {
     id: "how",
     label: "How do you book?",
     paragraphs: [
-      "Start by talking with Brian about your goals, preferred games, dates, and location. Whether you want to improve your play or contend for championships, he can explain how professional partnerships work and help you find a suitable partner or teacher.",
-      "WBS confirms your professional's availability, fees, and arrangements before you book. Brian remains involved with coaching, advice, and oversight of the agency's work.",
+      <>Start by talking with <a href="#pros/brian-glubok">Brian</a> about your goals, preferred games, dates, and location. Whether you want to improve your play or contend for championships, he can explain how professional partnerships work and help you find a suitable partner or teacher.</>,
+      <>WBS confirms your professional's availability, fees, and arrangements before you book. <a href="#pros/brian-glubok">Brian</a> remains involved with coaching, advice, and oversight of the agency's work.</>,
     ],
   },
 ] as const;
@@ -743,8 +743,8 @@ export default function Home() {
       {activePage === "pros" && (
         <article className="page-panel" id="pros">
           {selectedPro ? <ProfessionalProfile pro={selectedPro} onNavigate={navigateTo} /> : <section className="page-fold gallery-page" aria-label="Our Pros">
-            <ProGroup title="Core Pros" pros={corePros} onNavigate={navigateTo} />
-            <ProGroup title="Other Pros" pros={otherPros} onNavigate={navigateTo} />
+            <ProGroup title="Featured Pros" pros={corePros} onNavigate={navigateTo} />
+            <ProGroup title="Professional Network" pros={otherPros} onNavigate={navigateTo} />
             <p className="gallery-source">
               Portraits from WBS, public player profiles, Bridge Winners and ACBL tournament coverage, and the European Bridge League. Ed's portrait is from <a href="https://www.painlessdrz.com/" target="_blank" rel="noopener noreferrer">his professional website</a>. Ljudmila's authorized portrait is from <a href="https://www.math.stonybrook.edu/~kamenova/" target="_blank" rel="noopener noreferrer">her university page</a>, courtesy of the Oberwolfach archives.
             </p>
@@ -847,7 +847,7 @@ function ServicesGuide() {
         <span className="services-faq-indicator" aria-hidden="true" />
       </summary>
       <div className="services-faq-answer">
-        {topic.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        {topic.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
       </div>
     </details>)}
   </section>;
