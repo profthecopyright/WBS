@@ -34,6 +34,7 @@ for (const pro of proProfiles) {
 assert.equal(proProfiles.find((pro) => pro.slug === 'bob-hamman').badge, 'Available exclusively through WBS');
 assert.ok(proProfiles.find((pro) => pro.slug === 'ljudmila-kamenova').image);
 assert.ok(proProfiles.find((pro) => pro.slug === 'ed-zuckerberg').image);
+assert.ok(!proProfiles.find((pro) => pro.slug === 'ed-zuckerberg').links?.some((link) => link.href.includes('painlessdrz.com')));
 const hongbo = proProfiles.find((pro) => pro.slug === 'hongbo-li');
 assert.equal(hongbo.name, 'Hongbo "Meow" Li');
 assert.ok(hongbo.paragraphs[0].startsWith('Hongbo Li, who goes by Meow, serves as Executive Vice-President'));
@@ -46,6 +47,7 @@ assert.equal(hongbo.agencyRole, 'Executive Vice-President');
 assert.ok(!proProfiles.some((pro) => /keith-hafen|shannon-cappelletti/.test(pro.slug)));
 
 const currentPage = readFileSync('app/page.tsx', 'utf8');
+assert.ok(!/gallery-source|Portraits from WBS|painlessdrz\.com/.test(currentPage));
 const parse = (text) => ts.createSourceFile('page.tsx', text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
 const currentTree = parse(currentPage);
 const functions = new Map(currentTree.statements.filter(ts.isFunctionDeclaration).map((node) => [node.name?.text, node]));

@@ -745,9 +745,6 @@ export default function Home() {
           {selectedPro ? <ProfessionalProfile pro={selectedPro} onNavigate={navigateTo} /> : <section className="page-fold gallery-page" aria-label="Our Pros">
             <ProGroup title="Featured Pros" pros={corePros} onNavigate={navigateTo} />
             <ProGroup title="Professional Network" pros={otherPros} onNavigate={navigateTo} />
-            <p className="gallery-source">
-              Portraits from WBS, public player profiles, Bridge Winners and ACBL tournament coverage, and the European Bridge League. Ed's portrait is from <a href="https://www.painlessdrz.com/" target="_blank" rel="noopener noreferrer">his professional website</a>. Ljudmila's authorized portrait is from <a href="https://www.math.stonybrook.edu/~kamenova/" target="_blank" rel="noopener noreferrer">her university page</a>, courtesy of the Oberwolfach archives.
-            </p>
           </section>}
         </article>
       )}

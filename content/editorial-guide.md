@@ -26,6 +26,8 @@ Profiles use links such as `#pros/ed-zuckerberg`. Old `#inside/pros/ed-zuckerber
 
 Portraits are bundled locally under `public/images/inside-gallery`. Missing portraits use initials, not photographs of unverified namesakes. See `profile-drafts.md` for pending recruits and image follow-ups.
 
+Keep general portrait provenance in editorial notes, not a public roster footer. Sources include WBS, public player profiles, Bridge Winners, ACBL tournament coverage, and the European Bridge League. Ed's portrait source is https://www.painlessdrz.com/; do not link his dentistry website from the public WBS pages. Ljudmila's authorized portrait is from https://www.math.stonybrook.edu/~kamenova/, courtesy of the Oberwolfach archives.
+
 ## Blog Publication
 
 Add submissions to `app/blog-posts.ts`, retaining stable slugs and chronological ordering. The existing blog display titles and bridge rendering helpers remain in `app/page.tsx`.

@@ -163,8 +163,7 @@ export const proProfiles: ProProfile[] = [
       "Ed, the father of Facebook founder Mark Zuckerberg, also helped support the introduction of the WBS booth at the Minneapolis Nationals. He is part of the agency's effort to make professional bridge instruction more accessible online."
     ],
     highlights: ["WBS online teaching program", "25th, 2026 von Zedtwitz Life Master Pairs", "Brian's tournament partner since 2018"],
-    formats: ["Lessons", "Online play", "Tournaments"],
-    links: [{label: "Ed's professional website", href: "https://www.painlessdrz.com/"}]
+    formats: ["Lessons", "Online play", "Tournaments"]
   },
   {
     slug: "sam-hwang", name: "Sam Hwang", initials: "SH",
