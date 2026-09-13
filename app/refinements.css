@@ -89,7 +89,7 @@
 .services-faq-answer p:last-child { margin-bottom: 0; }
 .services-contact { padding: 24px 12px 32px; border-top: 4px double var(--rule); }
 .services-contact > h2 { font-size: 1.375rem; line-height: 1.4; margin: 0 0 22px; }
-.services-contact-choices { display: grid; grid-template-columns: 1.2fr 1fr 1fr; }
+.services-contact-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .services-contact-choices > article { padding: 0 24px; }
 .services-contact-choices > article:first-child { padding-left: 0; }
 .services-contact-choices > article:last-child { padding-right: 0; }
@@ -97,8 +97,6 @@
 .services-contact-choices h3 { margin: 0; }
 .services-contact-choices button { max-width: 100%; padding: 10px 0; border: 0; border-bottom: 1px solid var(--red); background: transparent; color: var(--red); font: 700 1.125rem/1.4 "Libre Caslon Text", Georgia, serif; text-align: left; cursor: pointer; }
 .services-contact-choices button:hover, .services-contact-choices button:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
-.services-contact-choices .services-contact-primary button { padding: 12px 18px; background: var(--red); color: var(--paper); font-size: 1.25rem; border: 1px solid var(--red); }
-.services-contact-primary button:hover, .services-contact-primary button:focus-visible { background: var(--ink); border-color: var(--ink); }
 .services-contact-choices p { font-size: 1rem; line-height: 1.7; margin: 12px 0 0; }
 .teaching-page { padding: 30px 12px 40px; letter-spacing: 0; }
 .teaching-page * { letter-spacing: 0; }

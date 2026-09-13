@@ -19,32 +19,32 @@ const serviceGuideTopics = [
     id: "who",
     label: "Who are we?",
     paragraphs: [
-      "World Bridge Services is a boutique bridge agency led by Brian Glubok, President and five-time national champion. Our network includes world champions Bob Hamman, Joe Grue, and Finn Kolesnik, alongside accomplished playing professionals and teachers.",
-      "Brian stays personally involved with our clients and professionals. Paulo Brum coordinates professional scheduling, and Hongbo Li serves as Executive Vice-President.",
+      "World Bridge Services is a boutique bridge agency led by five-time national champion Brian Glubok, together with Paulo Brum and Hongbo Li.",
+      "Our network includes world champions Bob Hamman, Joe Grue, and Finn Kolesnik, alongside accomplished players and experienced teachers.",
     ],
   },
   {
     id: "what",
     label: "What do we offer?",
     paragraphs: [
-      "Our core business is pairing clients with professional bridge partners for online games, local club duplicates, regionals, and national tournaments. Our professionals also teach privately or in small groups, provide partnership coaching, and help clients review and understand their games.",
-      "We are also developing online classes with Ed Zuckerberg and in-person activities at Aloha Bridge Center in Columbus, Ohio. Playing, teaching, and writing about bridge are all part of Brian's vision for WBS.",
+      "We arrange professional bridge partners for online games, club play, and tournaments. We also offer group courses, private lessons, and written resources including bidding-system guides and bridge blogs.",
     ],
   },
   {
     id: "where",
     label: "Where can you play?",
     paragraphs: [
-      "You can play online on BBO or your preferred bridge platform, across time zones. Our professionals also play in person in New York, Florida, California, Ohio, and at tournaments around the world.",
-      "In-person partnerships depend on the event and the professional's availability. Tell Brian where you would like to play, and WBS will explore a suitable match.",
+      "Our professionals play in person in New York, Florida, California, Ohio, and at tournaments around the world. You can also play online on BBO or your preferred bridge platform.",
+      "In-person partnerships depend on the event and the professional's availability. Tell Brian where you'd like to play, and WBS will explore a suitable match.",
     ],
   },
   {
     id: "when",
     label: "When did WBS begin?",
     paragraphs: [
-      "WBS began during the 2020 lockdown, when demand for Brian's online playing services exceeded what he could handle alone. He asked Alex Kolesnik, Joe Grue, and Ron Smith to cover some sessions under his supervision. Brian continued to coach and counsel the clients and took responsibility for every aspect of the operation.",
-      "In 2023, Paulo Brum, a Brazilian international player who had recently moved to Ohio with his young family, joined the organization and helped Brian develop it into a more fully realized business. The WBS booth at the Minneapolis Nationals in July 2026 marked another milestone.",
+      "WBS began during the 2020 lockdown, when demand for Brian Glubok's online playing services exceeded his capacity. Alex Kolesnik, Joe Grue, and Ron Smith began covering sessions under his supervision, while Brian continued coaching clients and taking responsibility for the operation.",
+      "In 2023, Paulo Brum, a Brazilian international player who had recently moved to Ohio with his family, joined and helped develop WBS into a more established business.",
+      "On the final day of the 2026 Minneapolis Nationals, Brian met Hongbo Li, a software and biomedical engineer whose team had won the 0-10K Swiss Teams at the St. Louis Nationals. They found common ground and formed a business partnership to broaden WBS's scope, combining Brian's professional network with Hongbo's experience in technology, startup leadership, and bridge.",
       "Brian resisted rapid growth during the agency's first three years to preserve its boutique approach. WBS is now expanding deliberately and welcomes enquiries for upcoming games and tournaments.",
     ],
   },

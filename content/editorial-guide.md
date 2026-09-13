@@ -8,7 +8,9 @@ Home retains `#services` for compatibility. It explains the agency's business an
 
 Home follows the hero offer, six compact FAQ rows, then the three contact choices. The five WH questions and the How question start closed. Each question opens or closes independently on click or keyboard activation. Answers are complete prose paragraphs, without subtitles or tables. Edit the questions and answers in `serviceGuideTopics` in `app/page.tsx`.
 
-Talk with Brian remains the first and visually primary choice. Brian's full championship record and portrait remain in his profile. The founding story and his explanation of playing with a professional are integrated into the FAQ; there is no separate Home portrait or essay. Do not add separate credentials, booking, or repeated agency-description bands between the hero, FAQ, and actions.
+Talk with Brian remains the first choice, using the same understated styling as the other two actions, without a filled red button. Brian's full championship record and portrait remain in his profile. The founding story and his explanation of playing with a professional are integrated into the FAQ; there is no separate Home portrait or essay. Do not add separate credentials, booking, or repeated agency-description bands between the hero, FAQ, and actions.
+
+Keep the introduction focused on the agency and its leadership, not internal job descriptions. The founding history includes Brian and Hongbo forming a business partnership after meeting on the final day of the 2026 Minneapolis Nationals. Hongbo's background is software and biomedical engineering, startup leadership, and the St. Louis 0-10K Swiss Teams result; do not replace it with a university-focused introduction.
 
 Use these same four navigation links on the entrance and every section. Do not add a second row of Meet Our Pros / Blogs / About WBS links. Legacy `#front`, `#inside`, `#inside/about`, `#inside/resources`, `#lessons`, and profile links remain compatible; `#a3` now leads to Services rather than sample news.
 
