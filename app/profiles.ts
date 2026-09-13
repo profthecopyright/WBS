@@ -190,13 +190,13 @@ export const proProfiles: ProProfile[] = [
   },
   {
     slug: "hongbo-li", name: "Hongbo \"Meow\" Li", initials: "HL",
-    image: "/images/inside-gallery/hongbo-li.png",
+    image: "/images/inside-gallery/hongbo-li-v2.png",
     location: "United States", specialty: "Playing partnerships, teaching & client support",
     introduction: "China-born software engineer, neuroscientist, and NABC event champion.",
     paragraphs: [
       "Hongbo Li, who goes by Meow, serves as Executive Vice-President of WBS and advises the agency on technology and operations. He received his PhD in biomedical engineering from Johns Hopkins University and brings experience from the startup world to the development of WBS.",
-      "His team won the 0-10K Swiss Teams at the St. Louis NABC. Alongside his agency responsibilities, Hongbo plays bridge with clients and teaches online. His work helps connect the professional roster, the teaching program, and the practical needs of the people using WBS.",
-      "Hongbo's favorite bridge expression is: \"No redouble, no re-trouble.\""
+      "His team won the 0-10K Swiss Teams at the St. Louis NABC. Alongside his agency responsibilities, Meow plays bridge with clients and teaches online. His work helps connect the professional roster, the teaching program, and the practical needs of the people using WBS.",
+      "Meow's favorite bridge expression is: \"No redouble, no re-trouble.\""
     ],
     highlights: ["PhD in biomedical engineering, Johns Hopkins University", "0-10K Swiss Teams champion, St. Louis NABC", "Technology and agency operations"],
     formats: ["Online play", "Lessons", "Club play"], agencyRole: "Executive Vice-President"
