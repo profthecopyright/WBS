@@ -34,6 +34,7 @@ assert.ok(proProfiles.find((pro) => pro.slug === 'ljudmila-kamenova').image);
 assert.ok(proProfiles.find((pro) => pro.slug === 'ed-zuckerberg').image);
 const hongbo = proProfiles.find((pro) => pro.slug === 'hongbo-li');
 assert.equal(hongbo.name, 'Hongbo "Meow" Li');
+assert.ok(hongbo.paragraphs[0].startsWith('Hongbo Li, who goes by Meow, serves as Executive Vice-President'));
 assert.equal(hongbo.introduction, 'China-born software engineer, neuroscientist, and NABC event champion.');
 assert.ok(hongbo.paragraphs.some((text) => text.includes('PhD in biomedical engineering')));
 assert.ok(hongbo.paragraphs.some((text) => text.includes('0-10K Swiss Teams at the St. Louis NABC')));

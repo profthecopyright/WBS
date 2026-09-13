@@ -194,7 +194,7 @@ export const proProfiles: ProProfile[] = [
     location: "United States", specialty: "Playing partnerships, teaching & client support",
     introduction: "China-born software engineer, neuroscientist, and NABC event champion.",
     paragraphs: [
-      "Hongbo Li serves as Executive Vice-President of WBS and advises the agency on technology and operations. He received his PhD in biomedical engineering from Johns Hopkins University and brings experience from the startup world to the development of WBS.",
+      "Hongbo Li, who goes by Meow, serves as Executive Vice-President of WBS and advises the agency on technology and operations. He received his PhD in biomedical engineering from Johns Hopkins University and brings experience from the startup world to the development of WBS.",
       "His team won the 0-10K Swiss Teams at the St. Louis NABC. Alongside his agency responsibilities, Hongbo plays bridge with clients and teaches online. His work helps connect the professional roster, the teaching program, and the practical needs of the people using WBS.",
       "Hongbo's favorite bridge expression is: \"No redouble, no re-trouble.\""
     ],
