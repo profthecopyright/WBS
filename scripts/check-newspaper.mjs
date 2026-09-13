@@ -32,6 +32,14 @@ for (const pro of proProfiles) {
 assert.equal(proProfiles.find((pro) => pro.slug === 'bob-hamman').badge, 'Available exclusively through WBS');
 assert.ok(proProfiles.find((pro) => pro.slug === 'ljudmila-kamenova').image);
 assert.ok(proProfiles.find((pro) => pro.slug === 'ed-zuckerberg').image);
+const hongbo = proProfiles.find((pro) => pro.slug === 'hongbo-li');
+assert.equal(hongbo.name, 'Hongbo "Meow" Li');
+assert.equal(hongbo.introduction, 'China-born software engineer, neuroscientist, and NABC event champion.');
+assert.ok(hongbo.paragraphs.some((text) => text.includes('PhD in biomedical engineering')));
+assert.ok(hongbo.paragraphs.some((text) => text.includes('0-10K Swiss Teams at the St. Louis NABC')));
+assert.ok(!JSON.stringify(hongbo).includes('PhD in neuroscience'));
+assert.equal(hongbo.location, 'United States');
+assert.equal(hongbo.agencyRole, 'Executive Vice-President');
 assert.ok(!proProfiles.some((pro) => /keith-hafen|shannon-cappelletti/.test(pro.slug)));
 
 const currentPage = readFileSync('app/page.tsx', 'utf8');

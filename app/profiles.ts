@@ -190,15 +190,15 @@ export const proProfiles: ProProfile[] = [
     formats: ["Online play", "Tournaments"]
   },
   {
-    slug: "hongbo-li", name: "Hongbo Li", initials: "HL",
+    slug: "hongbo-li", name: "Hongbo \"Meow\" Li", initials: "HL",
     location: "United States", specialty: "Playing partnerships, teaching & client support",
-    introduction: "Neuroscientist, bridge player, and Executive Vice-President of WBS.",
+    introduction: "China-born software engineer, neuroscientist, and NABC event champion.",
     paragraphs: [
-      "Hongbo Li serves as Executive Vice-President of WBS and advises the agency on technology and operations. He received his PhD in neuroscience from Johns Hopkins University and brings experience from the startup world to the development of WBS.",
-      "Alongside his agency responsibilities, Hongbo plays bridge with clients and teaches online. His work helps connect the professional roster, the teaching program, and the practical needs of the people using WBS.",
+      "Hongbo Li serves as Executive Vice-President of WBS and advises the agency on technology and operations. He received his PhD in biomedical engineering from Johns Hopkins University and brings experience from the startup world to the development of WBS.",
+      "His team won the 0-10K Swiss Teams at the St. Louis NABC. Alongside his agency responsibilities, Hongbo plays bridge with clients and teaches online. His work helps connect the professional roster, the teaching program, and the practical needs of the people using WBS.",
       "Hongbo's favorite bridge expression is: \"No redouble, no re-trouble.\""
     ],
-    highlights: ["PhD in neuroscience, Johns Hopkins University", "Bridge teaching and playing", "Technology and agency operations"],
+    highlights: ["PhD in biomedical engineering, Johns Hopkins University", "0-10K Swiss Teams champion, St. Louis NABC", "Technology and agency operations"],
     formats: ["Online play", "Lessons", "Club play"], agencyRole: "Executive Vice-President"
   },
   {
