@@ -1,6 +1,14 @@
 # WBS Editorial Guide
 
-This revision extends the original version 60 newspaper rather than replacing it. Front, Inside, Blogs, Community, the saloon doors, weather, portrait story, and three enquiry questionnaires remain.
+This revision retains the original newspaper styling, saloon doors, weather, portrait story, and three enquiry questionnaires. The four main sections are Bridge Services, Our Pros, Lessons & Courses, and Blogs. Community and its sample stories are removed at the user's request.
+
+## Site Structure
+
+`#services` explains the agency's business, provides the three enquiry choices, and contains the About WBS background. `#pros` contains the Core Pros / Other Pros roster and full biographies. `#lessons` contains private instruction, group teaching, the developing online program, and Aloha Bridge Center information. `#blogs` retains the complete archive and article navigation.
+
+Use these same four navigation links on the entrance and every section. Do not add a second row of Meet Our Pros / Blogs / About WBS links. Legacy `#front`, `#inside`, `#inside/about`, `#inside/resources`, and profile links remain compatible; `#a3` now leads to Services rather than sample news.
+
+Edit teaching copy in `TeachingProgram` in `app/page.tsx`. Confirm actual course topics, schedules, prices, and registration details before announcing them. Do not present proposed classes as scheduled events.
 
 ## Professional Profiles
 
@@ -8,7 +16,7 @@ Edit biographies, short introductions, formats, approved portraits, and links in
 
 `coreOrder` and `otherOrder` retain the existing Core Pros / Other Pros membership and order, with new affiliated professionals appended. Do not promote pending recruits without confirmation.
 
-Profiles use links such as `#inside/pros/ed-zuckerberg`. The About guide uses `#inside/about`, and the original resources are accessible through `#inside/resources` as well as below the roster.
+Profiles use links such as `#pros/ed-zuckerberg`. Old `#inside/pros/ed-zuckerberg` links redirect to the same profile. Instructional System Notes are linked from Lessons & Courses, and Brian's external author page is linked from his biography.
 
 Portraits are bundled locally under `public/images/inside-gallery`. Missing portraits use initials, not photographs of unverified namesakes. See `profile-drafts.md` for pending recruits and image follow-ups.
 

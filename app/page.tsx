@@ -5,13 +5,13 @@ import WorldWeather from "./weather";
 import { archivedBlogPosts, type ArchivedBlogPost } from "./blog-posts";
 import { corePros, otherPros, findPro, profileHref, type ProProfile } from "./profiles";
 
-type PageId = "front" | "inside" | "blogs" | "a3";
+type PageId = "services" | "pros" | "lessons" | "blogs";
 
-const pages: { id: PageId; label: string; description?: string }[] = [
-  { id: "front", label: "Front" },
-  { id: "inside", label: "Inside", description: "Pros & Resources" },
+const pages: { id: PageId; label: string }[] = [
+  { id: "services", label: "Bridge Services" },
+  { id: "pros", label: "Our Pros" },
+  { id: "lessons", label: "Lessons & Courses" },
   { id: "blogs", label: "Blogs" },
-  { id: "a3", label: "Community" },
 ];
 
 const stories = [
@@ -35,41 +35,6 @@ const stories = [
     title: "Talk with an Agent",
     summary: "Tell us what you’re looking for and how you prefer to be contacted. A WBS intake officer will follow up.",
     href: "https://tally.so/r/LZBL1G",
-  },
-];
-
-const insideStories = [
-  {
-    number: "",
-    kicker: "",
-    title: "Diary",
-    summary:
-      "Read Brian’s tournament dispatches, bridge ideas, conversations, and observations in Diary of a Bridge Pro.",
-    href: "https://www.wilsonovichbridge.com/diary-of-a-bridge-pro.html",
-  },
-  {
-    number: "",
-    kicker: "",
-    title: "Brian",
-    summary:
-      "Meet Brian Glubok: former teen prodigy, five-time national champion, writer, filmmaker, painter, and bridge player above all.",
-    href: "https://bridgewinners.com/article/author/brian-glubok/",
-  },
-  {
-    number: "",
-    kicker: "",
-    title: "Blogs",
-    summary:
-      "Browse the WBS journal by tournament diary, bridge ideas, player essays, and agency news.",
-    href: "#blogs",
-  },
-  {
-    number: "",
-    kicker: "",
-    title: "System Notes",
-    summary:
-      "Explore WBS instructional material, partnership methods, and ideas for improving your game.",
-    href: "https://www.wilsonovichbridge.com/instructional.html",
   },
 ];
 
@@ -535,56 +500,12 @@ function formatBlogDate(value: string) {
     .format(new Date(`${value}T12:00:00`));
 }
 
-const a3News = [
-  {
-    kicker: "Brian Glubok · President’s Desk",
-    title: "A champion brings the game to a new generation",
-    copy: "Brian Glubok’s 2026 program pairs elite tournament experience with a teaching and playing initiative at Aloha Bridge Center in Columbus.",
-  },
-  {
-    kicker: "Paulo Brum · Tournament Notes",
-    title: "Inside the WBS team’s Joust match",
-    copy: "Paulo Brum takes readers through selected deals from the WBS knockout match against RedTop, alongside Bob Hamman, Finn Kolesnik, and Michael Xu.",
-  },
-  {
-    kicker: "Bob Hamman · WBS Circle",
-    title: "A legend of the game, available through WBS",
-    copy: "World champion and Hall of Famer Bob Hamman brings decades of elite experience to the WBS circle. He is available exclusively through WBS for select professional partnerships.",
-  },
-  {
-    kicker: "Hongbo Li · Tournament News",
-    title: "A comeback measured by less than one point",
-    copy: "Hongbo Li helped Alan Munro’s team complete a dramatic comeback to win the 2026 NABC 0–10,000 Swiss Teams by less than one victory point.",
-  },
-  {
-    kicker: "Placeholder · Partnership Desk",
-    title: "Eleanor Price and Martin Hale set their fall calendar",
-    copy: "The newly formed partnership is preparing for a first regional appearance together after a productive summer of practice sessions.",
-  },
-  {
-    kicker: "Placeholder · Club Notes",
-    title: "Thursday evening game welcomes a full room",
-    copy: "Friends gathered for an old-fashioned duplicate, followed by dinner and a spirited discussion of the final board.",
-  },
-  {
-    kicker: "Placeholder · Milestones",
-    title: "A first sectional win for a patient partnership",
-    copy: "After several close finishes, two longtime partners celebrated their first sectional title—and immediately began discussing the next event.",
-  },
-  {
-    kicker: "Placeholder · Around the Table",
-    title: "The post-game postmortem runs past midnight",
-    copy: "One dinner table, four experts, and a single competitive auction produced more opinions than anyone was prepared to count.",
-  },
-];
-
 export default function Home() {
-  const [activePage, setActivePage] = useState<PageId>("front");
+  const [activePage, setActivePage] = useState<PageId>("services");
   const [showHistory, setShowHistory] = useState(false);
   const [blogPage, setBlogPage] = useState(1);
   const [selectedBlogPost, setSelectedBlogPost] = useState<ArchivedBlogPost | null>(null);
   const [selectedPro, setSelectedPro] = useState<ProProfile | null>(null);
-  const [insideView, setInsideView] = useState<"circle" | "about" | "resources">("circle");
   const [activeForm, setActiveForm] = useState<{ title: string; url: string; preferredPro?: string } | null>(null);
   const [entranceState, setEntranceState] = useState<"closed" | "opening" | "open">("closed");
   const formTrigger = useRef<HTMLElement | null>(null);
@@ -600,19 +521,25 @@ export default function Home() {
   useEffect(() => {
     function syncLocation() {
       const [requestedHash, target, detail] = window.location.hash.slice(1).split("/");
-      const requested = requestedHash === "blog" ? "blogs" : requestedHash;
-      const page = pages.find((item) => item.id === requested)?.id ?? "front";
+      const requested = requestedHash === "inside"
+        ? target === "about" ? "services" : target === "resources" ? "lessons" : "pros"
+        : requestedHash === "front" || requestedHash === "a3" ? "services"
+        : requestedHash === "blog" ? "blogs" : requestedHash;
+      const page = pages.find((item) => item.id === requested)?.id ?? "services";
       setActivePage(page);
-      setSelectedPro(page === "inside" && target === "pros" ? findPro(detail) ?? null : null);
-      setInsideView(page === "inside" && (target === "about" || target === "resources") ? target : "circle");
+      const pro = page === "pros" ? findPro(requestedHash === "inside" ? detail : target) ?? null : null;
+      setSelectedPro(pro);
       const post = page === "blogs" && target && target !== "page" && target !== "archive"
         ? archivedBlogPosts.find((item) => item.slug === target) ?? null : null;
       setSelectedBlogPost(post);
       const requestedPage = page === "blogs" && target === "page" ? Number(detail) : 1;
       setBlogPage(Number.isInteger(requestedPage) && requestedPage >= 1 && requestedPage <= blogPageCount ? requestedPage : 1);
       if (requested) setEntranceState("open");
-      if (requestedHash === "blog" || (page === "blogs" && target === "archive")) {
-        window.history.replaceState(null, "", target && target !== "archive" ? `#blogs/${target}${detail ? `/${detail}` : ""}` : "#blogs");
+      if (["front", "inside", "a3", "blog"].includes(requestedHash) || (page === "blogs" && target === "archive")) {
+        const canonical = page === "blogs"
+          ? target && target !== "archive" ? `#blogs/${target}${detail ? `/${detail}` : ""}` : "#blogs"
+          : pro ? profileHref(pro) : `#${page}`;
+        window.history.replaceState(null, "", canonical);
       }
       window.scrollTo({ top: 0, behavior: "instant" });
     }
@@ -687,7 +614,7 @@ export default function Home() {
           <div className="saloon-sign">
             <span>World Bridge Services</span>
             <strong>The WBS Club</strong>
-            <small>Elite Professional Bridge Services</small>
+            <small>Professional Partners &amp; Bridge Lessons</small>
           </div>
           <div className="full-saloon-door saloon-door-left" aria-hidden="true">
             <span className="door-crest">♠</span>
@@ -706,8 +633,8 @@ export default function Home() {
             <span>{entranceState === "opening" ? "Welcome In" : "Enter the Club"}</span>
             <small>{entranceState === "opening" ? "Opening the Gazette…" : "Push through the saloon doors"}</small>
           </button>
-          <nav className="saloon-entry-nav" aria-label="Go directly to a newspaper section">
-            {pages.map((page) => <a key={page.id} href={`#${page.id}`} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage(page.id); } }}><span>{page.label}</span>{page.description && <small>{page.description}</small>}</a>)}
+          <nav className="saloon-entry-nav" aria-label="WBS sections">
+            {pages.map((page) => <a key={page.id} href={`#${page.id}`} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage(page.id); } }}><span>{page.label}</span></a>)}
           </nav>
         </section>
       )}
@@ -723,7 +650,7 @@ export default function Home() {
         </div>
       </header>
 
-      <nav className="section-nav" aria-label="Newspaper pages">
+      <nav className="section-nav" aria-label="Main navigation">
         {pages.map((page) => (
           <a
             className={activePage === page.id ? "active" : undefined}
@@ -733,23 +660,16 @@ export default function Home() {
             key={page.id}
           >
             <span>{page.label}</span>
-            {page.description && <small>{page.description}</small>}
           </a>
         ))}
       </nav>
 
-      {activePage === "front" && (
-        <article className="page-panel" id="front">
+      {activePage === "services" && (
+        <article className="page-panel" id="services">
           <section className="page-fold front-hero" aria-labelledby="front-page-heading">
             <div className="hero-copy">
               <h2 className="hero-kicker" id="front-page-heading">Boutique Bridge Services</h2>
-              <p className="hero-deck">Book a professional player for an upcoming tournament or club game, or work with one as your personal coach or teacher.</p>
-              <p className="hero-agency-line">WBS matches clients with bridge professionals, online and at clubs and tournaments around the world.</p>
-              <nav className="hero-section-links" aria-label="Explore WBS">
-                <a href="#inside" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage("inside"); } }}>Meet Our Pros</a>
-                <a href="#blogs" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage("blogs"); } }}>Blogs</a>
-                <a href="#inside/about" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); navigateTo("#inside/about"); } }}>About WBS</a>
-              </nav>
+              <p className="hero-deck">WBS arranges <strong>professional bridge partners</strong>, <strong>private lessons</strong>, and <strong>group courses</strong>, online and at clubs and tournaments worldwide.</p>
               <details className="hero-explainer">
                 <summary>
                   <span className="read-more-label">Read more…</span>
@@ -814,18 +734,13 @@ export default function Home() {
               ))}
             </div>
           </section>
+          <AgencyGuide onReadHistory={() => { setShowHistory(true); choosePage("services"); }} />
         </article>
       )}
 
-      {activePage === "inside" && (
-        <article className="page-panel" id="inside">
-          <nav className="inside-navigation" aria-label="Inside sections">
-            <a href="#inside" aria-current={insideView === "circle" ? "page" : undefined} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage("inside"); } }}>Our Pros</a>
-            <a href="#inside/about" aria-current={insideView === "about" ? "page" : undefined} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); navigateTo("#inside/about"); } }}>About WBS</a>
-            <a href="#inside/resources" aria-current={insideView === "resources" ? "page" : undefined} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); navigateTo("#inside/resources"); } }}>Stories &amp; Resources</a>
-          </nav>
-          {selectedPro ? <ProfessionalProfile pro={selectedPro} onNavigate={navigateTo} onEnquire={() => openStoryForm(stories[2], selectedPro)} /> : insideView === "about" ? <AgencyGuide onNavigate={navigateTo} onReadHistory={() => { setShowHistory(true); choosePage("front"); }} onContact={() => openStoryForm(stories[2])} /> : <>
-          {insideView === "circle" && <section className="page-fold gallery-page" aria-labelledby="gallery-heading">
+      {activePage === "pros" && (
+        <article className="page-panel" id="pros">
+          {selectedPro ? <ProfessionalProfile pro={selectedPro} onNavigate={navigateTo} onEnquire={() => openStoryForm(stories[2], selectedPro)} /> : <section className="page-fold gallery-page" aria-labelledby="gallery-heading">
             <div className="gallery-heading">
               <h2 id="gallery-heading">The WBS Circle</h2>
               <span>Professional partners and teachers, online and in person</span>
@@ -836,24 +751,10 @@ export default function Home() {
               Portraits from WBS, public player profiles, Bridge Winners and ACBL tournament coverage, and the European Bridge League. Ed's portrait is from <a href="https://www.painlessdrz.com/" target="_blank" rel="noopener noreferrer">his professional website</a>. Ljudmila's authorized portrait is from <a href="https://www.math.stonybrook.edu/~kamenova/" target="_blank" rel="noopener noreferrer">her university page</a>, courtesy of the Oberwolfach archives.
             </p>
           </section>}
-          <section className="page-fold inside-page" aria-labelledby="inside-heading">
-            <h2 className="inside-title" id="inside-heading">Stories &amp; Resources</h2>
-            <div className="secondary-grid">
-              {insideStories.map((story) => (
-                <Story
-                  story={story}
-                  secondary
-                  minimal
-                  key={story.title}
-                  onNavigate={story.href === "#blogs" ? () => choosePage("blogs") : undefined}
-                />
-              ))}
-            </div>
-          </section>
-
-          </>}
         </article>
       )}
+
+      {activePage === "lessons" && <article className="page-panel" id="lessons"><TeachingProgram onContact={() => openStoryForm(stories[2])} onNavigate={navigateTo} /></article>}
 
       {activePage === "blogs" && (
         <article className="page-panel blog-panel" id="blogs">
@@ -922,25 +823,6 @@ export default function Home() {
         </article>
       )}
 
-      {activePage === "a3" && (
-        <article className="page-panel a3-panel" id="a3">
-          <section className="page-fold a3-lead" aria-labelledby="a3-heading">
-            <header className="a3-nameplate">
-              <h2 id="a3-heading">Hatch, Match and Dispatch</h2>
-            </header>
-            <div className="a3-news-grid">
-              {a3News.map((item) => (
-                <section className="a3-news-item" key={item.kicker}>
-                  <p className="a3-kicker">{item.kicker}</p>
-                  <h3>{item.title}</h3>
-                  <p>{item.copy}</p>
-                </section>
-              ))}
-            </div>
-          </section>
-        </article>
-      )}
-
       </div>
       {activeForm && (
         <div className="form-modal" role="dialog" aria-modal="true" aria-label={activeForm.title}>
@@ -959,14 +841,14 @@ export default function Home() {
   );
 }
 
-function Story({ story, secondary = false, minimal = false, onOpenForm, onNavigate }: { story: (typeof stories)[number] | (typeof insideStories)[number]; secondary?: boolean; minimal?: boolean; onOpenForm?: () => void; onNavigate?: () => void }) {
+function Story({ story, minimal = false, onOpenForm }: { story: (typeof stories)[number]; minimal?: boolean; onOpenForm?: () => void }) {
   return (
-    <article className={`story${secondary ? " secondary-story" : ""}${minimal ? " minimal-story" : ""}`}>
+    <article className={`story${minimal ? " minimal-story" : ""}`}>
       {!minimal && <div className="story-meta"><span>{story.number}</span><span>{story.kicker}</span></div>}
       <h3>{onOpenForm ? (
         <button className="story-title-link story-title-button" type="button" onClick={onOpenForm}>{story.title}</button>
       ) : story.href ? (
-        <a className="story-title-link" href={story.href} onClick={(event) => { if (onNavigate && isPlainClick(event)) { event.preventDefault(); onNavigate(); } }}>{story.title}</a>
+        <a className="story-title-link" href={story.href}>{story.title}</a>
       ) : (
         <span className="story-title-placeholder">{story.title}</span>
       )}</h3>
@@ -1010,7 +892,7 @@ function ProfessionalPortrait({ pro }: { pro: ProProfile }) {
 
 function ProfessionalProfile({ pro, onNavigate, onEnquire }: { pro: ProProfile; onNavigate: (href: string) => void; onEnquire: () => void }) {
   return <section className="professional-reader" aria-labelledby="professional-name">
-    <a className="professional-back" href="#inside" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate("#inside"); } }}>&lt; The WBS Circle</a>
+    <a className="professional-back" href="#pros" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate("#pros"); } }}>&lt; Our Pros</a>
     <header className="professional-heading">
       <div className="professional-portrait"><ProfessionalPortrait pro={pro} />{pro.slug === "ljudmila-kamenova" && <small>Portrait: Oberwolfach archives</small>}</div>
       <div><p className="professional-specialty">{pro.specialty}</p><h2 id="professional-name">{pro.name}</h2>{pro.badge && <p className="pro-badge"><strong>{pro.badge}</strong></p>}<p className="professional-introduction">{pro.introduction}</p><p className="professional-location">{pro.location}{pro.agencyRole && <> · {pro.agencyRole}</>}</p></div>
@@ -1020,16 +902,47 @@ function ProfessionalProfile({ pro, onNavigate, onEnquire }: { pro: ProProfile; 
   </section>;
 }
 
-function AgencyGuide({ onNavigate, onReadHistory, onContact }: { onNavigate: (href: string) => void; onReadHistory: () => void; onContact: () => void }) {
+function AgencyGuide({ onReadHistory }: { onReadHistory: () => void }) {
   return <section className="agency-guide" aria-labelledby="agency-guide-heading">
-    <header><h2 id="agency-guide-heading">Who, What, When, Where &amp; Why</h2><p>WBS was created by Brian Glubok to better serve his clients and offer bridge services to players around the world.</p></header>
+    <header><h2 id="agency-guide-heading">About WBS</h2><p>Founded by Brian Glubok, WBS is a boutique agency matching bridge players with trusted professionals and teachers.</p></header>
     <div className="agency-guide-grid">
-      <section><h3>Who</h3><p>World champions, international players, experienced teachers, and trusted playing partners. Brian Glubok is President, Paulo Brum coordinates professional scheduling, and Hongbo Li serves as Executive Vice-President.</p><a href="#inside" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate("#inside"); } }}>Meet the WBS Circle</a></section>
-      <section><h3>What</h3><p>Our core business is pairing clients and pros. Play online on BBO or your preferred platform, at a club duplicate, or in a regional or national tournament. Arrange private instruction, partnership coaching, or a small-group lesson through Zoom, BBO, or RealBridge.</p><p>WBS is also developing its online teaching program and bridge activities at the Aloha Bridge Center in Columbus, Ohio. Contact an agent for current classes and arrangements.</p></section>
-      <section><h3>When</h3><p>Brian began the operation during the 2020 lockdown. Paulo joined in 2023, and the WBS booth at the July 2026 Minneapolis Nationals marked another step in the agency's deliberate boutique growth.</p><a href="#front" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onReadHistory(); } }}>Read our founding story</a></section>
-      <section><h3>Where</h3><p>Online across time zones, and wherever bridge is played. Our professionals work in New York, Ohio, Florida, California, Europe, and on the international tournament circuit. In-person partnerships depend on the event and the professional's availability.</p></section>
-      <section><h3>Why</h3><p>To better serve our clients, support our professionals, and help build institutions that contribute to the future of bridge. WBS is a commercial venture, but we also do it because bridge is so much fun.</p></section>
+      <section><h3>Who We Are</h3><p>World champions, international players, experienced teachers, and trusted playing partners. Brian Glubok is President, Paulo Brum coordinates professional scheduling, and Hongbo Li serves as Executive Vice-President.</p></section>
+      <section><h3>What We Offer</h3><p>Our core business is pairing clients and pros: online games on BBO or your preferred platform, club duplicates, and regional or national tournaments. Private instruction, partnership coaching, and small-group teaching are also available.</p></section>
+      <section><h3>Our Story</h3><p>Brian began the operation during the 2020 lockdown. Paulo joined in 2023, and the WBS booth at the July 2026 Minneapolis Nationals marked another step in the agency's deliberate boutique growth.</p><a href="#services" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onReadHistory(); } }}>Read our founding story</a></section>
+      <section><h3>Where We Play</h3><p>Online across time zones, and wherever bridge is played. Our professionals work in New York, Ohio, Florida, California, Europe, and on the international tournament circuit. In-person partnerships depend on the event and the professional's availability.</p></section>
+      <section><h3>Our Purpose</h3><p>To better serve our clients, support our professionals, and help build institutions that contribute to the future of bridge. WBS is a commercial venture, but we also do it because bridge is so much fun.</p></section>
     </div>
-    <button className="professional-enquiry" type="button" onClick={onContact}>Talk with an Agent</button>
+  </section>;
+}
+
+function TeachingProgram({ onContact, onNavigate }: { onContact: () => void; onNavigate: (href: string) => void }) {
+  return <section className="teaching-page" aria-labelledby="teaching-heading">
+    <header className="teaching-heading">
+      <h2 id="teaching-heading">Lessons &amp; Courses</h2>
+      <p>Private coaching and small-group instruction with WBS professionals, online and in person.</p>
+    </header>
+    <div className="teaching-formats">
+      <section>
+        <h3>Private Lessons</h3>
+        <p>Work one-to-one on bidding methods, declarer play, defense, or deals from your recent games. Your teacher can help you and your regular partner develop a more effective partnership.</p>
+        <dl><dt>Format</dt><dd>Individual or partnership coaching</dd><dt>Location</dt><dd>Online or in person, by arrangement</dd></dl>
+      </section>
+      <section>
+        <h3>Group Courses</h3>
+        <p>Learn alongside a small group with an experienced teacher. WBS can arrange online teaching through Zoom, BBO, or RealBridge, with a topic and pace suited to the group.</p>
+        <dl><dt>Format</dt><dd>Small-group classes</dd><dt>Schedule</dt><dd>Contact WBS for current topics and dates</dd></dl>
+      </section>
+    </div>
+    <div className="teaching-programs">
+      <section>
+        <h3>Online Teaching Program</h3>
+        <p><a href="#pros/ed-zuckerberg" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate("#pros/ed-zuckerberg"); } }}>Ed Zuckerberg</a> is helping develop WBS's online classes. Contact the agency for the current schedule and registration arrangements.</p>
+      </section>
+      <section>
+        <h3>Aloha Bridge Center</h3>
+        <p>WBS is also developing in-person bridge activities at the Aloha Bridge Center in Columbus, Ohio. Ask the agency about current teaching and playing opportunities.</p>
+      </section>
+    </div>
+    <footer className="teaching-enquiries"><button className="professional-enquiry" type="button" onClick={onContact}>Enquire About Lessons</button><a href="https://www.wilsonovichbridge.com/instructional.html" target="_blank" rel="noopener noreferrer">System Notes</a></footer>
   </section>;
 }

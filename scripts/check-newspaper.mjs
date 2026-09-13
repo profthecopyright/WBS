@@ -25,7 +25,7 @@ for (const pro of proProfiles) {
   assert.match(pro.slug, /^[a-z]+(?:-[a-z]+)*$/);
   assert.ok(pro.paragraphs.length >= 2 && pro.paragraphs.every((text) => text.trim()) && pro.paragraphs.join(' ').length > 300, pro.name);
   assert.ok(pro.introduction && pro.location && pro.specialty && pro.formats.length && pro.highlights.length, pro.name);
-  assert.equal(profileHref(pro), `#inside/pros/${pro.slug}`);
+  assert.equal(profileHref(pro), `#pros/${pro.slug}`);
   if (pro.image) assert.ok(existsSync(`public${pro.image}`), `Missing portrait: ${pro.name}`);
   for (const link of pro.links ?? []) assert.match(link.href, /^(https:\/\/|#blogs)/);
 }
@@ -49,11 +49,15 @@ assert.ok(currentPage.includes('Boutique Bridge Services'));
 assert.ok(currentPage.includes('What Would You Like to Do Next?'));
 assert.ok(currentPage.includes('Talk with Brian'));
 assert.ok(currentPage.includes('Get a Free Play'));
-assert.ok(currentPage.includes('Hatch, Match and Dispatch'));
-assert.ok(!/What Players Say|Jane Doe|testimonials/.test(currentPage));
+assert.ok(!/What Players Say|Jane Doe|testimonials|Hatch, Match and Dispatch|a3News|insideStories|hero-section-links|inside-navigation|Meet Our Pros/.test(currentPage));
+for (const label of ['Bridge Services', 'Our Pros', 'Lessons & Courses', 'Blogs']) assert.ok(currentPage.includes(`label: "${label}"`));
+for (const section of ['services', 'pros', 'lessons', 'blogs']) assert.ok(currentPage.includes(`id="${section}"`));
+assert.ok(currentPage.includes('professional bridge partners'));
+assert.ok(currentPage.includes('Private Lessons') && currentPage.includes('Group Courses'));
+assert.ok(currentPage.includes('Enquire About Lessons'));
+assert.ok(currentPage.includes('requestedHash === "inside"') && currentPage.includes('requestedHash === "front"'));
 assert.ok(currentPage.includes('window.history.pushState'));
 assert.ok(currentPage.includes('window.addEventListener("popstate"'));
 assert.ok(currentPage.includes('window.addEventListener("hashchange"'));
-assert.ok(currentPage.indexOf('aria-labelledby="gallery-heading"') < currentPage.indexOf('aria-labelledby="inside-heading"'));
 for (const font of ['libre-caslon-text-regular-400.ttf', 'libre-caslon-text-italic-400.ttf', 'libre-caslon-text-bold-700.ttf', 'unifrakturcook-bold-700.ttf']) assert.ok(existsSync(`public/fonts/${font}`));
-console.log(`Verified original theme, weather, all blog content, ${preservedHelpers} article helpers, 15 profiles, bundled portraits/fonts, and three enquiry paths.`);
+console.log(`Verified four-section navigation, legacy links, removed sample news, teaching information, original theme/weather/blogs, ${preservedHelpers} article helpers, 15 profiles, bundled portraits/fonts, and three enquiry paths.`);
