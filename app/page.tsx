@@ -742,7 +742,7 @@ export default function Home() {
 
       {activePage === "pros" && (
         <article className="page-panel" id="pros">
-          {selectedPro ? <ProfessionalProfile pro={selectedPro} onNavigate={navigateTo} onEnquire={() => openStoryForm(stories[2], selectedPro)} /> : <section className="page-fold gallery-page" aria-label="Our Pros">
+          {selectedPro ? <ProfessionalProfile pro={selectedPro} onNavigate={navigateTo} /> : <section className="page-fold gallery-page" aria-label="Our Pros">
             <ProGroup title="Core Pros" pros={corePros} onNavigate={navigateTo} />
             <ProGroup title="Other Pros" pros={otherPros} onNavigate={navigateTo} />
             <p className="gallery-source">
@@ -885,15 +885,14 @@ function ProfessionalPortrait({ pro }: { pro: ProProfile }) {
   return pro.image ? <img src={pro.image} alt={pro.name} loading="lazy" style={{objectPosition: pro.imagePosition ?? "center 30%"}} /> : <div className="professional-monogram" aria-label={pro.name}><span aria-hidden="true">{pro.initials}</span></div>;
 }
 
-function ProfessionalProfile({ pro, onNavigate, onEnquire }: { pro: ProProfile; onNavigate: (href: string) => void; onEnquire: () => void }) {
+function ProfessionalProfile({ pro, onNavigate }: { pro: ProProfile; onNavigate: (href: string) => void }) {
   return <section className="professional-reader" aria-labelledby="professional-name">
     <a className="professional-back" href="#pros" onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); onNavigate("#pros"); } }}>&lt; Our Pros</a>
     <header className="professional-heading">
       <div className="professional-portrait"><ProfessionalPortrait pro={pro} />{pro.slug === "ljudmila-kamenova" && <small>Portrait: Oberwolfach archives</small>}</div>
-      <div><p className="professional-specialty">{pro.specialty}</p><h2 id="professional-name">{pro.name}</h2>{pro.badge && <p className="pro-badge"><strong>{pro.badge}</strong></p>}<p className="professional-introduction">{pro.introduction}</p><p className="professional-location">{pro.location}{pro.agencyRole && <> · {pro.agencyRole}</>}</p></div>
+      <div><h2 id="professional-name">{pro.name}</h2>{pro.badge && <p className="pro-badge"><strong>{pro.badge}</strong></p>}<p className="professional-introduction">{pro.introduction}</p><p className="professional-location">{pro.location}{pro.agencyRole && <> · {pro.agencyRole}</>}</p></div>
     </header>
-    <div className="professional-columns"><div className="professional-biography">{pro.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}{pro.links && <nav className="professional-links" aria-label={`More from ${pro.name}`}>{pro.links.map((link) => <a href={link.href} key={link.href} {...(link.href.startsWith("https:") ? {target: "_blank", rel: "noopener noreferrer"} : {})} onClick={(event) => { if (link.href.startsWith("#") && isPlainClick(event)) { event.preventDefault(); onNavigate(link.href); } }}>{link.label}</a>)}</nav>}</div>
-    <aside className="professional-facts"><h3>Highlights</h3><ul>{pro.highlights.map((item) => <li key={item}>{item}</li>)}</ul><h3>Playing &amp; Teaching</h3><p>{pro.formats.join(" · ")}</p><p className="professional-availability">{pro.availability ?? "Availability and fees are agreed with WBS before a booking is confirmed."}</p><button className="professional-enquiry" type="button" onClick={onEnquire}>Talk with an Agent</button></aside></div>
+    <div className="professional-biography">{pro.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}{pro.links && <nav className="professional-links" aria-label={`More from ${pro.name}`}>{pro.links.map((link) => <a href={link.href} key={link.href} {...(link.href.startsWith("https:") ? {target: "_blank", rel: "noopener noreferrer"} : {})} onClick={(event) => { if (link.href.startsWith("#") && isPlainClick(event)) { event.preventDefault(); onNavigate(link.href); } }}>{link.label}</a>)}</nav>}</div>
   </section>;
 }
 

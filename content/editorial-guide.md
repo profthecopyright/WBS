@@ -36,6 +36,6 @@ Keep Brian's voice. Correct typography and obvious typos, but do not invent miss
 
 The existing Tally questionnaires remain distinct: consultation with Brian, complimentary play after a bidding quiz, and general agent intake. Talk with Brian is the primary Home action and opens the personal consultation questionnaire.
 
-Professional enquiries open the existing agent intake. The dialog states the preferred professional and asks the visitor to include that name in additional details; the form has no configured preferred-professional hidden field, so the site does not claim the name is submitted automatically.
+Full professional profiles retain portraits, introductions, biographies, locations, agency roles, badges, and existing links. They do not display specialty taglines, Highlights or Playing & Teaching summaries, availability/fee boilerplate, or booking actions. Biographies use a single reading column. Enquiries remain available through Home and Courses.
 
 Do not restore sample testimonials, migrate hosting, or publish without the user's approval.

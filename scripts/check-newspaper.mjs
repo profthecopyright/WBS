@@ -38,6 +38,9 @@ const currentPage = readFileSync('app/page.tsx', 'utf8');
 const parse = (text) => ts.createSourceFile('page.tsx', text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
 const currentTree = parse(currentPage);
 const functions = new Map(currentTree.statements.filter(ts.isFunctionDeclaration).map((node) => [node.name?.text, node]));
+const profileRenderer = functions.get('ProfessionalProfile')?.getText() ?? '';
+assert.ok(!/pro\.(specialty|highlights|formats|availability)|onEnquire|<aside|Talk with an Agent/.test(profileRenderer));
+for (const retained of ['ProfessionalPortrait', 'pro.paragraphs.map', 'pro.introduction', 'pro.location', 'pro.links.map', 'pro.badge']) assert.ok(profileRenderer.includes(retained), `Missing profile content: ${retained}`);
 let preservedHelpers = 0;
 for (const node of parse(original('app/page.tsx')).statements.filter(ts.isFunctionDeclaration)) {
   if (['Home', 'Story', 'ProGroup'].includes(node.name?.text)) continue;
