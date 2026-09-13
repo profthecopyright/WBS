@@ -30,7 +30,13 @@ Ljudmila explicitly approved featuring her and using a portrait from her univers
 
 ## Hongbo Li Portrait
 
-Hongbo supplied https://www.nvba.org/emails/2026-03-09_email.pdf and identified himself as the rightmost person in the team photograph. The newsletter caption names Colin Schloss, Alan Munro, Jichong Chai, and Hongbo Li, and credits the photograph to ACBL. The original embedded JPEG is 2048 x 1504 pixels. The first portrait is retained at `public/images/inside-gallery/hongbo-li.png`, and the intermediate refinement at `public/images/inside-gallery/hongbo-li-v2.png`. The current portrait is `public/images/inside-gallery/hongbo-li-v3.png`, used in the roster and full profile.
+Hongbo supplied https://www.nvba.org/emails/2026-03-09_email.pdf and identified himself as the rightmost person in the team photograph. The newsletter caption names Colin Schloss, Alan Munro, Jichong Chai, and Hongbo Li, and credits the photograph to ACBL. The original embedded JPEG is 2048 x 1504 pixels. The first portrait and intermediate refinements remain bundled as `hongbo-li.png`, `hongbo-li-v2.png`, and `hongbo-li-v3.png`. The current portrait is `public/images/inside-gallery/hongbo-li-v4.png`, used in the roster and full profile.
+
+### Chin Refinement
+
+Meow requested softening the uneven patch directly below his lower lip. The fourth version is a localized tonal refinement to the chin in the third portrait. Prepared with the built-in image editing tool. Final chin-edit prompt:
+
+Use case: identity-preserve. Edit target: the attached current WBS portrait of Hongbo Li, who goes by Meow. The subject requests one localized cosmetic refinement: soften the small dark reddish-brown, mottled patch in the central chin immediately below his lower lip. Make that small area look less tense and more evenly toned, gently blending its contrast and color into the adjacent chin skin while preserving natural pores, faint stubble, realistic light and shadow, and three-dimensional chin shape. Do not flatten the chin, erase all skin texture, whiten the skin, or apply general facial smoothing. Preserve the exact mouth and lip shape, relaxed closed-mouth expression, face width, level gaze, head angle, glasses, hairstyle and improved hairline, eyebrows, nose, age and recognizable identity. Change nothing elsewhere: keep the vertical 4:5 framing, blue ACBL backdrop and white logos, grey sleeve and arm, black bridge T-shirt with its text and symbols, ribbon, medal, hands, bidding cards, lighting and photographic colors unchanged. Edit only the uneven patch just beneath the lower lip, subtly and naturally.
 
 ### Hair Refinement
 

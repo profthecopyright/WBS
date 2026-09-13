@@ -190,7 +190,7 @@ export const proProfiles: ProProfile[] = [
   },
   {
     slug: "hongbo-li", name: "Hongbo \"Meow\" Li", initials: "HL",
-    image: "/images/inside-gallery/hongbo-li-v3.png",
+    image: "/images/inside-gallery/hongbo-li-v4.png",
     location: "United States", specialty: "Playing partnerships, teaching & client support",
     introduction: "China-born software engineer, neuroscientist, and NABC event champion.",
     paragraphs: [
