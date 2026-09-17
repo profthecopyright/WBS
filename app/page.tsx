@@ -589,7 +589,7 @@ export default function Home() {
       const requestedPage = page === "blogs" && target === "page" ? Number(detail) : 1;
       setBlogPage(Number.isInteger(requestedPage) && requestedPage >= 1 && requestedPage <= blogPageCount ? requestedPage : 1);
       if (requested) setEntranceState("open");
-      if (["front", "inside", "a3", "blog", "lessons"].includes(requestedHash) || (page === "blogs" && target === "archive")) {
+      if (["front", "inside", "a3", "blog", "lessons"].includes(requestedHash) || (page === "blogs" && target === "archive") || (pro && target !== pro.slug)) {
         const canonical = page === "blogs"
           ? target && target !== "archive" ? `#blogs/${target}${detail ? `/${detail}` : ""}` : "#blogs"
           : pro ? profileHref(pro) : `#${page}`;

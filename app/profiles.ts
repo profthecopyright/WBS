@@ -166,11 +166,11 @@ export const proProfiles: ProProfile[] = [
     formats: ["Lessons", "Online play", "Tournaments"]
   },
   {
-    slug: "sam-hwang", name: "Sam Hwang", initials: "SH",
+    slug: "sam-kwang", name: "Sam Kwang", initials: "SK",
     location: "New York, New York", specialty: "Club & online partnerships",
     introduction: "A popular New York playing professional known for his friendly manner and competitive bridge.",
     paragraphs: [
-      "Sam Hwang grew up in California and is now based in New York, where he is a popular and in-demand professional at Honors Bridge Club.",
+      "Sam Kwang grew up in California and is now based in New York, where he is a popular and in-demand professional at Honors Bridge Club.",
       "Don't let his cheerful demeanor fool you: he is a determined competitor at the table. WBS clients can enquire about club and online partnerships suited to their goals and schedules."
     ],
     highlights: ["New York club professional", "Honors Bridge Club playing experience"],
@@ -216,7 +216,8 @@ export const proProfiles: ProProfile[] = [
 ];
 
 export function findPro(slug: string) {
-  return proProfiles.find((pro) => pro.slug === slug);
+  const canonicalSlug = slug === "sam-hwang" ? "sam-kwang" : slug;
+  return proProfiles.find((pro) => pro.slug === canonicalSlug);
 }
 
 export function profileHref(pro: ProProfile) {
@@ -224,7 +225,7 @@ export function profileHref(pro: ProProfile) {
 }
 
 const coreOrder = ["brian-glubok", "joe-grue", "paulo-brum", "gregor-rus", "bob-hamman"];
-const otherOrder = ["ioannis-oikonomopoulos", "finn-kolesnik", "danuta-kazmucha", "disa-eythorsdottir", "ljudmila-kamenova", "alex-kolesnik", "ed-zuckerberg", "sam-hwang", "hongbo-li", "jackie-thomas"];
+const otherOrder = ["ioannis-oikonomopoulos", "finn-kolesnik", "danuta-kazmucha", "disa-eythorsdottir", "ljudmila-kamenova", "alex-kolesnik", "ed-zuckerberg", "sam-kwang", "hongbo-li", "jackie-thomas"];
 export const corePros = coreOrder.map((slug) => findPro(slug)!).sort((left, right) => {
   if (left.slug === "brian-glubok") return -1;
   if (right.slug === "brian-glubok") return 1;

@@ -16,7 +16,7 @@ Confirm her approval, direct-contact or agency-booking preference, biography, an
 
 ## Portraits Still Needed
 
-Preferred photographs or verified professional profile links are needed for Sam Hwang. Searches returned unrelated people, so no speculative portraits were used.
+Preferred photographs or verified professional profile links are needed for Sam Kwang. Hongbo confirmed this spelling on September 17, 2026. Searches returned unrelated people, so no speculative portraits were used.
 
 Jackie Thomas's portrait and revised biography were supplied by Hongbo on September 17, 2026. Her portrait is used as supplied, without retouching.
 

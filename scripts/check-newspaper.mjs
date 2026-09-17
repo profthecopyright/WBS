@@ -15,12 +15,14 @@ const sandbox = {exports: {}};
 vm.runInNewContext(ts.transpileModule(readFileSync('app/profiles.ts', 'utf8'), {
   compilerOptions: {module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022}
 }).outputText, sandbox);
-const {proProfiles, corePros, otherPros, profileHref} = sandbox.exports;
+const {proProfiles, corePros, otherPros, profileHref, findPro} = sandbox.exports;
 assert.equal(proProfiles.length, 15);
 assert.equal(corePros.length, 5);
 assert.equal(otherPros.length, 10);
 assert.deepEqual(Array.from(corePros, (pro) => pro.slug), ['brian-glubok', 'bob-hamman', 'gregor-rus', 'joe-grue', 'paulo-brum']);
-assert.deepEqual(Array.from(otherPros, (pro) => pro.slug), ['alex-kolesnik', 'danuta-kazmucha', 'ed-zuckerberg', 'finn-kolesnik', 'disa-eythorsdottir', 'hongbo-li', 'ioannis-oikonomopoulos', 'jackie-thomas', 'ljudmila-kamenova', 'sam-hwang']);
+assert.deepEqual(Array.from(otherPros, (pro) => pro.slug), ['alex-kolesnik', 'danuta-kazmucha', 'ed-zuckerberg', 'finn-kolesnik', 'disa-eythorsdottir', 'hongbo-li', 'ioannis-oikonomopoulos', 'jackie-thomas', 'ljudmila-kamenova', 'sam-kwang']);
+assert.equal(findPro('sam-hwang'), findPro('sam-kwang'));
+assert.equal(profileHref(findPro('sam-hwang')), '#pros/sam-kwang');
 assert.equal(new Set([...corePros, ...otherPros].map((pro) => pro.slug)).size, 15);
 assert.equal(new Set(proProfiles.map((pro) => pro.slug)).size, 15);
 for (const pro of proProfiles) {
