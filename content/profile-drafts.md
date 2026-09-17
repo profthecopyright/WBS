@@ -16,7 +16,9 @@ Confirm her approval, direct-contact or agency-booking preference, biography, an
 
 ## Portraits Still Needed
 
-Preferred photographs or verified professional profile links are needed for Sam Hwang and Jackie Thomas. Searches returned unrelated people, so no speculative portraits were used.
+Preferred photographs or verified professional profile links are needed for Sam Hwang. Searches returned unrelated people, so no speculative portraits were used.
+
+Jackie Thomas's portrait and revised biography were supplied by Hongbo on September 17, 2026. Her portrait is used as supplied, without retouching.
 
 Ed Zuckerberg's new portrait is sourced from his own professional website, https://www.painlessdrz.com/. Confirm any further agency reuse permission as necessary before public publication.
 

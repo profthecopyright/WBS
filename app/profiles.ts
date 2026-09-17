@@ -203,12 +203,12 @@ export const proProfiles: ProProfile[] = [
   },
   {
     slug: "jackie-thomas", name: "Jackie Thomas", initials: "JT",
+    image: "/images/inside-gallery/jackie-thomas.jpg",
     location: "San Francisco Bay Area, California", specialty: "Beginner partnerships & small-group teaching",
-    introduction: "An energetic teacher and playing partner with a particular affinity for beginning players.",
+    introduction: "An energetic teacher and playing partner who quickly rose to Silver Life Master and is well suited for beginner and intermediate players.",
     paragraphs: [
-      "Jackie Thomas helped launch the WBS booth at the 2026 Minneapolis Nationals and continues to bring enthusiasm to the agency's work with clients and new players.",
-      "A former Visa executive, Jackie teaches bridge in the Bay Area and is particularly well suited to novice and beginning players, either as a playing partner or a small-group teacher.",
-      "Her energy extends beyond bridge to climbing, kayaking, and the outdoors. At WBS, she combines that enthusiasm with a welcoming approach to helping people find their place in the game."
+      "An energetic and engaging bridge teacher and playing partner, Jackie combines a rapid ascent to Silver Life Master with a deep passion for helping players achieve their goals. A former senior software engineer and leader at Visa, she brings sharp organization and clear communication to the table, making her an ideal partner and instructor for novice and intermediate players looking to elevate their game.",
+      "Jackie's enthusiasm for bridge extends far beyond local clubs and tournaments: she helped launch and support the World Bridge Services booth at the 2026 Minneapolis Nationals. She created, launched, and manages the San Ramon Valley Bridge Club and directs ACBL club games when needed for the Livermore Valley and San Ramon Valley bridge clubs. Whether you are seeking a supportive tournament partner to help guide your strategy or a dedicated instructor to help master the game, Jackie brings patience, insight, and infectious energy to every session."
     ],
     highlights: ["Teaching for novice and beginning players", "Small-group instruction", "WBS booth launch, Minneapolis 2026"],
     formats: ["Lessons", "Club play"], agencyRole: "Client Outreach"
