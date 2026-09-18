@@ -167,6 +167,7 @@ export const proProfiles: ProProfile[] = [
   },
   {
     slug: "sam-kwang", name: "Sam Kwang", initials: "SK",
+    image: "/images/inside-gallery/sam-kwang.png",
     location: "New York, New York", specialty: "Club & online partnerships",
     introduction: "A popular New York playing professional known for his friendly manner and competitive bridge.",
     paragraphs: [

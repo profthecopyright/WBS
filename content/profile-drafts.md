@@ -14,9 +14,11 @@ Experienced playing professional who worked with WBS clients in 2021 or 2022. Br
 
 Confirm her approval, direct-contact or agency-booking preference, biography, and portrait before publication.
 
-## Portraits Still Needed
+## Portrait Sources
 
-Preferred photographs or verified professional profile links are needed for Sam Kwang. Hongbo confirmed this spelling on September 17, 2026. Searches returned unrelated people, so no speculative portraits were used.
+Sam Kwang's portrait was added on September 18, 2026 from the user-selected Bridge Winners article, https://bridgewinners.com/article/view/kuang-and-bryant-win-imp-pairs/. The article caption identifies him on the right beside Brenda Bryant. Source image: https://i.postimg.cc/3xmRPq1W/IMG_4801.jpgM. The article uses the spelling "Sam Kuang"; the website retains "Sam Kwang", as Hongbo explicitly confirmed on September 17, pending a further name correction.
+
+The built-in image editor was used to prepare the individual portrait at public/images/inside-gallery/sam-kwang.png. Its instructions requested a crop only, preserving his face, expression, clothing, and backdrop, with no beautification or relighting. As an AI-prepared crop, it is not guaranteed to preserve the source pixels exactly. Prompt: "Edit target: the supplied ACBL winners photograph. Return a tightly cropped 4:5 vertical photographic headshot of ONLY the man on the RIGHT, Sam, for his professional bridge profile. This is a crop-only task: keep his actual face, hair, expression, skin texture, clothing, and blue ACBL backdrop unchanged; no beautification, no relighting, no face recreation, no additions. Exclude the woman completely, including her hand on his shoulder, by framing just his head and upper shoulders. A suitable crop of this 1280x947 source is approximately left=650, top=55, width=248, height=310. Preserve the original photographic appearance and identity exactly. No text overlay or frame."
 
 Jackie Thomas's portrait and revised biography were supplied by Hongbo on September 17, 2026. Her portrait is used as supplied, without retouching.
 
