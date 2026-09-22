@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./refinements.css";
+import { SITE_URL, SITE_DESCRIPTION, OrganizationStructuredData } from "./seo";
 
 export const metadata: Metadata = {
-  title: "World Bridge Services | Professional Bridge Partnerships",
-  description: "Boutique professional bridge partnerships, coaching, and tournament support founded by champion Brian Glubok.",
-  other: {
-    "codex-preview": "development",
-  },
+  metadataBase: new URL(SITE_URL),
+  title: "World Bridge Services | Bridge Partners, Lessons & Coaching",
+  description: SITE_DESCRIPTION,
+  robots: { index: true, follow: true },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body><OrganizationStructuredData />{children}</body>
     </html>
   );
 }

@@ -30,7 +30,7 @@ export const proProfiles: ProProfile[] = [
     ],
     highlights: ["Five NABC+ championships", "Thirteen NABC+ runner-up finishes", "More than 200 regional event wins", "1987 Australian National Open Teams champion"],
     formats: ["Tournaments", "Online play", "Coaching"], agencyRole: "Founder & President",
-    links: [{label: "Brian's blogs", href: "#blogs"}, {label: "Brian on Bridge Winners", href: "https://bridgewinners.com/article/author/brian-glubok/"}]
+    links: [{label: "Brian's blogs", href: "/blogs/"}, {label: "Brian on Bridge Winners", href: "https://bridgewinners.com/article/author/brian-glubok/"}]
   },
   {
     slug: "bob-hamman", name: "Bob Hamman", initials: "BH",
@@ -222,7 +222,7 @@ export function findPro(slug: string) {
 }
 
 export function profileHref(pro: ProProfile) {
-  return `#pros/${pro.slug}`;
+  return `/pros/${pro.slug}/`;
 }
 
 const coreOrder = ["brian-glubok", "joe-grue", "paulo-brum", "gregor-rus", "bob-hamman"];
