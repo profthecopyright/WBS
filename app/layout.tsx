@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "World Bridge Services | Bridge Partners, Lessons & Coaching",
   description: SITE_DESCRIPTION,
   robots: { index: true, follow: true },
+  verification: {
+    google: "ENWgBHdO9xBV4snMXuaFccUosv-ijDaWT1W3TYRf4WQ",
+  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

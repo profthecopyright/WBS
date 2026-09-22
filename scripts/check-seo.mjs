@@ -46,6 +46,7 @@ for (const [hash, path] of [
 ]) assert.equal(legacyHashPath(hash), path, hash);
 
 if (process.argv.includes("--built")) {
+  assert.match(readFileSync("out/index.html", "utf8"), /<meta name="google-site-verification" content="[^"]+"\/>/);
   const titles = new Set();
   for (const path of paths) {
     const html = readFileSync(`out${path}index.html`, "utf8");
