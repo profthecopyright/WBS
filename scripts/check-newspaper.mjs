@@ -88,9 +88,15 @@ for (const node of parse(original('app/page.tsx')).statements.filter(ts.isFuncti
 }
 for (const url of ['https://tally.so/r/RG11B9', 'https://tally.so/r/D499lZ', 'https://tally.so/r/LZBL1G']) assert.ok(currentPage.includes(url));
 assert.ok(currentPage.includes('Boutique Bridge Services'));
-assert.ok(currentPage.includes('What Would You Like to Do Next?'));
+assert.ok(currentPage.includes('Talk with WBS'));
 assert.ok(currentPage.includes('Talk with Brian'));
-assert.ok(currentPage.includes('Get a Free Play'));
+assert.ok(currentPage.includes('Claim Your Free Game'));
+assert.ok(!/saloon-entry|entranceState|enterSite|Enter the Club/.test(currentPage));
+assert.ok(currentPage.includes('className="newspaper-content" inert={!!activeForm}'));
+assert.ok(currentPage.includes('className="services-free-game-cta" href={stories[1].href}'));
+assert.ok(currentPage.includes('openStoryForm(stories[1])'));
+assert.ok(currentPage.indexOf('className="services-free-game"') < currentPage.indexOf('<ServicesGuide />'));
+assert.ok(currentPage.includes('stories.filter((story) => story.number !== "02")'));
 assert.ok(!/What Players Say|Jane Doe|testimonials|Hatch, Match and Dispatch|a3News|insideStories|hero-section-links|inside-navigation|Meet Our Pros/.test(currentPage));
 for (const label of ['Home', 'Our Pros', 'Courses', 'Blogs']) assert.ok(currentPage.includes(`label: "${label}"`));
 for (const section of ['services', 'pros', 'courses', 'blogs']) assert.ok(currentPage.includes(`id="${section}"`));
@@ -107,8 +113,7 @@ for (const meaning of ['2020 lockdown', 'Alex Kolesnik', 'Joe Grue', 'Ron Smith'
 assert.ok(!currentPage.includes('Hongbo Li serves as Executive Vice-President'));
 assert.ok(!readFileSync('app/refinements.css', 'utf8').includes('.services-contact-primary button'));
 assert.ok(!/services-credentials|services-arrangements|serviceChampions/.test(currentPage));
-assert.ok(currentPage.includes('index === 0 ? "services-contact-primary"'));
-assert.ok(currentPage.indexOf('title: "Talk with Brian"') < currentPage.indexOf('title: "Get a Free Play"'));
+assert.ok(currentPage.indexOf('title: "Talk with Brian"') < currentPage.indexOf('title: "Talk with an Agent"'));
 assert.ok(!/services-background|hero-explainer|brian-portrait|showHistory|services-guide-offerings/.test(currentPage));
 assert.ok(proProfiles.find((pro) => pro.slug === 'brian-glubok').image);
 assert.ok(!/AgencyGuide|Who We Are|What We Offer|Where We Play|Read our founding story/.test(currentPage));

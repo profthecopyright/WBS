@@ -66,6 +66,11 @@
 .services-introduction { padding: 30px 12px 28px; }
 .services-introduction h2 { color: var(--red); font-size: 2.25rem; line-height: 1.25; margin: 0 0 16px; }
 .services-introduction > p { max-width: 940px; font-size: 1.375rem; line-height: 1.6; margin: 0; }
+.services-free-game { margin-top: 24px; }
+.services-free-game-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; max-width: 100%; padding: 13px 24px; border: 1px solid var(--ink); border-radius: 2px; background: var(--ink); color: var(--paper); font: 700 1.125rem/1.4 "Libre Caslon Text", Georgia, serif; text-align: center; text-decoration: none; cursor: pointer; }
+.services-free-game-cta:hover { background: var(--paper); color: var(--ink); }
+.services-free-game-cta:focus-visible { outline: 3px solid var(--red); outline-offset: 4px; }
+.services-free-game p { max-width: 600px; margin: 12px 0 0; font-size: 1rem; line-height: 1.6; color: var(--muted); }
 .services-guide { border-top: 4px double var(--rule); }
 .services-faq-item + .services-faq-item { border-top: 1px solid var(--rule); }
 .services-faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; padding: 9px 12px; color: var(--ink); font: 700 1rem/1.5 "Libre Caslon Text", Georgia, serif; list-style: none; cursor: pointer; }
@@ -81,7 +86,7 @@
 .services-faq-answer p:last-child { margin-bottom: 0; }
 .services-contact { padding: 24px 12px 32px; border-top: 4px double var(--rule); }
 .services-contact > h2 { font-size: 1.375rem; line-height: 1.4; margin: 0 0 22px; }
-.services-contact-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.services-contact-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .services-contact-choices > article { padding: 0 24px; }
 .services-contact-choices > article:first-child { padding-left: 0; }
 .services-contact-choices > article:last-child { padding-right: 0; }
@@ -125,6 +130,7 @@
   .services-contact-choices > article + article { border-left: 0; border-top: 1px solid var(--rule); }
 }
 @media (max-width: 480px) {
+  .services-free-game-cta { width: 100%; padding-right: 16px; padding-left: 16px; font-size: 1rem; }
   .saloon-sign { top: 26px; padding: 12px 18px; }
   .saloon-sign strong { font-size: 2.25rem; line-height: 1.05; letter-spacing: 0; }
   .saloon-sign span, .saloon-sign small { font-size: 0.875rem; letter-spacing: 0; line-height: 1.4; }

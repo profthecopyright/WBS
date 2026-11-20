@@ -67,7 +67,12 @@ if (process.argv.includes("--built")) {
     const body = html.split("</head>")[1].replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
     if (page.pro) assert.ok(body.includes("professional-biography") && body.includes("professional-name"), path);
     if (page.post) assert.ok(body.includes("blog-article-body") && body.includes("blog-article-byline"), path);
-    if (path !== "/") assert.ok(!html.includes('class="saloon-entry '), path);
+    assert.ok(!html.includes('class="saloon-entry '), path);
+    if (page.page === "services") {
+      assert.ok(body.includes('class="newspaper-content">'), "Home must be accessible without an entrance screen");
+      assert.ok(body.includes('href="https://tally.so/r/D499lZ"'), "Free-game form must have a direct fallback link");
+      assert.ok(body.indexOf('class="services-free-game-cta"') < body.indexOf('class="services-guide"'));
+    }
     const graph = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
       .flatMap((match) => JSON.parse(match[1])["@graph"] ?? []);
     assert.ok(graph.some((item) => item["@type"] === "WebSite"), path);

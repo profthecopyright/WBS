@@ -83,7 +83,7 @@ const stories = [
   {
     number: "02",
     kicker: "Complimentary Play",
-    title: "Get a Free Play",
+    title: "Claim Your Free Game",
     summary: "Complete a five-question bidding quiz, then share your contact information to schedule a free play.",
     href: "https://tally.so/r/D499lZ",
   },
@@ -519,7 +519,6 @@ export default function Home({ initialPath = "/" }: { initialPath?: string }) {
   const router = useRouter();
   const { page: activePage, blogPage, post: selectedBlogPost, pro: selectedPro } = resolvePage(initialPath)!;
   const [activeForm, setActiveForm] = useState<{ title: string; url: string; preferredPro?: string } | null>(null);
-  const [entranceState, setEntranceState] = useState<"closed" | "opening" | "open">(initialPath === "/" ? "closed" : "open");
   const formTrigger = useRef<HTMLElement | null>(null);
 
   const blogPageCount = Math.ceil(archivedBlogPosts.length / BLOGS_PER_PAGE);
@@ -543,11 +542,11 @@ export default function Home({ initialPath = "/" }: { initialPath?: string }) {
   }, []);
 
   useEffect(() => {
-    if (entranceState === "open" && !activeForm) return;
+    if (!activeForm) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = previousOverflow; };
-  }, [entranceState, activeForm]);
+  }, [activeForm]);
 
   useEffect(() => {
     if (!activeForm) return;
@@ -570,15 +569,6 @@ export default function Home({ initialPath = "/" }: { initialPath?: string }) {
     navigateTo(`/${page}/`);
   }
 
-  function enterSite() {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setEntranceState("open");
-      return;
-    }
-    setEntranceState("opening");
-    window.setTimeout(() => setEntranceState("open"), 1050);
-  }
-
   function openStoryForm(story: (typeof stories)[number], pro?: ProProfile) {
     formTrigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setActiveForm({
@@ -598,36 +588,7 @@ export default function Home({ initialPath = "/" }: { initialPath?: string }) {
 
   return (
     <main className="wbs-newspaper">
-      {entranceState !== "open" && (
-        <section className={`saloon-entry ${entranceState === "opening" ? "opening" : ""}`} aria-label="Welcome to World Bridge Services">
-          <div className="saloon-sign">
-            <span>World Bridge Services</span>
-            <strong>The WBS Club</strong>
-            <small>Professional Partners &amp; Bridge Lessons</small>
-          </div>
-          <div className="full-saloon-door saloon-door-left" aria-hidden="true">
-            <span className="door-crest">♠</span>
-            <span className="door-panel-mark">W</span>
-            <span className="door-scrollwork">◆</span>
-            <span className="door-hardware door-hardware-left" />
-          </div>
-          <div className="full-saloon-door saloon-door-right" aria-hidden="true">
-            <span className="door-crest red-door-crest">♥</span>
-            <span className="door-panel-mark">B</span>
-            <span className="door-scrollwork">◆</span>
-            <span className="door-hardware door-hardware-right" />
-          </div>
-          <button className="saloon-door-hit-area" type="button" aria-label="Open the saloon doors" onClick={enterSite} disabled={entranceState === "opening"} />
-          <button className="enter-button" type="button" onClick={enterSite} disabled={entranceState === "opening"}>
-            <span>{entranceState === "opening" ? "Welcome In" : "Enter the Club"}</span>
-            <small>{entranceState === "opening" ? "Opening the Gazette…" : "Push through the saloon doors"}</small>
-          </button>
-          <nav className="saloon-entry-nav" aria-label="WBS sections">
-            {pages.map((page) => <Link key={page.id} href={`/${page.id}/`} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); choosePage(page.id); } }}><span>{page.label}</span></Link>)}
-          </nav>
-        </section>
-      )}
-      <div className="newspaper-content" inert={entranceState !== "open" || !!activeForm}>
+      <div className="newspaper-content" inert={!!activeForm}>
       <header className="masthead">
         <div className="weather-strip">
           <WorldWeather />
@@ -658,14 +619,18 @@ export default function Home({ initialPath = "/" }: { initialPath?: string }) {
           <header className="services-introduction">
             <h2 id="front-page-heading">Boutique Bridge Services</h2>
             <p>WBS matches you with <strong>professional bridge partners</strong> for online games, club play, and tournaments. We also arrange coaching and instruction.</p>
+            <div className="services-free-game">
+              <a className="services-free-game-cta" href={stories[1].href} onClick={(event) => { if (isPlainClick(event)) { event.preventDefault(); openStoryForm(stories[1]); } }}>{stories[1].title}</a>
+              <p>Take a short bidding quiz and leave your details to arrange your free game.</p>
+            </div>
           </header>
 
           <ServicesGuide />
 
           <section className="services-contact" aria-labelledby="actions-heading">
-            <h2 id="actions-heading">What Would You Like to Do Next?</h2>
+            <h2 id="actions-heading">Talk with WBS</h2>
             <div className="services-contact-choices">
-              {stories.map((story, index) => <article className={index === 0 ? "services-contact-primary" : undefined} key={story.number}>
+              {stories.filter((story) => story.number !== "02").map((story) => <article key={story.number}>
                 <h3><button type="button" onClick={() => openStoryForm(story)}>{story.title}</button></h3>
                 <p>{story.summary}</p>
               </article>)}
